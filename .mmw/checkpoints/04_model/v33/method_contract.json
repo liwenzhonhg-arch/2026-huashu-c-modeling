@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "季节性朴素模型与滞后特征正则化回归按验证集WAPE和MAE择优；用0–2375重训后测试；最后24小时实际任务采用带固定前序占用的MILP；固定168小时滚动时域epsilon约束MILP；epsilon按shared_definitions.epsilon_rule生成；拼接失败则结构化停止；含充放电互斥、峰值和绝对爬坡线性化的储能MILP；正式主模型采用新能源分源外送口径；固定168小时滚动联合MILP与epsilon约束Pareto优化；epsilon、服务权重、理想点权重和情景网格均在求解前固定",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "预测：\\min\\sum_{r,k,t\\in\\mathcal T_{train}}\\rho(D_{rkt}-\\widehat D_{rkt})+\\lambda\\|\\beta\\|_2^2。调度采用词典序\\min[\\sum_i(s_i-a_i),\\sum_{i,r,s}\\ell_{o_ir}x_{irs},U^{max}]",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "\\min C_{op},\\quad E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "\\min C_{op},\\quad E_{CO2}\\le\\varepsilon_C,\\ P_r^{peak}\\le\\varepsilon_{P,r},\\ V_r\\le\\varepsilon_{V,r}",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "\\min C_{op}\\ \\text{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ Q_{service}\\ge\\varepsilon_Q,\\ U_{RE}\\ge\\varepsilon_U,\\ P_r^{peak}\\le\\varepsilon_{P,r}",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "\\sum_{(r,s)\\in\\Omega_i}x_{irs}=1",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "s_i=\\sum_{r,s}sx_{irs};\\quad i\\in RT\\Rightarrow s_i=a_i",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "b_{rt}^{GPU}+\\sum_{i:a_i\\ge2376}\\sum_sg_i\\omega_{it}(s)x_{irs}\\le G_r^{max},\\quad t=2376,\\ldots,2405",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "b_{rt}^{AI}+\\sum_{i:a_i\\ge2376}\\sum_sg_ip_{k_i}^{GPU}\\omega_{it}(s)x_{irs}+L_{rt}^{N}\\le P_r^{IT,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "\\pi_rL_{rt}^{IT}\\le P_r^{F,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "U^{max}\\ge\\bigl(b_{rt}^{GPU}+\\sum_{i:a_i\\ge2376,s}g_i\\omega_{it}(s)x_{irs}\\bigr)/G_r^{max},\\quad\\forall r,t=2376,\\ldots,2405",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-7",
+        "meaning": "\\widehat D_{rkt}=\\max\\{0,\\beta_0+\\sum_{\\ell\\in\\mathcal L}\\beta_\\ell D_{rk,t-\\ell}+\\gamma^Tz_t+\\alpha_r+\\delta_k\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-8",
+        "meaning": "\\mathcal T_{train}=0{:}2351,\\ \\mathcal T_{val}=2352{:}2375,\\ \\mathcal T_{test}=2376{:}2399",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "\\sum_{(r,s)\\in\\Omega_i}x_{irs}=1及到达、实时即时开工、不可抢占、时延、截止和2406禁占用约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "\\sum_{i,s}g_i\\omega_{it}(s)x_{irs}\\le G_r^{max},\\ L_{rt}^{IT}\\le P_r^{IT,max},\\ L_{rt}^{F}\\le P_r^{F,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "R_{rt}^{use}+R_{rt}^{sell}+R_{rt}^{curt}=R_{rt}^{av}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "G_{rt}^{buy}+R_{rt}^{use}=L_{rt}^{F}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "G_{rt}^{sell}=R_{rt}^{sell}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "0\\le G_{rt}^{buy}\\le I_r^{max},\\quad0\\le G_{rt}^{sell}\\le E_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-7",
+        "meaning": "L_{net}=\\frac{\\sum_{i,r,s}g_i(d_i/60)\\ell_{o_ir}x_{irs}}{\\sum_ig_i(d_i/60)}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-8",
+        "meaning": "U_{RE}=\\frac{\\sum_{r,t}(R_{rt}^{use}+R_{rt}^{sell})\\Delta t}{\\sum_{r,t}R_{rt}^{av}\\Delta t}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "L_{rt}^{F}=\\pi_r(L_{rt}^{BAI}+L_{rt}^{N})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "R_{rt}^{use}+R_{rt}^{ch}+R_{rt}^{sell}+R_{rt}^{curt}=R_{rt}^{av}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "G_{rt}^{load}+R_{rt}^{use}+D_{rt}=L_{rt}^{F}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "C_{rt}=R_{rt}^{ch}+G_{rt}^{ch};\\quad G_{rt}^{buy}=G_{rt}^{load}+G_{rt}^{ch};\\quad G_{rt}^{sell}=R_{rt}^{sell}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "S_{rt}=S_{r,t-1}+\\eta_r^cC_{rt}\\Delta t-D_{rt}\\Delta t/\\eta_r^d,\\quad S_{r,-1}=S_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "S_r^{min}\\le S_{rt}\\le S_r^{max},\\quad S_{r,2406}\\ge S_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "0\\le C_{rt}\\le u_{rt}^cC_r^{max},\\quad0\\le D_{rt}\\le(1-u_{rt}^c)D_r^{max},\\quad u_{rt}^c\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-8",
+        "meaning": "0\\le G_{rt}^{buy}\\le I_r^{max},\\quad0\\le G_{rt}^{sell}\\le E_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-9",
+        "meaning": "N_{rt}=G_{rt}^{buy}-G_{rt}^{sell};\\quad P_r^{peak}\\ge N_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-10",
+        "meaning": "z_{rt}\\ge N_{rt}-N_{r,t-1},\\quad z_{rt}\\ge-(N_{rt}-N_{r,t-1});\\quad V_r=\\sum_{t=1}^{2406}z_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "q1的任务唯一执行、到达、即时开工、不可抢占、时延、截止、GPU、IT功率和设施功率约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "q3的新能源分源、负荷平衡、储能动态、购售电边界、充放电互斥和终端SOC约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "Q_{service}=\\sum_{j\\in J_{def}}\\widetilde w_jQ_j；初始w_j=1/4，删除分母为零的无定义分量后令\\widetilde w_j=w_j/\\sum_{h\\in J_{def}}w_h",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "\\bar z_{jm}=(z_{jm}-z_j^{ideal})/(z_j^{nadir}-z_j^{ideal});\\quad m^*=\\arg\\min_m\\sqrt{\\sum_{j\\in J_{disc}}(1/|J_{disc}|)\\bar z_{jm}^2}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "c_{rt}^{buy,sc}=\\bar c_r+\\delta_P(c_{rt}^{buy}-\\bar c_r)",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "R_{rt}^{av,level}=\\max(0,\\delta_RR_{rt}^{av})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "R_{rt}^{av,vol}=\\max(0,R_{rt}^{av}+\\sigma_{sc}\\xi_{rt}),\\quad seed=2026,\\ E[\\xi_{rt}]=0,\\ Var(\\xi_{rt})=1",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-8",
+        "meaning": "固定H=168小时，窗口传递运行任务占用与绝对SOC；拼接失败结构化停止",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

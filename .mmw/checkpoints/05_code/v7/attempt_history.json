@@ -1,0 +1,26 @@
+[
+  {
+    "attempt": 1,
+    "success": false,
+    "timed_out": false,
+    "error_summary": "方法试跑失败: 试跑分支写入了正式 results.json",
+    "stdout_tail": "",
+    "stderr_tail": ""
+  },
+  {
+    "attempt": 2,
+    "success": false,
+    "timed_out": false,
+    "error_summary": "方法试跑失败: 试跑分支写入了正式 results.json",
+    "stdout_tail": "",
+    "stderr_tail": ""
+  },
+  {
+    "attempt": 3,
+    "success": false,
+    "timed_out": false,
+    "error_summary": "方法试跑失败: 试跑分支写入了正式 results.json",
+    "stdout_tail": "",
+    "stderr_tail": ""
+  }
+]

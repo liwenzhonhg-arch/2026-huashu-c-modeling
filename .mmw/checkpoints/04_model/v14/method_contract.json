@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "0–2351训练、2352–2375验证；确定特征和lambda后以0–2375重训，2376–2399最终测试；EDF—短任务优先热启动加事件子区间瞬时容量MILP；滚动时域epsilon-约束MILP；单目标可行解生成epsilon网格，窗口间固定传递已开工任务的区域和剩余连续占用；固定题面基线IT负荷的储能MILP；逐时复核新能源分配、总能量、SOC和购售电边界残差；epsilon-约束Pareto联合滚动MILP；所有子问题共享300秒总墙钟和t_start+285秒搜索截止，超时部分解不得进入正式结果",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "预测：\\min\\sum_{r,k,t\\in T_{train}}(D_{rkt}-\\widehat D_{rkt})^2+\\lambda\\sum_{r,k}\\|\\beta_{rk}\\|_2^2；调度：字典序最小化(N_{unfinished},\\sum_i(s_i-a_i),\\sum_{i,r,s}L_{o_ir}x_{irs})",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "\\min C_{op}，并施加E_{CO2}\\le\\epsilon_C、\\bar L\\le\\epsilon_L、U_{RE}\\ge\\epsilon_U",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "\\min C_{op}，并施加E_{CO2}\\le\\epsilon_C、Peak_r\\le\\epsilon_{P,r}、\\sum_rV_r\\le\\epsilon_V",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "\\min C_{op}，满足E_{CO2}\\le\\epsilon_C、\\bar L\\le\\epsilon_L、Q\\ge\\epsilon_Q、U_{RE}\\ge\\epsilon_U、Peak_r\\le\\epsilon_{P,r}",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "D_{rkt}=\\sum_{i:o_i=r,k_i=k,a_i=t}g_id_i；\\widehat D_{rkt}=\\max\\{0,\\beta_{rk,0}+\\beta_{rk}^{T}z_{rkt}\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "使用common_definitions中的candidate_set、assignment、event_partition、active_indicator和instantaneous_capacity",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "实时任务s=a_i；全部任务s+d_i\\le\\min(f_i,2406)，不得占用第2406小时",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "GPU_Utilization_{rt}=\\sum_{i,s}g_ih_{it}(s)x_{irs}/(G_r\\Delta t)，仅为小时平均利用率，不替代瞬时容量约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "WAPE=\\sum|D-\\widehat D|/\\sum D，仅在分母为正时计算；否则输出验证不可用",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "使用common_definitions中的全部任务、事件子区间瞬时容量、小时平均负荷、成本碳排、时延和购售电边界定义",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "U_{rt}+S_{rt}+W_{rt}=A^{RE}_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "P^{buy}_{rt}+U_{rt}=P^{load}_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "U_{rt},S_{rt},W_{rt}\\ge0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "U_{RE}=\\sum_{r,t}(U_{rt}+S_{rt})\\Delta t/\\sum_{r,t}A^{RE}_{rt}\\Delta t；分母为0时输出不可计算并移除epsilon_U约束及该指标排序",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "不得以购电支撑外送；逐时总量复核式P^{buy}_{rt}+A^{RE}_{rt}=P^{load}_{rt}+S_{rt}+W_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "P^{load}_{rt}=PUE_r(B_{rt}+N_{rt})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "U_{rt}+RC_{rt}+S_{rt}+W_{rt}=A^{RE}_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "C_{rt}=RC_{rt}+GC_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "P^{buy}_{rt}+U_{rt}+D_{rt}=P^{load}_{rt}+GC_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "等价总量复核：P^{buy}_{rt}+A^{RE}_{rt}+D_{rt}=P^{load}_{rt}+C_{rt}+S_{rt}+W_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "SOC_{rt}=SOC_{r,t-1}+eta_r^cC_{rt}Delta t-D_{rt}Delta t/eta_r^d；SOC_{r,-1}=E_r^0；E_r^{min}\\le SOC_{rt}\\le E_r^{max}；SOC_{r,2406}\\ge E_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "0\\le C_{rt}\\le P_r^{c,max}z_{rt}；0\\le D_{rt}\\le P_r^{d,max}(1-z_{rt})；z_{rt}\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-8",
+        "meaning": "0\\le P^{buy}_{rt}\\le P_{rt}^{grid,max}；0\\le S_{rt}\\le P_{rt}^{export,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-9",
+        "meaning": "Net_{rt}=P^{buy}_{rt}-S_{rt}；Peak_r\\ge Net_{rt}；v_{rt}\\ge\\pm(Net_{rt}-Net_{r,t-1})；V_r=\\sum_{t=1}^{2406}v_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "使用common_definitions中的任务唯一执行、事件子区间瞬时GPU/IT/设施容量、小时平均负荷、成本碳排、时延及购售电硬边界",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "U_{rt}+RC_{rt}+S_{rt}+W_{rt}=A^{RE}_{rt}；C_{rt}=RC_{rt}+GC_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "P^{buy}_{rt}+U_{rt}+D_{rt}=P^{load}_{rt}+GC_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "逐时总量复核P^{buy}_{rt}+A^{RE}_{rt}+D_{rt}=P^{load}_{rt}+C_{rt}+S_{rt}+W_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "完整SOC递推、上下限、终端SOC及充放电互斥约束与q3相同",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "0\\le P^{buy}_{rt}\\le P_{rt}^{grid,max}；0\\le S_{rt}\\le P_{rt}^{export,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "U_{RE}=\\sum(U+RC+S)Delta t/\\sum A^{RE}Delta t；分母为0时输出不可计算并移除对应约束和排序",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-8",
+        "meaning": "Q=w_1q_RT+w_2q_deadline+w_3q_SLA-w_4W_tilde；W_tilde=平均弹性等待/W_max，W_max=\\max_{i属于弹性任务}\\max_{(r,s)属于Omega_i}(s-a_i)；仅在权重给定、弹性任务非空且W_max>0时计算，否则Q不可用并移除epsilon_Q约束和排序",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-9",
+        "meaning": "窗口间传递任务唯一身份、已开工任务的执行区域和剩余连续占用、绝对SOC；任务不得占用第2406小时",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "baseline": {
+    "objective": -421711041.2695812,
+    "objective_name": "问题二系统运行成本"
+  },
+  "experiments": [
+    {
+      "param": "carbon_weight",
+      "delta_pct": -20,
+      "param_value": 160.0,
+      "objective": 179.32292799328002,
+      "change_pct": -5.000000000000007
+    },
+    {
+      "param": "carbon_weight",
+      "delta_pct": -10,
+      "param_value": 180.0,
+      "objective": 184.04195241415582,
+      "change_pct": -2.5000000000000036
+    },
+    {
+      "param": "carbon_weight",
+      "delta_pct": 10,
+      "param_value": 220.00000000000003,
+      "objective": 193.48000125590738,
+      "change_pct": 2.499999999999989
+    },
+    {
+      "param": "carbon_weight",
+      "delta_pct": 20,
+      "param_value": 240.0,
+      "objective": 198.1990256767832,
+      "change_pct": 5.000000000000007
+    },
+    {
+      "param": "price_scale",
+      "delta_pct": -20,
+      "param_value": 0.8,
+      "objective": -337368833.015665,
+      "change_pct": -19.999999999999993
+    },
+    {
+      "param": "price_scale",
+      "delta_pct": -10,
+      "param_value": 0.9,
+      "objective": -379539937.14262307,
+      "change_pct": -10.000000000000004
+    },
+    {
+      "param": "price_scale",
+      "delta_pct": 10,
+      "param_value": 1.1,
+      "objective": -463882145.39653933,
+      "change_pct": 10.000000000000004
+    },
+    {
+      "param": "price_scale",
+      "delta_pct": 20,
+      "param_value": 1.2,
+      "objective": -506053249.5234974,
+      "change_pct": 19.999999999999993
+    }
+  ]
+}

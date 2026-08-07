@@ -1,0 +1,69 @@
+{
+  "definitions": {
+    "time_sets": "\\mathcal T_J=\\{0,\\ldots,2405\\} 为任务占用时段；\\mathcal T_E=\\{0,\\ldots,2406\\} 为能源结算时段；2406 小时禁止任务占用。",
+    "overlap": "H_{it}(s)=[\\min(t+1,s+d_i)-\\max(t,s)]_+，单位 h；因 \\Delta t=1h，任务在小时 t 的平均占用比例为 H_{it}(s)/\\Delta t。",
+    "task_load": "L_{rt}^{AI}=\\sum_{i,s}g_i p_{k_i}[H_{it}(s)/\\Delta t]x_{irs};\\ L_{rt}^{IT}=L_{rt}^{NA}+L_{rt}^{AI};\\ L_{rt}^{F}=\\phi_rL_{rt}^{IT}。",
+    "renewable_status": "若 R_\\Sigma=\\sum_{r,t\\in\\mathcal T_E}R_{rt}\\Delta t>0，则 U_{RE}=\\sum(U+C^R+X^R)\\Delta t/R_\\Sigma；无储能问题令 C^R=0。若 R_\\Sigma=0，输出 not_applicable，并删除 \\varepsilon_U 及 Pareto 中该维。",
+    "latency_status": "任务集非空时 \\bar L=|\\mathcal I|^{-1}\\sum\\ell_{o_ir}x_{irs}；任务集为空时输出 not_applicable，并删除相应阈值与排序维。",
+    "energy_q2": "问题二唯一正式口径为无储能：U_{rt}+X_{rt}^R+W_{rt}=R_{rt};\\ I_{rt}+U_{rt}=L_{rt}^F。不存在 C_{rt}^R 决策变量。",
+    "energy_q34": "问题三、四：U_{rt}+C_{rt}^R+X_{rt}^R+W_{rt}=R_{rt};\\ I_{rt}+U_{rt}+D_{rt}=L_{rt}^F+C_{rt}^R+C_{rt}^G。X_{rt}^R 不进入第二式。",
+    "soc": "S_{r,-1}=S_r^0;\\ S_{rt}=S_{r,t-1}+\\eta_r^c(C_{rt}^R+C_{rt}^G)\\Delta t-D_{rt}\\Delta t/\\eta_r^d。",
+    "service": "对适用分项集合 A，Q_{service}=\\sum_{j\\in A}\\bar w_jq_j，u_j=w_j/\\sum_{m\\in A}w_m；q_{RT}=Q^{RT},q_{SLA}=Q^{SLA},q_{deadline}=Q^{deadline},q_W=1-\\widetilde W；\\widetilde W=\\sum(s-a_i)x_{irs}/\\sum_{i\\notin I_{RT}}[\\min(f_i,2406)-a_i-d_i]，仅在分母正时适用。各 q_j\\in[0,1]；空集合或零分母分项输出 not_applicable 并从 A 删除。",
+    "runtime": "单次执行 B_total=300s；T_tail=15s；D_search=t_start+285s。固定读取/统计/q1/文件输出与验收优先，q2-q4 共用剩余搜索时间；每个候选启动前检查共同截止，越过总截止的未完成候选丢弃。"
+  },
+  "sub_problems": {
+    "q1": {
+      "objective": "预测与调度是两个顺序独立模型。预测训练：\\min_{\\beta}\\sum\\rho_\\delta(D_{rkt}-y_{rkt}^{raw})+\\lambda\\sum\\|\\beta_{rk}\\|_2^2，其中 y^{raw}=\\beta_0+\\beta^Tz；仅输出时取 \\widehat D=\\max(0,y^{raw})。调度：\\min \\sum[(s-a_i)/W_{max}+\\omega_L\\ell_{o_ir}/L_{max}]x_{irs}，正量程由候选集合计算；零量程项删除。",
+      "constraints": [
+        "\\sum_{r,s\\in\\mathcal S_{ir}}x_{irs}=1,\\ x_{irs}\\in\\{0,1\\}",
+        "\\mathcal S_{ir}=\\{s\\in\\mathbb Z:s\\ge a_i,\\ s+d_i\\le\\min(f_i,2406),\\ \\ell_{o_ir}\\le\\ell_i^{max}\\};\\ 实时任务另有 s=a_i",
+        "\\sum_{i,s}g_i[H_{it}(s)/\\Delta t]x_{irs}\\le G_r^{max},\\ t\\in\\mathcal T_J",
+        "L_{rt}^{IT}\\le P_r^{IT,max},\\ \\phi_rL_{rt}^{IT}\\le P_r^{F,max},\\ t\\in\\mathcal T_J"
+      ],
+      "variables": ["\\beta_{rk}","y_{rkt}^{raw}","\\widehat D_{rkt}","x_{irs}"],
+      "method": "Huber-岭回归在未截断线性输出上训练，验证后用0–2375小时重拟合；2376–2399小时实际任务采用启发式热启动的MILP。",
+      "observability": "预测标签可由实际任务聚合；最优调度标签不可观测，以硬约束残差、完成率和求解状态验证。"
+    },
+    "q2": {
+      "objective": "\\min C_{op}=\\sum_{r,t\\in\\mathcal T_E}(c_{rt}^{buy}I_{rt}-c_{rt}^{sell}X_{rt}^R)\\Delta t",
+      "constraints": [
+        "energy_q2",
+        "0\\le U_{rt},X_{rt}^R,W_{rt};\\ 0\\le I_{rt}\\le I_{rt}^{max};\\ X_{rt}^R\\le X_{rt}^{max}",
+        "E_{CO2}=\\sum\\kappa_{rt}I_{rt}\\Delta t\\le\\varepsilon_C",
+        "\\bar L\\le\\varepsilon_L；renewable_status 适用时 U_{RE}=\\sum(U+X^R)\\Delta t/R_\\Sigma\\ge\\varepsilon_U",
+        "q1 的全部任务唯一执行、即时开工、时延、截止、GPU、IT及设施功率约束"
+      ],
+      "variables": ["x_{irs}","I_{rt}","U_{rt}","X_{rt}^R","W_{rt}"],
+      "method": "无储能分源 ε-约束滚动 MILP；固定窗口、冻结与截止保护规则在正文给出，并服从 runtime。",
+      "observability": "不存在真实最优迁移标签；采用硬约束、能源守恒、指标复算、求解间隙与非支配性验证。"
+    },
+    "q3": {
+      "objective": "\\min C_{op}\\ \\text{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ 0\\le P_r^{peak}\\le\\varepsilon_{P,r},\\ V_r\\le\\varepsilon_{V,r}",
+      "constraints": [
+        "L_{rt}^{F}=\\phi_r(L_{rt}^{BAI}+L_{rt}^{NA})",
+        "energy_q34",
+        "soc",
+        "S_r^{min}\\le S_{rt}\\le S_r^{max};\\ S_{r,2406}\\ge S_r^0",
+        "C_{rt}^R+C_{rt}^G\\le C_r^{max}z_{rt}^c;\\ D_{rt}\\le D_r^{max}(1-z_{rt}^c);\\ z_{rt}^c\\in\\{0,1\\}",
+        "N_{rt}=I_{rt}-X_{rt}^R;\\ N_{rt}\\le P_r^{peak};\\ P_r^{peak}\\ge0",
+        "q_{rt}\\ge\\pm(N_{rt}-N_{r,t-1});\\ V_r=\\sum_{t=1}^{2406}q_{rt}"
+      ],
+      "variables": ["I_{rt}","U_{rt}","X_{rt}^R","W_{rt}","C_{rt}^R","C_{rt}^G","D_{rt}","S_{rt}","z_{rt}^c","P_r^{peak}","q_{rt}"],
+      "method": "固定题面基线负荷的储能 MILP；与无储能和附件基准比较，服从共享运行预算。",
+      "observability": "储能最优动作不可观测；以能源守恒、SOC递推、终端SOC、互斥及边界残差验证。"
+    },
+    "q4": {
+      "objective": "\\min C_{op}\\ \\text{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ \\bar L\\le\\varepsilon_L,\\ Q_{service}\\ge\\varepsilon_Q,\\ U_{RE}\\ge\\varepsilon_U,\\ 0\\le P_r^{peak}\\le\\varepsilon_{P,r}；不适用指标按 definitions 删除。",
+      "constraints": [
+        "q1 的全部任务约束与 task_load",
+        "energy_q34 与 soc",
+        "service",
+        "情景 \\omega 只替换预先固定的 c_{rt}^{buy,(\\omega)},c_{rt}^{sell,(\\omega)},R_{rt}^{(\\omega)}，其余输入保持一致",
+        "所有能源约束覆盖 t\\in\\mathcal T_E；任务占用仅覆盖 t\\in\\mathcal T_J"
+      ],
+      "variables": ["x_{irs}","I_{rt}","U_{rt}","X_{rt}^R","W_{rt}","C_{rt}^R","C_{rt}^G","D_{rt}","S_{rt}","z_{rt}^c","P_r^{peak}","q_{rt}"],
+      "method": "联合 ε-约束 Pareto 滚动 MILP和有限情景分析；所有参考解、ε点和情景共享 runtime。",
+      "observability": "不存在联合策略真实最优标签；以全量硬约束、状态衔接、守恒残差、求解间隙和非支配性作代理验证。"
+    }
+  }
+}

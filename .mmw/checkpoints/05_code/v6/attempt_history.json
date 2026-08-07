@@ -1,0 +1,34 @@
+[
+  {
+    "attempt": 1,
+    "success": false,
+    "timed_out": false,
+    "error_summary": "方法试跑失败: KeyError: 'MaxSOC_MWh'",
+    "stdout_tail": "",
+    "stderr_tail": "\nKeyError: 'MaxSOC_MWh'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import runpy,sys;sys.path.insert(0,sys.argv[1]);runpy.run_path(sys.argv[2],run_name='__main__')\n                                                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 287, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 699, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 517, in main\n    validate_inputs(d)\n    ~~~~~~~~~~~~~~~^^^\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 169, in validate_inputs\n    float(s[\"MaxSOC_MWh\"]), float(s[\"StorageCapacity_MWh\"]),\n          ~^^^^^^^^^^^^^^\n  File \"F:\\python\\Lib\\site-packages\\pandas\\core\\series.py\", line 959, in __getitem__\n    return self._get_value(key)\n           ~~~~~~~~~~~~~~~^^^^^\n  File \"F:\\python\\Lib\\site-packages\\pandas\\core\\series.py\", line 1046, in _get_value\n    loc = self.index.get_loc(label)\n  File \"F:\\python\\Lib\\site-packages\\pandas\\core\\indexes\\base.py\", line 3648, in get_loc\n    raise KeyError(key) from err\nKeyError: 'MaxSOC_MWh'\n"
+  },
+  {
+    "attempt": 2,
+    "success": false,
+    "timed_out": true,
+    "error_summary": "执行超时（300秒）",
+    "stdout_tail": "",
+    "stderr_tail": ""
+  },
+  {
+    "attempt": 3,
+    "success": false,
+    "timed_out": false,
+    "error_summary": "AttributeError: 'Pandas' object has no attribute 'MaxGridExport_MW'. Did you mean: 'NetGridImport_MW'?",
+    "stdout_tail": "",
+    "stderr_tail": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import runpy,sys;sys.path.insert(0,sys.argv[1]);runpy.run_path(sys.argv[2],run_name='__main__')\n                                                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 287, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 786, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 613, in main\n    q3_flow = build_storage_policy(d)\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 538, in build_storage_policy\n    sell_cap = min(float(row.MaxGridExport_MW), float(s[\"SellLimit_MW\"]))\n                         ^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Pandas' object has no attribute 'MaxGridExport_MW'. Did you mean: 'NetGridImport_MW'?\n"
+  },
+  {
+    "attempt": 4,
+    "success": true,
+    "timed_out": false,
+    "error_summary": "",
+    "stdout_tail": "结果: 问题二运行成本=-419658147.707598\n结果: 问题二碳排放=14.391602\n结果: 问题三运行成本=-419516103.810220\n结果: 约束满足=True\n结果: full_horizon_feasible=True\n结果: non_Pareto=true\n结果: global_optimality_certificate=false\n",
+    "stderr_tail": ""
+  }
+]

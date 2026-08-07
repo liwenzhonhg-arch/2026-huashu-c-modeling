@@ -1,0 +1,562 @@
+[
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "公式",
+        "summary": "问题三和问题四同时使用直接新能源变量与新能源去向守恒，却又把新能源充电、外送和弃电加入负荷侧平衡，造成新能源重复计量并违反能量守恒。"
+      },
+      {
+        "category": "公式",
+        "summary": "问题四服务质量公式正文与结构化方程不一致，结构化版本遗漏任务持续时间，不能表示最大可等待时间。"
+      },
+      {
+        "category": "约束",
+        "summary": "峰值净购电变量缺少非负约束，可能得到负的峰值购电指标并扭曲峰值最小化结果。"
+      },
+      {
+        "category": "约束",
+        "summary": "问题三和问题四未在正式方程中完整显式保留区域购电、外送上限及售电来源约束。"
+      },
+      {
+        "category": "量纲",
+        "summary": "GPU-hour 占用与 GPU 容量直接比较，需补乘一小时并明确这是题定小时折算口径。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "大规模滚动与 ε 网格求解尚缺固定窗口、总墙钟预算和有界停止规则；这是实施阶段必须补充的警告项。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 86929,
+    "tokens_output": 16314
+  },
+  {
+    "round": 2,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "公式",
+        "summary": "预测模型在包含0小时起点的训练区间使用t-1、t-24、t-168及滚动均值，但未定义早期时刻特征，可能产生缺失值或NaN。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题二、四滚动时域算法未定义全时域ε约束的累计预算和重叠区决策传递，局部窗口拼接不能保证满足所声明的全局多目标模型。"
+      },
+      {
+        "category": "可观测性",
+        "summary": "必答的自相关和区域相关性缺少常数序列、样本不足及缺失值保护，可能输出NaN或使用不可计算指标。"
+      },
+      {
+        "category": "公式",
+        "summary": "问题四折中距离未规定如何把新能源利用率和服务质量等最大化指标转换为统一的最小化方向。"
+      },
+      {
+        "category": "常识",
+        "summary": "峰值辅助变量仅有下界，在非峰值最小化候选中可能松弛；若直接报告该变量，峰值结果可能不等于净购电序列的真实正向峰值。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 136731,
+    "tokens_output": 30503
+  },
+  {
+    "round": 3,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二错误引用仅供问题三、四使用的 storage_information 外送上限 S_r^max，可能导致参数未定义或无依据地收紧可行域。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题四滚动优化未设置终端 SOC 的剩余可达约束，早期提交可能破坏全局终端可行性并造成假不可行。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "共享墙钟规则允许候选越过 285 秒搜索截止，与最后 15 秒专用于复核和输出的硬预算冲突。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 189240,
+    "tokens_output": 45357
+  },
+  {
+    "round": "manual-targeted-repair-from-v9",
+    "severity": "pending",
+    "issues": [
+      "q2移除storage_information外送上限",
+      "q4增加滚动终端SOC剩余可达约束",
+      "候选不得越过D_search"
+    ],
+    "review_source": "human-judgment",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二遗漏题面规定的区域最大外送功率硬约束，可能产生不可实施的售电方案并使成本、新能源利用率及 Pareto 结果失效。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "滚动窗口起点递推未显式定义，SOC 剩余恢复式也只是忽略购电和负荷限制的乐观必要条件，需补充封闭递推和提交前剩余时域可行性检查。"
+      },
+      {
+        "category": "量纲",
+        "summary": "应显式规定将 EstimatedDuration_min 除以 60 转换为小时后再进入重叠、GPU-hour 和功率公式。"
+      },
+      {
+        "category": "参数",
+        "summary": "基础调度权重、折中权重及 ε 网格尚缺固定数值或封闭的预声明生成规则。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 44995,
+    "tokens_output": 2924
+  },
+  {
+    "round": "manual-targeted-repair-from-v15",
+    "severity": "pending",
+    "issues": [
+      "核实附件字段边界并显式定义q2自然外送上界",
+      "封闭滚动递推和完整剩余时域可行补全证书",
+      "分钟转小时",
+      "固定权重和12点epsilon生成规则"
+    ],
+    "review_source": "human-judgment+raw-workbook-evidence",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二明确忽略题面规定的区域级 MaxGridImport_MW 和 MaxGridExport_MW 硬边界，可能产生超过电网接入容量的不可实施方案。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题四把每个滚动窗口的完整剩余时域联合可行补全证书设为硬提交条件，但未提供可在共享300秒预算内执行的规模界或替代方案。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "补全证书的重复求解耗时没有被式（91）的候选启动预算完整覆盖，可能越过统一搜索截止时间。"
+      },
+      {
+        "category": "参数",
+        "summary": "预测模型的lambda和Huber参数缺少固定有限候选集合及唯一选择规则，存在代码实现不可复现的warning。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 44763,
+    "tokens_output": 3125
+  },
+  {
+    "round": "manual-targeted-repair-from-v16",
+    "severity": "pending",
+    "issues": [
+      "线性时间incumbent拼接证书",
+      "证书预算并入搜索截止",
+      "lambda与Huber有限网格和唯一选择规则",
+      "验证器输入加入原始附件适用边界"
+    ],
+    "review_source": "human-judgment+raw-workbook-evidence",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "可观测性",
+        "summary": "问题一以第0–2375小时重训后预测2376–2399小时，却允许使用测试区间内先前小时的真实需求构造后续特征，形成固定预测起点下的信息泄漏，使测试误差结论失效。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "共享预算式（91）对单候选耗时分母存在两种不一致口径，且t_solve^max未在预算章节明确固定，可能导致候选越过总搜索截止。"
+      },
+      {
+        "category": "约束",
+        "summary": "问题二在已授权数据下只能令外送不超过可用新能源，导致统一新能源利用率可能恒为100%；不能伪造新边界，但必须披露指标退化并补充分流诊断。"
+      },
+      {
+        "category": "常识",
+        "summary": "问题三、四允许购电供负荷与新能源外送并存，虽不违反现有题面约束，但在售电价较高时可能产生反常策略，需单独披露而不能解释为协同效率提升。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 46771,
+    "tokens_output": 3520
+  },
+  {
+    "round": "manual-targeted-repair-from-v17",
+    "severity": "pending",
+    "issues": [
+      "固定起点递归预测消除测试泄漏",
+      "统一候选预算分母并固定30秒",
+      "披露q2新能源利用率退化",
+      "披露购电外送并存"
+    ],
+    "review_source": "human-judgment+verifier",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二式（45）使用未定义的 ε_U，并与问题二新能源利用率不进入 ε 约束的正式口径冲突，导致约束集合不唯一且无法直接执行。"
+      },
+      {
+        "category": "公式",
+        "summary": "净购电波动 V 由仅有下界的辅助变量 z 定义，在非波动最小候选中可能松弛；若不从最终净购电序列复算，比较和输出可能失真。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "增强预测模型与季节性基线之间缺少唯一的预声明选型门禁，当前规则只选择增强模型内部超参数。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "共享300秒预算规则总体封闭，但实现必须确保固定工作和锚点同样服从搜索截止与15秒尾部预留。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 45531,
+    "tokens_output": 3441
+  },
+  {
+    "round": "manual-targeted-repair-from-v18",
+    "severity": "pending",
+    "issues": [
+      "移除q2遗留epsilon_U式45",
+      "正式波动从净购电复算",
+      "预测候选唯一门禁",
+      "所有固定工作和锚点纳入搜索截止"
+    ],
+    "review_source": "human-judgment+verifier",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "可求解性",
+        "summary": "问题三、四包含六个区域峰值约束，但式（84a）仅定义5个ε维度参数，且未说明区域峰值的聚合或逐区域阈值生成方法，导致ε组合不完整。"
+      },
+      {
+        "category": "公式",
+        "summary": "问题三的“峰值最小方案”没有定义六区域峰值的标量目标，峰值理想锚点和后续阈值不唯一。"
+      },
+      {
+        "category": "约束",
+        "summary": "问题四引用不存在的式（45），新能源剩余可达约束只出现在结构化摘要中，正文执行契约未闭合。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "已证明MILP不可行后仍允许报告满足相同硬约束的启发式解在逻辑上矛盾，需要区分不可行证明与限时未找到解。"
+      },
+      {
+        "category": "参数",
+        "summary": "情景参数尚未给出具体值或完全封闭的附件派生规则，应在代码阶段运行前预声明。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 45738,
+    "tokens_output": 3050
+  },
+  {
+    "round": "manual-targeted-repair-from-v19",
+    "severity": "pending",
+    "issues": [
+      "区域峰值约束族和唯一峰值锚点",
+      "q4独立新能源剩余可达式79b",
+      "不可行证明与限时无解分流",
+      "固定七情景"
+    ],
+    "review_source": "human-judgment+verifier",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "warning",
+    "issues": [
+      {
+        "category": "公式",
+        "summary": "问题四求解方法引用了不存在的式（45），需修正式号。"
+      },
+      {
+        "category": "约束",
+        "summary": "购售电互斥假设与问题三、四允许同时购电和新能源外送的方程口径不一致。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "滚动提交缺少剩余碳排放下界及对全部全局ε指标的提交前完整证书，可能导致候选末端才被淘汰。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题四未明确完整全时域可行incumbent构造失败时的停止状态。"
+      },
+      {
+        "category": "参数",
+        "summary": "七个必答情景尚未明确纳入共享300秒预算的固定执行优先级和未启动状态输出。"
+      },
+      {
+        "category": "常识",
+        "summary": "同时购电与新能源外送需严格验证售电来源并仅解释为分源守恒和价格机制结果。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 46389,
+    "tokens_output": 3499
+  },
+  {
+    "round": "manual-warning-closeout-from-v20",
+    "severity": "pending",
+    "issues": [
+      "修正式号",
+      "完整incumbent覆盖全部全局指标和失败状态",
+      "情景预算优先级",
+      "购售电分源验证"
+    ],
+    "review_source": "human-judgment+verifier-warning",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二滚动模型只限制已提交累计碳排放，缺少未提交时域最低必需碳排放的剩余可达性约束。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题二没有维护全时域可行 incumbent，早期冻结决策可能耗尽碳预算；最终复算只能丢弃候选，不能保证求得原本存在的全时域可行方案。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "滚动窗口求解器间隙不能直接作为全时域全局最优性间隙，后续结果等级必须明确区分。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 46746,
+    "tokens_output": 3262
+  },
+  {
+    "round": "manual-targeted-repair-from-v21",
+    "severity": "pending",
+    "issues": [
+      "q2剩余碳解析下界",
+      "q2全时域可行incumbent",
+      "滚动间隙不冒充全局间隙"
+    ],
+    "review_source": "human-judgment+verifier",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "公式",
+        "summary": "问题四含储能，却沿用问题二仅适用于无储能情形的剩余碳排放下界；储能放电可降低剩余购电量，因此该式可能高估真实下界并错误淘汰可行方案。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题四将新提交区与旧 incumbent 尾部直接拼接，提交区末端 SOC 改变后旧尾部通常不再状态相容；虽可保留旧解，但可能使滚动更新普遍失败。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 47327,
+    "tokens_output": 2830
+  },
+  {
+    "round": "manual-targeted-repair-from-v22",
+    "severity": "pending",
+    "issues": [
+      "q4不继承q2无储能碳下界",
+      "q4任务尾部复用但能源SOC尾部前向重构"
+    ],
+    "review_source": "human-judgment+verifier",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "warning",
+    "issues": [
+      {
+        "category": "可观测性",
+        "summary": "问题一要求输出周期，但模型未定义周期估计量、候选集合及不可计算状态，当前无法统一复算。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题二、四要求预先构造完整全时域可行 incumbent，但缺少确定且预算内的构造算法，正常规模下存在停止而无正式方案的风险。"
+      },
+      {
+        "category": "约束",
+        "summary": "300秒共享预算虽已封闭，但各必答子问题没有固定子预算，前序任务可能耗尽时间并导致后续问题未启动。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "缩小实例整体MILP对照未规定固定实例规模、抽样方法和失败阈值，验证实现不唯一。"
+      },
+      {
+        "category": "常识",
+        "summary": "同时购电与新能源外送可能产生价格驱动的反常结果，虽不违反现有分源守恒，但应增加敏感性披露。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 47521,
+    "tokens_output": 3627
+  },
+  {
+    "round": "manual-model-code-contract-alignment-from-v23",
+    "severity": "pending",
+    "issues": [
+      "保留理想MILP formulation但新增300秒实际implementation合同",
+      "结构化约束只保留实际可复算的物理与结果门禁",
+      "明确scenario-feasible且不声明完整Pareto或全局最优"
+    ],
+    "review_source": "code-v2-real-run-evidence",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二明确忽略题面规定的区域最大购电和最大外送硬边界，可能输出工程上不可实施的能源方案。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题三、四的实际储能启发式缺少唯一的逐时能源分流和边界回退规则，无法由当前合同确定性复现。"
+      },
+      {
+        "category": "参数",
+        "summary": "预测实施只称使用四个代表性 Huber-Ridge 组合但未给出具体组合，与数学模型声明的24组搜索矛盾。"
+      },
+      {
+        "category": "参数",
+        "summary": "新能源情景扰动未定义分布、尺度和生成顺序，仅给随机种子不足以形成可复现参数。"
+      },
+      {
+        "category": "约束",
+        "summary": "实施合同把全时段SOC下界改为InitialSOC，与数学模型和附件规定的MinSOC不一致。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "必须交付Pareto文件与实际只生成单个启发式候选的合同冲突，规定输出无法按当前模型完整产生。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 44283,
+    "tokens_output": 2910
+  },
+  {
+    "round": "manual-implementation-closure-from-v24",
+    "severity": "pending",
+    "issues": [
+      "四组Huber参数具体化",
+      "储能逐时唯一分流规则与保守SOC子集",
+      "实际情景无随机噪声且固定比例顺序",
+      "Pareto兼容文件明确未认证"
+    ],
+    "review_source": "verifier+code-v2",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "公式",
+        "summary": "预测正文规定24组Huber-Ridge候选，实际实施仅运行4组且参数符号不一致，预测器选择规则相互矛盾。"
+      },
+      {
+        "category": "约束",
+        "summary": "问题二、四实际局部改进的标量评分及完整incumbent构造未定义，算法无法唯一复现。"
+      },
+      {
+        "category": "约束",
+        "summary": "碳10%和20%情景没有在实际启发式中落实式（85）的硬碳预算门禁，不能保证情景方案可行。"
+      },
+      {
+        "category": "参数",
+        "summary": "问题四电价与新能源情景在数学公式和实际实施合同中采用不同变换，正式情景输入不唯一。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "理论滚动ε-MILP与实际单点启发式并列为执行契约，且共享预算没有保证各必答问题启动和完成的封闭分配。"
+      },
+      {
+        "category": "可观测性",
+        "summary": "未错误使用监督分类指标；服务质量属于可计算代理而非真实用户满意度，必须持续标记为代理。"
+      },
+      {
+        "category": "常识",
+        "summary": "问题二统一新能源利用率可能退化为100%，保守SOC启发式也不能代表完整储能优化潜力，相关结论必须限制解释。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题一要求输出周期，但仅定义自相关计算，没有周期识别和不可辨识规则，必答结果不可计算。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 45354,
+    "tokens_output": 3556
+  },
+  {
+    "round": "manual-exclusive-runtime-contract-from-v25",
+    "severity": "pending",
+    "issues": [
+      "第8节成为唯一实际执行合同",
+      "预测四组合替换理论24组合",
+      "固定incumbent与局部score",
+      "正式情景输入与target_not_met",
+      "固定阶段截止",
+      "周期与代理解释边界"
+    ],
+    "review_source": "verifier+code-v2",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "唯一实际实施合同将SOC上界设为StorageCapacity_MWh，并按该容量计算充电空间，遗漏附件规定的MaxSOC_MWh硬上界，可能输出物理不可行的储能轨迹。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "弹性任务初始incumbent统一固定在ArrivalHour，可能在延迟开工可行时产生假阴性停止；应增加原允许时域内的确定性开工搜索。"
+      },
+      {
+        "category": "量纲",
+        "summary": "局部移动score直接混合成本、碳强度、等待时间和时延加权量，缺少统一量纲或尺度归一化；该问题影响启发式质量与解释性。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 46051,
+    "tokens_output": 2653
+  }
+]

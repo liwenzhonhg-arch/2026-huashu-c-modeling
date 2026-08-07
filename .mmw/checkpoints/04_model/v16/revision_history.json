@@ -1,0 +1,160 @@
+[
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "公式",
+        "summary": "问题三和问题四同时使用直接新能源变量与新能源去向守恒，却又把新能源充电、外送和弃电加入负荷侧平衡，造成新能源重复计量并违反能量守恒。"
+      },
+      {
+        "category": "公式",
+        "summary": "问题四服务质量公式正文与结构化方程不一致，结构化版本遗漏任务持续时间，不能表示最大可等待时间。"
+      },
+      {
+        "category": "约束",
+        "summary": "峰值净购电变量缺少非负约束，可能得到负的峰值购电指标并扭曲峰值最小化结果。"
+      },
+      {
+        "category": "约束",
+        "summary": "问题三和问题四未在正式方程中完整显式保留区域购电、外送上限及售电来源约束。"
+      },
+      {
+        "category": "量纲",
+        "summary": "GPU-hour 占用与 GPU 容量直接比较，需补乘一小时并明确这是题定小时折算口径。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "大规模滚动与 ε 网格求解尚缺固定窗口、总墙钟预算和有界停止规则；这是实施阶段必须补充的警告项。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 86929,
+    "tokens_output": 16314
+  },
+  {
+    "round": 2,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "公式",
+        "summary": "预测模型在包含0小时起点的训练区间使用t-1、t-24、t-168及滚动均值，但未定义早期时刻特征，可能产生缺失值或NaN。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题二、四滚动时域算法未定义全时域ε约束的累计预算和重叠区决策传递，局部窗口拼接不能保证满足所声明的全局多目标模型。"
+      },
+      {
+        "category": "可观测性",
+        "summary": "必答的自相关和区域相关性缺少常数序列、样本不足及缺失值保护，可能输出NaN或使用不可计算指标。"
+      },
+      {
+        "category": "公式",
+        "summary": "问题四折中距离未规定如何把新能源利用率和服务质量等最大化指标转换为统一的最小化方向。"
+      },
+      {
+        "category": "常识",
+        "summary": "峰值辅助变量仅有下界，在非峰值最小化候选中可能松弛；若直接报告该变量，峰值结果可能不等于净购电序列的真实正向峰值。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 136731,
+    "tokens_output": 30503
+  },
+  {
+    "round": 3,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二错误引用仅供问题三、四使用的 storage_information 外送上限 S_r^max，可能导致参数未定义或无依据地收紧可行域。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题四滚动优化未设置终端 SOC 的剩余可达约束，早期提交可能破坏全局终端可行性并造成假不可行。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "共享墙钟规则允许候选越过 285 秒搜索截止，与最后 15 秒专用于复核和输出的硬预算冲突。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 189240,
+    "tokens_output": 45357
+  },
+  {
+    "round": "manual-targeted-repair-from-v9",
+    "severity": "pending",
+    "issues": [
+      "q2移除storage_information外送上限",
+      "q4增加滚动终端SOC剩余可达约束",
+      "候选不得越过D_search"
+    ],
+    "review_source": "human-judgment",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二遗漏题面规定的区域最大外送功率硬约束，可能产生不可实施的售电方案并使成本、新能源利用率及 Pareto 结果失效。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "滚动窗口起点递推未显式定义，SOC 剩余恢复式也只是忽略购电和负荷限制的乐观必要条件，需补充封闭递推和提交前剩余时域可行性检查。"
+      },
+      {
+        "category": "量纲",
+        "summary": "应显式规定将 EstimatedDuration_min 除以 60 转换为小时后再进入重叠、GPU-hour 和功率公式。"
+      },
+      {
+        "category": "参数",
+        "summary": "基础调度权重、折中权重及 ε 网格尚缺固定数值或封闭的预声明生成规则。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 44995,
+    "tokens_output": 2924
+  },
+  {
+    "round": "manual-targeted-repair-from-v15",
+    "severity": "pending",
+    "issues": [
+      "核实附件字段边界并显式定义q2自然外送上界",
+      "封闭滚动递推和完整剩余时域可行补全证书",
+      "分钟转小时",
+      "固定权重和12点epsilon生成规则"
+    ],
+    "review_source": "human-judgment+raw-workbook-evidence",
+    "tokens_input": 0,
+    "tokens_output": 0
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "约束",
+        "summary": "问题二明确忽略题面规定的区域级 MaxGridImport_MW 和 MaxGridExport_MW 硬边界，可能产生超过电网接入容量的不可实施方案。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题四把每个滚动窗口的完整剩余时域联合可行补全证书设为硬提交条件，但未提供可在共享300秒预算内执行的规模界或替代方案。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "补全证书的重复求解耗时没有被式（91）的候选启动预算完整覆盖，可能越过统一搜索截止时间。"
+      },
+      {
+        "category": "参数",
+        "summary": "预测模型的lambda和Huber参数缺少固定有限候选集合及唯一选择规则，存在代码实现不可复现的warning。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 44763,
+    "tokens_output": 3125
+  }
+]

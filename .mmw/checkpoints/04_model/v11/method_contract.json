@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "0–2351训练、2352–2375验证；选型后用0–2375重训并测试2376–2399。最后24小时以实际任务进行MILP调度。；24小时窗口、每窗固定前6小时、重叠18小时的滚动epsilon约束MILP；候选仅按到达、截止、时延和终点硬条件生成。；固定负荷储能MILP；明确新能源分源、充放电互斥、购售电边界、峰值及绝对爬坡线性化。；封闭窗口的滚动联合MILP与epsilon约束Pareto优化；共同300秒预算内进行，非支配集用有限归一化理想点距离选折中方案。",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "预测：先解标准岭回归 min_{beta0,beta} sum_{(r,k,t) in T_train}(D_rkt-beta0-beta^T z_rkt)^2+lambda||beta||_2^2，再定义 Dhat_rkt=max{0,beta0+beta^T z_rkt}；调度按词典序最小化未完成数、最大延迟、总等待、总网络时延。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "min C_op=sum_{r,t=0}^{2406}(pi_rt^buy P_rt^buy-pi_rt^sell P_rt^sell)Delta_t，且E_CO2<=epsilon_C、L_net<=epsilon_L、U_RE>=epsilon_U。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "min C_op，满足E_CO2<=epsilon_C、P_r^peak<=epsilon_{P,r}、V_r<=epsilon_{V,r}；单目标参照解用于构造epsilon网格。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "min C_op，满足E_CO2<=epsilon_C、L_net<=epsilon_L、Q_service>=epsilon_Q、U_RE>=epsilon_U、P_r^peak<=epsilon_{P,r}。",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "D_rkt=sum_{i:o_i=r,k_i=k,a_i=t}g_i；d_i=EstimatedDuration_min_i/60。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "q_it(s)=max{0,min(t+1,s+d_i)-max(t,s)}。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "Omega_i={(r,s):s>=a_i,s+d_i<=min(f_i,2406),ell_{o_i r}<=ell_i^max}；实时任务另有s=a_i。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "sum_{(r,s) in Omega_i}x_irs=1；x_irs为二元变量。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "sum_{i,s}g_i q_it(s)x_irs<=G_r。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "P_rt^AI=sum_{i,s}g_i p_{k_i}^GPU q_it(s)x_irs；P_rt^IT=P_rt^nonAI+P_rt^AI；P_rt^fac=PUE_r P_rt^IT。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-7",
+        "meaning": "P_rt^IT<=P_r^{IT,max}；P_rt^fac<=P_r^{fac,max}；任何任务不得占用小时2406。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-8",
+        "meaning": "WAPE仅在sum|D_j|>0时计算；否则输出validation_unavailable并改报MAE和有限预测率。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "继承q1任务唯一执行、到达、截止、即时开工、时延、GPU、IT和设施功率约束。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "U_rt^RE+P_rt^sell+P_rt^curt=A_rt^RE。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "P_rt^buy+U_rt^RE=P_rt^fac；等价地P_rt^buy+A_rt^RE=P_rt^fac+P_rt^sell+P_rt^curt。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "问题二无储能：P_rt^ch=P_rt^dis=P_rt^{RE,ch}=P_rt^{grid,ch}=0，且这些量不作为优化变量。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "0<=P_rt^buy<=P_rt^{grid,max}；0<=P_rt^sell<=min(P_rt^{export,max},S_r^max)；所有新能源分流非负。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "E_CO2=sum c_rt P_rt^buy Delta_t。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-7",
+        "meaning": "L_net=[sum g_i d_i ell_{o_i r}x_irs]/[sum g_i d_i]；分母为0时输出metric_unavailable并排除Pareto排序。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-8",
+        "meaning": "U_RE=[sum(U_rt^RE+P_rt^sell)Delta_t]/[sum A_rt^RE Delta_t]；分母为0时输出metric_unavailable并改报利用电量及弃电量。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "P_rt^fac=PUE_r(P_rt^baseAI+P_rt^nonAI)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "U_rt^RE+P_rt^{RE,ch}+P_rt^sell+P_rt^curt=A_rt^RE。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "P_rt^buy+U_rt^RE+P_rt^dis=P_rt^fac+P_rt^{grid,ch}。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "P_rt^ch=P_rt^{RE,ch}+P_rt^{grid,ch}；上述两式等价于P_rt^buy+A_rt^RE+P_rt^dis=P_rt^fac+P_rt^ch+P_rt^sell+P_rt^curt。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "E_{r,-1}=E_r^0；E_rt=E_{r,t-1}+eta_r^c P_rt^ch Delta_t-P_rt^dis Delta_t/eta_r^d。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "E_r^min<=E_rt<=E_r^max；E_{r,2406}>=E_r^0。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "0<=P_rt^ch<=P_r^{ch,max}z_rt^ch；0<=P_rt^dis<=P_r^{dis,max}(1-z_rt^ch)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-8",
+        "meaning": "0<=P_rt^buy<=P_rt^{grid,max}；0<=P_rt^sell<=min(P_rt^{export,max},S_r^max)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-9",
+        "meaning": "N_rt=P_rt^buy-P_rt^sell；P_r^peak>=N_rt；v_rt>=±(N_rt-N_{r,t-1})；V_r=sum_{t=1}^{2406}v_rt。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "继承q1任务约束以及q3修正后的新能源分源、能源平衡、SOC、互斥和购售电硬边界。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "S_W=clip(1-Wbar/W_ref,0,1)；若W_ref=0则删除S_W项并将其余权重归一化。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "Q_service=sum_{j=1}^4 w_j S_j，w=(0.25,0.25,0.25,0.25)，S_j分别为即时开工率、SLA满足率、按期完成率、等待得分；删除等待项时其余权重均为1/3。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "各比率仅在对应任务数为正时计算；对应集合为空时该项记not_applicable并从权重中删除后归一化，不以epsilon替代分母。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "A_rt^{RE,sc}=max{0,beta_RE A_rt^RE+delta_rt^sc}；delta采用seed=2026的零均值扰动，标准差为该区域正出力小时均值的10%。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "滚动窗口H_roll=24、H_commit=6、H_overlap=18；传递已开工任务后续占用和窗口末绝对SOC。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "每次求解time_limit=max(0,min(30,D_search-time.monotonic()))秒；剩余时间<=0不启动。未以可接受状态结束的候选丢弃，不使用部分解。",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

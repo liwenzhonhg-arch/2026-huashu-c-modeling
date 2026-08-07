@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "Huber-岭模型在未截断线性输出上训练；0–2351小时训练、2352–2375小时验证，选定后用0–2375小时重拟合；2376–2399小时实际任务采用启发式热启动的MILP。；无储能分源ε-约束滚动MILP；窗口168小时、冻结区24小时，按最晚可行开工时刻实施截止保护。；固定题面基线负荷的储能MILP；正式验收同时检查新能源分配残差、负荷侧分源残差、总平衡残差和SOC递推残差。；联合ε-约束Pareto滚动MILP和有限情景分析；q2–q4共享B_total=300秒、T_tail=15秒及D_search=t_start+285秒。",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "预测与调度为两个顺序独立模型。预测：\\min_{\\beta}\\sum\\rho_\\delta(D_{rkt}-y_{rkt}^{raw})+\\lambda\\sum\\|\\beta_{rk}\\|_2^2，其中 y_{rkt}^{raw}=\\beta_{rk,0}+\\beta_{rk}^{\\top}z_{rkt}，仅输出时取 \\widehat D_{rkt}=\\max\\{0,y_{rkt}^{raw}\\}。调度：\\min\\sum_{i,r,s}[(s-a_i)/W_{max}+\\omega_L\\ell_{o_ir}/L_{max}]x_{irs}，仅保留分母为正的目标项。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "\\min C_{op}=\\sum_{r,t\\in\\mathcal T_E}(c_{rt}^{buy}I_{rt}-c_{rt}^{sell}X_{rt}^{R})\\Delta t",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "\\min C_{op}=\\sum_{r,t}(c_{rt}^{buy}I_{rt}-c_{rt}^{sell}X_{rt}^{R})\\Delta t，满足 E_{CO2}\\le\\varepsilon_C、0\\le P_r^{peak}\\le\\varepsilon_{P,r}、V_r\\le\\varepsilon_{V,r}",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "\\min C_{op}，满足 E_{CO2}\\le\\varepsilon_C、\\bar L\\le\\varepsilon_L、Q_{service}\\ge\\varepsilon_Q、U_{RE}\\ge\\varepsilon_U、0\\le P_r^{peak}\\le\\varepsilon_{P,r}；定义不可用的指标从约束和排序维中删除。",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "\\sum_{r}\\sum_{s\\in\\mathcal S_{ir}}x_{irs}=1,\\quad x_{irs}\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "\\mathcal S_{ir}=\\{s\\in\\mathbb Z:s\\ge a_i,\\ s+d_i\\le\\min(f_i,2406),\\ \\ell_{o_ir}\\le\\ell_i^{max}\\}；实时任务另有 s=a_i",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "H_{it}(s)=\\max\\{0,\\min(t+1,s+d_i)-\\max(t,s)\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "\\sum_{i,s}g_iH_{it}(s)x_{irs}/\\Delta t\\le G_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "L_{rt}^{AI}=\\sum_{i,s}g_ip_{k_i}H_{it}(s)x_{irs}/\\Delta t；L_{rt}^{IT}=L_{rt}^{NA}+L_{rt}^{AI}；L_{rt}^{F}=\\phi_rL_{rt}^{IT}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "L_{rt}^{IT}\\le P_r^{IT,max},\\quad L_{rt}^{F}\\le P_r^{F,max},\\quad t\\in\\mathcal T_J",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "U_{rt}+X_{rt}^{R}+W_{rt}=R_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "I_{rt}+U_{rt}=L_{rt}^{F}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "0\\le U_{rt},X_{rt}^{R},W_{rt}；0\\le I_{rt}\\le I_{rt}^{max}；0\\le X_{rt}^{R}\\le X_{rt}^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "E_{CO2}=\\sum_{r,t}\\kappa_{rt}I_{rt}\\Delta t\\le\\varepsilon_C",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "任务集非空时 \\bar L=|\\mathcal I|^{-1}\\sum_{i,r,s}\\ell_{o_ir}x_{irs}\\le\\varepsilon_L；否则该指标输出 not_applicable 并删除约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "R_\\Sigma=\\sum_{r,t}R_{rt}\\Delta t>0 时，U_{RE}=\\sum_{r,t}(U_{rt}+X_{rt}^{R})\\Delta t/R_\\Sigma\\ge\\varepsilon_U；否则输出 not_applicable 并删除约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-7",
+        "meaning": "同时满足q1的任务唯一执行、即时开工、时延、截止、GPU、IT及设施功率约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "L_{rt}^{F}=\\phi_r(L_{rt}^{BAI}+L_{rt}^{NA})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "U_{rt}+C_{rt}^{R}+X_{rt}^{R}+W_{rt}=R_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "I_{rt}+U_{rt}+D_{rt}=L_{rt}^{F}+C_{rt}^{G}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "由前两条分源式推出 I_{rt}+R_{rt}+D_{rt}=L_{rt}^{F}+C_{rt}^{R}+C_{rt}^{G}+X_{rt}^{R}+W_{rt}；C_{rt}^{R}只计量一次",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "S_{r,-1}=S_r^0；S_{rt}=S_{r,t-1}+\\eta_r^c(C_{rt}^{R}+C_{rt}^{G})\\Delta t-D_{rt}\\Delta t/\\eta_r^d",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "S_r^{min}\\le S_{rt}\\le S_r^{max}；S_{r,2406}\\ge S_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "C_{rt}^{R}+C_{rt}^{G}\\le C_r^{max}z_{rt}^{c}；D_{rt}\\le D_r^{max}(1-z_{rt}^{c})；z_{rt}^{c}\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-8",
+        "meaning": "0\\le I_{rt}\\le I_{rt}^{max}；0\\le X_{rt}^{R}\\le X_{rt}^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-9",
+        "meaning": "N_{rt}=I_{rt}-X_{rt}^{R}；N_{rt}\\le P_r^{peak}；P_r^{peak}\\ge0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-10",
+        "meaning": "q_{rt}\\ge N_{rt}-N_{r,t-1}；q_{rt}\\ge-(N_{rt}-N_{r,t-1})；V_r=\\sum_{t=1}^{2406}q_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "设施负荷由任务调度生成：L_{rt}^{F}=\\phi_r[L_{rt}^{NA}+\\sum_{i,s}g_ip_{k_i}H_{it}(s)x_{irs}/\\Delta t]",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "满足q1的全部任务约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "U_{rt}+C_{rt}^{R}+X_{rt}^{R}+W_{rt}=R_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "I_{rt}+U_{rt}+D_{rt}=L_{rt}^{F}+C_{rt}^{G}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "由修正后的分源式推出 I_{rt}+R_{rt}+D_{rt}=L_{rt}^{F}+C_{rt}^{R}+C_{rt}^{G}+X_{rt}^{R}+W_{rt}；新能源充电不重复计量",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "复用q3的SOC、充放电互斥、购售电边界、峰值和爬坡约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "Q_{service}=\\sum_{j\\in\\mathcal A}\\bar w_jq_j，\\bar w_j=w_j/\\sum_{m\\in\\mathcal A}w_m；空集合或零分母分项输出not_applicable并删除",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-8",
+        "meaning": "所有能源约束覆盖t\\in\\mathcal T_E；任务占用约束仅覆盖t\\in\\mathcal T_J",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

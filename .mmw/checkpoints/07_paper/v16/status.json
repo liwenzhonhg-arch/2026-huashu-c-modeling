@@ -1,0 +1,9 @@
+{
+  "status": "approved",
+  "result": "proceed",
+  "rework_target": null,
+  "upstream_hash": "fb0e885a378f8a62710554633c8d0948",
+  "upstream_changed": false,
+  "approved_by": "用户授权下的排版门禁判断：仅统一正文小号字并压缩公式/浮动间距，模型、数值、结论与证据未变",
+  "approved_at": "2026-08-08T05:35:51.999821"
+}

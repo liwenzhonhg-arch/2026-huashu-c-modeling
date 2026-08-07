@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "比较24小时季节性、168小时季节性和凸线性Huber模型；选模后重训。对全部实际任务作确定性全时域构造、有限冲突回溯及完整约束复核，不运行MILP。；确定性新能源优先能源分配加有界单任务局部搜索；保留最后一个完整可行incumbent。结果声明non-Pareto、non-global-optimal、最高scenario-feasible。；构造无储能可行基线，随后进行确定性、逐时前向、SOC可达性约束下的有界局部搜索；不运行滚动MILP或epsilon路径。；确定性全时域联合可行构造加有界交替局部搜索；删除滚动窗口、窗口SOC拼接、epsilon路径和求解器间隙。每个场景保留完整可行incumbent。",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "预测拟合令原始线性输出u_{rkt}=beta_0+sum_{l in {1,2,3,24,48,168}} beta_l D'_{rk,t-l}+gamma^T z_t+alpha_r+delta_k，在T_selection上最小化sum rho_delta((D_{rkt}-u_{rkt})/sigma_{rk})+lambda||theta||_2^2；训练完成后才令Dhat_{rkt}=max(0,u_{rkt})。基础调度按[总等待,总网络时延,峰值GPU利用率,TaskID-区域-开工]词典序改进。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "从q1可行incumbent出发，在最多N_move_q2次单任务区域/开工变更中，按有限正尺度标准化后的代理评分排序；评分维度为成本、碳排、有效网络时延、新能源未利用率和等待。尺度为各维真实候选差值绝对值中有限正值的中位数；无正尺度维度退出评分。每次只接受完整可行且词典序评分改善的候选。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "固定Baseline_AI_IT_Load_MW和NonAI_IT_Load_MW，从无储能可行基线出发，以成本、碳排、非负峰值净购电、绝对爬坡和新能源未利用率的有限尺度代理评分进行最多N_move_q3次充放电局部修改；只接受经逐时前向SOC可达性及完整审计通过的改善候选。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "从q2任务方案与q3能源方案构成的联合可行incumbent出发，交替尝试单任务迁移/开工变更及逐时储能动作变更；以成本、碳排、有效网络时延、有效服务等待损失、有效新能源未利用率和六区域非负峰值的有限正中位绝对差尺度评分排序，最多N_move_q4次完整候选评价。",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "z_t=[sin(2*pi*t/24),cos(2*pi*t/24),sin(2*pi*t/168),cos(2*pi*t/168)]，四维且不再缩放；其余连续滞后特征D'仅用T_selection均值和正标准差标准化，零标准差列固定为0；alpha_RegionA=0，delta_RealTimeInference=0。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "h_i=d_i/60；F_i=min(valid LatestFinishHour,2406)，字段不适用且由数据字典确认时取2406；Omega_i={(r,s):s为0..2405整数，s>=a_i，s+h_i<=F_i，latency_{o_i r}<=latency_i_max，omega_{i,2406}(s)=0}。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "omega_{it}(s)=max(0,min(t+1,s+h_i)-max(t,s))；chi_{it}(s)=1{omega_{it}(s)>0}；每个任务唯一选择一个候选，实时任务必须s_i=a_i。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "sum g_i chi x<=G_r_max；L_N+sum g_i p_{k_i} chi x<=P_r_IT_max；PUE_r乘同一IT左端<=P_r_F_max。能源结算E_AI=sum g_i p_{k_i} omega x，L_AI_avg=E_AI/Delta_t。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "全部任务在完整整数候选域上按确定性顺序构造；候选耗尽时只对造成冲突的已排任务和当前任务做最多N_back=2000节点的有限回溯。找到完整incumbent才输出方案；预算或节点用尽输出feasibility_unresolved，不声称infeasible。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "MAE和RMSE始终有限计算；任一WAPE分母sum|y|不正时该分组输出metric_unavailable并排除选模排序，总体WAPE也仅在总体分母正时计算。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "任务唯一执行、实时即时开工、截止、单向时延、chi瞬时GPU/IT/设施容量及omega小时能源约束与q1完全显式执行。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "问题二无储能：R_ch=G_ch=C=D=0；R_use+R_sell+R_curt=R_av；G_buy+R_use=L_F_avg；G_sell=R_sell。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "0<=G_buy<=I_r_max*y_grid；0<=G_sell<=X_r_grid*(1-y_grid)。问题二只读取区域MaxGridExport_MW，不读取SellLimit_MW、SOC或任何储能参数。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "直接新能源优先：R_use=min(R_av,L_F_avg)；余量先在X_r_grid和购售互斥允许范围内外送，其余弃电；不足部分购电。由该确定性分配得到能源可行性，若购电超过I_r_max则候选不可行。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "L_net的分母W=sum_i g_i h_i必须先检查W>0；满足时L_net=sum g_i h_i latency_i/W，否则输出metric_unavailable并从评分、约束及排序删除该维。U_RE分母sum R_av Delta_t同样先检查正性。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "C_op=sum(c_buy G_buy-c_sell G_sell)Delta_t；E_CO2=sum carbon_intensity G_buy Delta_t；所有指标从最终完整轨迹复算。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "L_F_avg=PUE_r*(L_BAI+L_N)；R_use+R_ch+R_sell+R_curt=R_av；G_load+R_use+D=L_F_avg；C=R_ch+G_ch；G_buy=G_load+G_ch；G_sell=R_sell。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "S_{r,-1}=S_r_0；S_{rt}=S_{r,t-1}+eta_c C Delta_t-D Delta_t/eta_d；S_min<=S<=S_max；S_{r,2406}>=S_r_0；0<=C<=C_max，0<=D<=D_max，且逐时不得同时充放电或同时购售电。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "0<=G_buy<=I_r_max*y_grid；0<=G_sell<=min(X_r_grid,X_r_storage)*(1-y_grid)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "每次局部修改后前向递推SOC，并用剩余小时最大可充电量检查terminal_reachable：S_rt+sum_{u=t+1}^{2406}eta_c C_max Delta_t>=S_r_0；不满足则立即拒绝候选。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "N=G_buy-G_sell；P_peak=max(0,max_t N)；V=sum_{t=1}^{2406}|N_t-N_{t-1}|；两者直接复算，不使用未定辅助变量。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "U_RE仅在sum R_av Delta_t>0时计算；EFC仅在B_r>0时计算，否则分别输出metric_unavailable或not_applicable并退出评分维度。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "任务侧完整执行唯一执行、实时即时开工、截止、单向时延、chi瞬时GPU/IT/设施容量及omega小时能源结算；能源侧完整执行q3能源守恒、SOC、终端SOC、功率、购售和充放互斥。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "问题四外送上限为min(MaxGridExport_MW,SellLimit_MW)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "Q_RT、Q_SLA、Q_deadline、Q_wait均先检查各自分母严格为正再计算；前三项作为硬约束审计，评分服务质量仅使用仍有区分力且分母正的Q_wait。无有效服务分量时输出metric_unavailable并退出该候选的服务评分维度。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "L_net和U_RE均先检查分母正性；不满足时输出metric_unavailable并从候选评分删除，不执行除法。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "七类场景组完整输出：碳目标rho_C、峰谷价差delta_P、售电机制delta_S、新能源水平delta_R及波动增强场景；每个具体场景从同一基线独立重构并局部搜索。碳目标未找到达标候选时输出target_infeasible_within_declared_heuristic。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "新能源波动规则R_av_sc=max(0,R_av+sigma_sc*xi)，seed=2026；xi在截断前标准化，截断后不声称仍保持零均值或指定方差。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "所有最终指标均从完整轨迹复算；代理评分只排序，不替代硬约束或正式指标。",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

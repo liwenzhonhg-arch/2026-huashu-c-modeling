@@ -1,0 +1,113 @@
+{
+  "rework_stage": "none",
+  "items": [
+    {
+      "check": "数值结果与求解产出的可追溯性",
+      "status": "pass",
+      "note": "本轮审计提取的416个数值全部匹配当前哈希绑定的求解产出，高置信缺出处和低置信可疑数值均为0；已采纳human_rework_feedback.txt的复核结论，不沿用旧版100项缺出处判断。",
+      "files": []
+    },
+    {
+      "check": "四个子问题核心结果完整性",
+      "status": "pass",
+      "note": "问题一给出预测误差和基础调度结果，问题二给出成本、碳排放、时延、新能源利用率及迁移数，问题三给出储能前后对比，问题四给出联合基准及15个情景，均具有可追溯核心数值。",
+      "files": []
+    },
+    {
+      "check": "数学模型、硬约束与计量口径",
+      "status": "pass",
+      "note": "任务唯一执行、实时即时开工、截止时间、单向时延、瞬时容量、实际重叠电量、能源守恒、SOC递推、终端SOC及互斥约束均有明确表达；分钟级任务与小时级能源结算的区分合理。",
+      "files": []
+    },
+    {
+      "check": "数学 formulation 与 heuristic implementation 的差异披露",
+      "status": "warning",
+      "note": "论文已如实披露未实现冲突回溯、预测网格选模、问题二局部改进、问题三动作搜索和问题四交替邻域搜索，因此不判定为隐瞒或错误；但这些差异使结果只能证明启发式可行，不能体现原多目标模型的优化能力。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/evaluation.tex"
+      ]
+    },
+    {
+      "check": "问题一预测验证与模型选择",
+      "status": "warning",
+      "note": "固定Huber模型给出了顺序测试集上的MAE和RMSE，但未完成季节性基线比较、完整超参数验证选模及分组误差分析，当前证据不足以说明Huber模型优于简单基线。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/sensitivity.tex"
+      ]
+    },
+    {
+      "check": "问题三储能策略有效性",
+      "status": "warning",
+      "note": "规则策略累计放电为0，成本增加304223.9291元，碳排放、峰值和爬坡均未改善。论文已诚实说明该结果只评价当前规则候选，但其作为储能协同求解方案的决策价值较弱。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/evaluation.tex"
+      ]
+    },
+    {
+      "check": "问题四联合优化与情景响应",
+      "status": "warning",
+      "note": "15个情景均固定209个迁移任务，未使任务调度响应价格、碳强度和新能源变化；碳目标未达到也仅表示当前启发式未找到方案。因此情景部分属于固定策略复算，而非充分的算—储—电联合优化。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/evaluation.tex"
+      ]
+    },
+    {
+      "check": "模型验证逻辑",
+      "status": "warning",
+      "note": "约束残差审计和灵敏度分析属于有效的代理验证与一致性检验，且论文未声称验证成功或具有最优性；但仍缺少独立复算摘要、基线对照及多随机种子稳定性统计。",
+      "files": [
+        "sections/sensitivity.tex"
+      ]
+    },
+    {
+      "check": "图表及任务调度展示",
+      "status": "warning",
+      "note": "图表文件、编号、标题和正文分析均已提供，但问题一仅展示12条代表性任务记录和区域利用率图，没有直观展示任务起止、重叠与资源峰值关系的甘特图或局部调度图。",
+      "files": [
+        "sections/model_solution.tex"
+      ]
+    },
+    {
+      "check": "摘要完整性与结论边界",
+      "status": "pass",
+      "note": "摘要覆盖问题、模型、算法、主要结果和局限，并明确结果为通过硬约束审计的启发式可行方案，不构成Pareto解或最优性证书。",
+      "files": []
+    },
+    {
+      "check": "参考文献与引用",
+      "status": "warning",
+      "note": "现有3条文献条目格式基本统一且均在正文使用，但文献覆盖较窄，对Huber回归、数据中心算力调度、储能优化和大邻域搜索等关键方法缺少更直接的领域文献支撑。",
+      "files": [
+        "references.bib",
+        "sections/model_solution.tex",
+        "sections/evaluation.tex"
+      ]
+    },
+    {
+      "check": "附录代码与硬性交付物",
+      "status": "pass",
+      "note": "附录明确指向code/solution.py，artifact_manifest.txt同时列出正式代码、结果表、审计表、情景表和图像文件，方法契约、验证与追溯文件的哈希绑定一致。",
+      "files": []
+    },
+    {
+      "check": "最终排版、页数与浮动体位置",
+      "status": "warning",
+      "note": "尚未提供最终编译PDF，无法确认不超过20页、摘要独立成页、图表浮动位置、参赛信息及目录页码等最终版式要求。",
+      "files": []
+    },
+    {
+      "check": "程序化数值审计无高置信缺出处数字",
+      "status": "pass",
+      "note": "高置信缺出处数值 0 个"
+    },
+    {
+      "check": "模型、代码、求解与论文方法契约一致",
+      "status": "pass",
+      "note": "方法契约与当前版本绑定"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "baseline": {
+    "objective": -421673289.0742142,
+    "objective_name": "问题二固定调度成本加碳代价"
+  },
+  "experiments": [
+    {
+      "param": "carbon_weight",
+      "delta_pct": -20,
+      "param_value": 160.0,
+      "objective": -421680839.5132876,
+      "change_pct": -0.001790589840291007
+    },
+    {
+      "param": "carbon_weight",
+      "delta_pct": -10,
+      "param_value": 180.0,
+      "objective": -421677064.2937509,
+      "change_pct": -0.0008952949201384358
+    },
+    {
+      "param": "carbon_weight",
+      "delta_pct": 10,
+      "param_value": 220.00000000000003,
+      "objective": -421669513.8546775,
+      "change_pct": 0.000895294920152571
+    },
+    {
+      "param": "carbon_weight",
+      "delta_pct": 20,
+      "param_value": 240.0,
+      "objective": -421665738.6351408,
+      "change_pct": 0.001790589840305142
+    },
+    {
+      "param": "price_scale",
+      "delta_pct": -20,
+      "param_value": 0.8,
+      "objective": -337331080.820298,
+      "change_pct": 20.001790589840287
+    },
+    {
+      "param": "price_scale",
+      "delta_pct": -10,
+      "param_value": 0.9,
+      "objective": -379502184.9472561,
+      "change_pct": 10.00089529492015
+    },
+    {
+      "param": "price_scale",
+      "delta_pct": 10,
+      "param_value": 1.1,
+      "objective": -463844393.20117235,
+      "change_pct": -10.00089529492015
+    },
+    {
+      "param": "price_scale",
+      "delta_pct": 20,
+      "param_value": 1.2,
+      "objective": -506015497.3281304,
+      "change_pct": -20.001790589840287
+    }
+  ]
+}

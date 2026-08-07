@@ -1,0 +1,9 @@
+STDOUT:
+结果: 问题二运行成本=-419658147.707598
+结果: 问题二碳排放=14.391602
+结果: 问题三运行成本=-419516103.810220
+结果: 问题四联合运行成本=-419353923.778507
+结果: 约束满足=True
+结果: full_horizon_feasible=True
+结果: non_Pareto=true
+结果: global_optimality_certificate=false

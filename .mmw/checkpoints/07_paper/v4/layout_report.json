@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "accepted": true,
+  "rounds": 2,
+  "deterministic_changes": [
+    "sections/abstract.tex",
+    "sections/problem_restatement.tex",
+    "sections/problem_analysis.tex",
+    "sections/assumptions.tex",
+    "sections/symbols.tex",
+    "sections/model_solution.tex",
+    "sections/sensitivity.tex",
+    "sections/evaluation.tex"
+  ],
+  "violations": []
+}

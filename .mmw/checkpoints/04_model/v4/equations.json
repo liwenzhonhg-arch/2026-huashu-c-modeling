@@ -1,0 +1,56 @@
+{
+  "sub_problems": {
+    "q1": {
+      "objective": "\\min \\sum_{r,t}(u_{rt}^{GPU})^2+\\alpha\\sum_i(s_i-a_i)",
+      "constraints": [
+        "\\sum_{r,s}x_{irs}=1",
+        "s=a_i\\text{ for real-time tasks}",
+        "a_i\\le s_i,\\ s_i+d_i/60\\le\\min(f_i,2406)",
+        "\\ell_{o_i r}\\le L_i^{max}",
+        "\\sum_{i,s}g_i\\omega_{it}(s)x_{irs}\\le G_r",
+        "IT_{rt}\\le P_r^{IT,max},\\ PUE_r IT_{rt}\\le P_r^{F,max}"
+      ],
+      "variables": ["\\widehat D_{rkt}", "x_{irs}", "s_i"],
+      "method": "现役候选q1_enhanced：滞后特征正则化回归与最后24小时MILP；季节性朴素预测和启发式作为基准",
+      "observability": "逐小时实际GPU需求可观测，可用MAE、RMSE和WAPE验证；不存在最优调度标签，调度用硬约束残差、完成率和目标值验证"
+    },
+    "q2": {
+      "objective": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U",
+      "constraints": [
+        "\\sum_{r,s}x_{irs}=1",
+        "任务到达、即时开工、时延、截止时间及GPU/IT/设施容量约束",
+        "G_{rt}+A_{rt}^{RE}=P_{rt}^{F}+E_{rt}^{sell}+K_{rt}",
+        "0\\le G_{rt}\\le I_r^{max},\\ 0\\le E_{rt}^{sell}\\le E_r^{max}"
+      ],
+      "variables": ["x_{irs}", "G_{rt}", "U_{rt}^{RE}", "E_{rt}^{sell}", "K_{rt}"],
+      "method": "现役候选q2_enhanced：滚动时域ε-约束多目标MILP；单目标成本MILP提供参照解",
+      "observability": "无真实最优迁移标签；用任务可行率、平衡残差、成本、碳排放、时延分布和新能源利用率作代理验证"
+    },
+    "q3": {
+      "objective": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ P_r^{peak}\\le\\varepsilon_P",
+      "constraints": [
+        "P_{rt}^{F}=PUE_r(B_{rt}+N_{rt})",
+        "U_{rt}^{RE}+C_{rt}^{RE}+E_{rt}^{sell}+K_{rt}=A_{rt}^{RE}",
+        "G_{rt}+U_{rt}^{RE}+D_{rt}=P_{rt}^{F}+C_{rt}^{G}",
+        "S_{rt}=S_{r,t-1}+\\eta_r^c(C_{rt}^{RE}+C_{rt}^{G})-D_{rt}/\\eta_r^d",
+        "S_r^{min}\\le S_{rt}\\le S_r^{max},\\ S_{r,2406}\\ge S_r^0",
+        "充放电互斥；购售电是否互斥由分源业务口径决定"
+      ],
+      "variables": ["C_{rt}^{RE}", "C_{rt}^{G}", "D_{rt}", "S_{rt}", "G_{rt}", "E_{rt}^{sell}", "K_{rt}"],
+      "method": "现役候选q3_enhanced：含运行互斥、峰值与绝对爬坡量的储能MILP",
+      "observability": "无最优储能动作标签；基准SOC仅供比较，以能量平衡、SOC递推、边界合规和指标复算作为代理验证"
+    },
+    "q4": {
+      "objective": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U,\\ Q_{service}\\ge\\varepsilon_Q,\\ P_r^{peak}\\le\\varepsilon_{P,r}",
+      "constraints": [
+        "继承q2全部任务、网络和算力约束",
+        "继承q3全部能源、储能、购售电和终端SOC约束",
+        "跨滚动窗口传递运行任务占用状态与绝对SOC",
+        "情景扰动后A_{rt}^{RE}\\ge0"
+      ],
+      "variables": ["x_{irs}", "G_{rt}", "E_{rt}^{sell}", "C_{rt}^{RE}", "C_{rt}^{G}", "D_{rt}", "S_{rt}", "K_{rt}"],
+      "method": "现役候选q4_enhanced：ε-约束Pareto联合优化与情景分析，以分层滚动联合MILP实现",
+      "observability": "无联合策略真实最优标签；用硬约束、求解间隙、Pareto非支配性、小规模整体MILP对照及单因素情景一致性验证"
+    }
+  }
+}

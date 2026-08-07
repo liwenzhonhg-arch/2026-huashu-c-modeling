@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "paper_version": 17,
+  "pdf_sha256": "1cb30e1cd64305b69654306f01a146b7c7340da94ad5e6b045a1dc61bb413b80",
+  "pages": 16,
+  "failures": [],
+  "warnings": [
+    "页面预览生成失败：CalledProcessError"
+  ],
+  "figures": [
+    {
+      "file": "fig_1_gpu_utilization.png",
+      "width": 2422,
+      "height": 1522,
+      "dpi_x": 299.9994,
+      "dpi_y": 299.9994,
+      "passed": true,
+      "failures": [],
+      "warnings": []
+    },
+    {
+      "file": "fig_2_storage_soc.png",
+      "width": 2422,
+      "height": 1522,
+      "dpi_x": 299.9994,
+      "dpi_y": 299.9994,
+      "passed": true,
+      "failures": [],
+      "warnings": []
+    },
+    {
+      "file": "sensitivity_electricity_price.png",
+      "width": 2422,
+      "height": 1522,
+      "dpi_x": 299.9994,
+      "dpi_y": 299.9994,
+      "passed": true,
+      "failures": [],
+      "warnings": []
+    },
+    {
+      "file": "sensitivity_renewable_level.png",
+      "width": 2422,
+      "height": 1522,
+      "dpi_x": 299.9994,
+      "dpi_y": 299.9994,
+      "passed": true,
+      "failures": [],
+      "warnings": []
+    },
+    {
+      "file": "fig_5_q1_gantt.png",
+      "width": 3634,
+      "height": 3034,
+      "dpi_x": 299.9994,
+      "dpi_y": 299.9994,
+      "passed": true,
+      "failures": [],
+      "warnings": []
+    }
+  ]
+}

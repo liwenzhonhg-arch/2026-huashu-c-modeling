@@ -1,0 +1,9 @@
+{
+  "status": "approved",
+  "result": "proceed",
+  "rework_target": null,
+  "upstream_hash": "314f30976e098866829fd4963beb041d",
+  "upstream_changed": false,
+  "approved_by": "human-judgment",
+  "approved_at": "2026-08-07T23:14:36.186273"
+}

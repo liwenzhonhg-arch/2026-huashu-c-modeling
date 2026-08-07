@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "比较24小时季节性、168小时季节性与凸Huber回归；验证选模后以168..2375重训，在2376..2399测试。实际任务采用全时域确定性构造和有限冲突回溯。；确定性新能源优先分流与有界单任务局部搜索；候选必须完整复算并通过硬约束。输出best-found、non-Pareto且无全局最优证书。；先计算无储能比较状态，再独立进行含储能全时域前向可行构造和有界局部搜索；无储能状态不可行不截断含储能搜索。；全时域联合可行构造及有界交替局部搜索；12000次评价由基准和全部情景共享，并受同一285秒搜索硬截止及300秒总截止约束。",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "令D_{rkt}=sum_{i:o_i=r,k_i=k,a_i=t}g_i。Huber候选使用u_{rkt}=beta_0+sum_{l in {1,2,3,24,48,168}}beta_l D'_{rk,t-l}+gamma^T z_t+alpha_r+delta_k，在t=168..2351上最小化sum rho_delta((D_{rkt}-u_{rkt})/sigma_{rk})+lambda||theta||_2^2；z_t=[sin(2*pi*t/24),cos(2*pi*t/24),sin(2*pi*t/168),cos(2*pi*t/168)]，训练后才取Dhat=max(0,u)。基础调度按等待、时延、峰值GPU利用率及固定词典序构造可行incumbent。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "从q1可行incumbent出发，评价最多N_move^{q2}=20000个单任务迁移或开工变更。对完整可行候选的成本、碳排、有效网络时延、新能源未利用率和等待量，以相对基准真实差值的有限正中位数d_j标准化，Psi_m=sum_j w_j(a_{jm}-a_{j,m0})/d_j；无正尺度维度退出评分。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "固定Baseline_AI_IT_Load_MW和NonAI_IT_Load_MW。无储能方案仅作为比较基准，不是含储能可行性的启动条件。直接构造含储能incumbent，并对最多N_move^{q3}=12000个完整候选按成本、碳排、非负峰值净购电、绝对爬坡和有效新能源未利用率的有限正差值尺度评分。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "独立构造并审计联合任务—储能—电力incumbent，不因q3无储能比较基线不可行而停止。基准联合搜索及全部情景共享N_move,total^{q4}=12000次完整候选评价；评分使用成本、碳排、有效网络时延、有效等待损失、有效新能源未利用率和六区域非负峰值的有限正中位绝对差尺度。",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "h_i=d_i/60；F_i=min(valid LatestFinishHour,2406)；Omega_i={(r,s):s为0..2405整数，s>=a_i，s+h_i<=F_i，ell_{o_i r}<=ell_i^max，omega_{i,2406}(s)=0}；Omega_i为空时结构化停止。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "omega_{it}(s)=max(0,min(t+1,s+h_i)-max(t,s))；chi_{it}(s)=1{omega_{it}(s)>0}；sum_{(r,s) in Omega_i}x_{irs}=1；实时任务s_i=a_i。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "sum_{i,s}g_i chi_{it}(s)x_{irs}<=G_r^max；L_N+sum g_i p_{k_i}^{GPU}chi x<=P_r^{IT,max}；PUE乘同一IT负荷<=P_r^{F,max}。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "E_{rt}^{AI}=sum g_i p_{k_i}^{GPU}omega x；L_{rt}^{AI,avg}=E_{rt}^{AI}/Delta t；能源计算采用omega，容量审计采用chi。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "U_{rt}^{peak}=sum g_i chi x/G_r^max；U_{rt}^{avg}=sum g_i omega x/(G_r^max Delta t)。仅在G_r^max>0时计算；否则两项输出metric_unavailable。甘特图容量审计固定采用U_peak，同时输出U_avg。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "MAE和RMSE直接计算；WAPE仅在sum|y|>0时计算，否则输出metric_unavailable并退出选模排序。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-7",
+        "meaning": "完整候选域确定性构造；冲突回溯最多N_back=2000节点。达到节点上限或D_search仍无完整方案时输出feasibility_unresolved。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "执行q1的唯一执行、实时开工、截止、单向时延、chi瞬时GPU/IT/设施容量和omega小时能源约束。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "问题二无储能：R_ch=G_ch=C=D=0；R_use+R_sell+R_curt=R_av；G_buy+R_use=L_F_avg；G_sell=R_sell。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "0<=G_buy<=I_r^max y_grid；0<=G_sell<=X_r^{grid}(1-y_grid)。问题二不读取SellLimit_MW或SOC。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "R_use=min(R_av,L_F_avg)；若负荷不足部分购电，若新能源富余则先在X_r^{grid}内外送、其余弃电；购电超过I_r^max的候选不可行。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "C_op=sum(c_buy G_buy-c_sell G_sell)Delta t；E_CO2=sum kappa G_buy Delta t。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "L_net仅在W_net=sum_i g_i h_i>0时取sum_i g_i h_i ell_{o_i r_i}/W_net；U_RE仅在W_RE=sum R_av Delta t>0时取sum(R_use+R_ch+R_sell)Delta t/W_RE；否则输出metric_unavailable并删除对应评分维。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "L_F_avg=PUE_r(L_BAI+L_N)；R_use+R_ch+R_sell+R_curt=R_av；G_load+R_use+D=L_F_avg；C=R_ch+G_ch；G_buy=G_load+G_ch；G_sell=R_sell。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "S_{r,-1}=S_r^0；S_{rt}=S_{r,t-1}+eta_c C Delta t-D Delta t/eta_d；S_min<=S<=S_max；S_{r,2406}>=S_r^0。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "0<=C<=C_max；0<=D<=D_max；每小时动作仅为idle、charge或discharge。0<=G_buy<=I_r^max y_grid；0<=G_sell<=min(X_r^{grid},X_r^{storage})(1-y_grid)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "无储能基线若违反购电上限，记录no_storage_baseline_infeasible，但继续从S_{r,-1}=S_r^0构造含储能方案；只有含储能构造在D_search前未取得完整可行incumbent时输出feasibility_unresolved。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "每次动作后检查S_{rt}+sum_{u=t+1}^{2406}eta_c C_r^max Delta t>=S_r^0，并完整前推检查购电上限、能源守恒、SOC、功率、互斥和终端SOC。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "N=G_buy-G_sell；P_peak=max(0,max_t N)；V=sum_{t=1}^{2406}|N_t-N_{t-1}|；EFC=sum(C+D)Delta t/(2B_r)仅在B_r>0时计算。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "U_RE仅在sum R_av Delta t>0时计算；否则输出metric_unavailable并退出评分。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "任务侧执行q1全部硬约束；能源与储能侧执行q3的能源守恒、SOC、终端SOC、功率、购售互斥及充放互斥约束；问题四外送上限为min(MaxGridExport_MW,SellLimit_MW)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "联合初始方案必须从S_{r,-1}=S_r^0独立全时域构造；q3的no_storage_baseline_infeasible不构成停止条件。若联合可行构造在声明预算内失败，输出feasibility_unresolved。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "Q_RT、Q_SLA、Q_deadline及Q_wait均先检查各自分母；前三项为硬约束审计，评分仅使用分母为正且存在候选差异的1-Q_wait。L_net和U_RE同样执行正分母门禁。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "碳目标rho_C in {0,0.1,0.2,0.3}；峰谷价差delta_P in {0.75,1,1.25}；售电乘数delta_S in {0,0.5,1}；新能源水平delta_R in {0.8,1,1.2}；波动场景seed=2026且R_av,vol=max(0,R_av+sigma xi)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "各具体情景从同一联合基线独立重构，但候选计数器n_move^{q4}跨基准和所有情景累计，必须满足sum_m n_m<=12000；达到共享上限或D_search后未运行的情景输出not_run_budget_exhausted。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "所有候选开始前及可中断循环内部检查time.monotonic()<D_search；达到D_search立即中断并丢弃当前未完成候选。D_search之后只允许文件输出、完整审计和状态整理。",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "固定Huber滞后回归；50000任务确定性贪心可行构造；问题二从4个优先任务构造邻域并最多完整评价4个候选；问题三评价基准及12组规则型储能策略；问题四复用同类单任务邻域构造一个与基线不同的替代任务方案，对替代方案执行一次50000任务全量硬约束审计，形成两个任务候选的统一集合；15个情景分别对两个任务候选重建设施负荷和情景储能策略，完整审计能源、SOC、互斥和购售电边界后选择实际检查集合中的best-found；全部搜索受270秒主动截止、285秒合同硬截止和300秒总截止约束。",
+    "class": "heuristic",
+    "solver": "python/scikit-learn",
+    "randomized": true,
+    "seed": 2026,
+    "covers": [
+      "OBJ-Q1",
+      "OBJ-Q2",
+      "OBJ-Q3",
+      "OBJ-Q4",
+      "CON-Q1-1",
+      "CON-Q1-2",
+      "CON-Q1-3",
+      "CON-Q1-4",
+      "CON-Q1-5",
+      "CON-Q1-6",
+      "CON-Q1-7",
+      "CON-Q2-1",
+      "CON-Q2-2",
+      "CON-Q2-3",
+      "CON-Q2-4",
+      "CON-Q2-5",
+      "CON-Q2-6",
+      "CON-Q3-1",
+      "CON-Q3-2",
+      "CON-Q3-3",
+      "CON-Q3-4",
+      "CON-Q3-5",
+      "CON-Q3-6",
+      "CON-Q3-7",
+      "CON-Q4-1",
+      "CON-Q4-2",
+      "CON-Q4-3",
+      "CON-Q4-4",
+      "CON-Q4-5",
+      "CON-Q4-6"
+    ],
+    "deviations": [
+      "任务初始构造采用确定性贪心，未实现2000节点冲突回溯",
+      "Huber超参数固定，未执行完整预测模型网格选模",
+      "问题二仅从4个优先任务构造邻域，并最多完整评价4个候选",
+      "问题三邻域仅覆盖充放电触发分位数组合",
+      "问题四任务候选集仅包含基线和一个通过全量任务审计的不同替代方案",
+      "问题四每个情景独立比较统一任务候选集，但未在情景内继续迭代生成新的任务邻域",
+      "问题四每个任务候选在每个情景只重建一个规则型储能策略",
+      "碳约束通过碳强度加权调度信号进入规则型储能策略；未达目标仅表示target_infeasible_within_declared_heuristic",
+      "服务质量使用1/(1+平均等待小时)作为有限代理",
+      "新能源波动情景使用固定种子2026",
+      "为保留输出和终检时间，实际搜索在启动后270秒主动停止"
+    ],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "仅声明通过完整任务及能源储能审计的scenario-feasible heuristic incumbent，以及统一双任务候选集合和规则型储能候选中的best-found；不声明局部最优、Pareto最优或全局最优。",
+    "approximation": "问题二任务邻域、问题三储能邻域及问题四统一任务候选集均受到严格限制；问题四的15个情景实际比较至少两个任务方案，并为每个任务方案重新构造情景设施负荷和储能策略。",
+    "limitations": [
+      "无独立Oracle或最优性证书",
+      "未穷举任务和储能完整邻域",
+      "问题二最多完整检查4个候选",
+      "问题四只有一个不同于基线的替代任务方案",
+      "searched_no_improvement只表示实际检查的统一候选集中未发现改善",
+      "问题四未执行逐情景多轮任务与储能交替搜索",
+      "碳目标未达到不证明数学不可行",
+      "储能策略未计退化成本",
+      "本题不涉及PDE，PDE和移动热过程函数调用次数为0"
+    ]
+  },
+  "bindings": {
+    "model_version": 41,
+    "code_version": 12,
+    "solve_version": 7,
+    "solution_sha256": "ce1b7414e5807f0fec2721d71d4404043a15b5308b4d921d63658536a4ed7b38",
+    "results_sha256": "3fa3433c74f332c4d5cca6b4c596abe7cd1f59ece2ea7ddb505c692c76ac6807",
+    "runtime_sha256": "5043a15b1c2fb90879b827fcda57e89d408df0d2790bba42323a2cac78c64dcd"
+  }
+}

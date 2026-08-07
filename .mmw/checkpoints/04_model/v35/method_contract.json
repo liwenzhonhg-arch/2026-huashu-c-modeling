@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "验证集选择季节性朴素模型或滞后正则化回归；0–2375重训；先审计并冻结前序承诺，再对最后24小时实际任务求MILP；固定168小时滚动MILP；计算五条联合epsilon路径上的有限候选；传递累计量和剩余预算，最终全时域复算；固定负荷储能MILP；五条联合epsilon路径上的有限候选；二级目标消除峰值和爬坡辅助量松弛；固定168小时滚动联合MILP；五条联合epsilon路径仅形成有限候选集；累计预算传递；全时域复算可行性后按统一方向损失选折中解",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "预测：\\min\\sum\\rho(D_{rkt}-\\widehat D_{rkt})+\\lambda\\|\\beta\\|_2^2；调度词典序\\min[\\sum_{i\\in\\mathcal I^{end}}(s_i-a_i),\\sum_{i,r,s}\\ell_{o_ir}x_{irs},U^{max}]，其中s_i由shared_definitions.task_binding唯一派生",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "\\min C_{op}\\ \\mathrm{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}^{q2}\\ge\\varepsilon_U",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "词典序\\min[C_{op},\\sum_rP_r^{peak}+\\sum_{r,t}z_{rt}]\\ \\mathrm{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ P_r^{peak}\\le\\varepsilon_{P,r},\\ V_r\\le\\varepsilon_{V,r}",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "\\min C_{op}\\ \\mathrm{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ Q_{service}\\ge\\varepsilon_Q,\\ U_{RE}^{q4}\\ge\\varepsilon_U,\\ P_r^{peak}\\le\\varepsilon_{P,r}",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "预测划分为train=0:2351，validation=2352:2375，test=2376:2399",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "\\sum_{(r,s)\\in\\Omega_i}x_{irs}=1；s_i=\\sum s x_{irs}；c_i=s_i+d_i/60；实时任务s_i=a_i",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "\\mathcal I^{pre}=\\{i:a_i<2376,\\ s_i^0+d_i/60>2376\\}；每个前序承诺(r_i^0,s_i^0)必须先通过唯一执行、到达、实时即时开工、时延、截止、GPU、IT功率、设施功率和2406禁占用审计",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "b_{rt}^{GPU}=\\sum_{i\\in\\mathcal I^{pre}:r_i^0=r}g_i\\alpha_{it}(s_i^0)；b_{rt}^{AI}=\\sum_{i\\in\\mathcal I^{pre}:r_i^0=r}g_ip_{k_i}^{GPU}\\alpha_{it}(s_i^0)",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "b_{rt}^{GPU}+\\sum_{i\\in\\mathcal I^{end},s}g_i\\alpha_{it}(s)x_{irs}\\le G_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "L_{rt}^{AI,end}=b_{rt}^{AI}+\\sum_{i\\in\\mathcal I^{end},s}g_ip_{k_i}^{GPU}\\alpha_{it}(s)x_{irs}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-7",
+        "meaning": "L_{rt}^{IT,end}=L_{rt}^{N}+L_{rt}^{AI,end}；L_{rt}^{F,end}=\\pi_rL_{rt}^{IT,end}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-8",
+        "meaning": "L_{rt}^{IT,end}\\le P_r^{IT,max}；L_{rt}^{F,end}\\le P_r^{F,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-9",
+        "meaning": "U^{max}\\ge(b_{rt}^{GPU}+\\sum_{i\\in\\mathcal I^{end},s}g_i\\alpha_{it}(s)x_{irs})/G_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "shared_definitions中的候选集、任务绑定、GPU、IT功率、设施功率约束全部成立",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "R_{rt}^{use}+R_{rt}^{sell}+R_{rt}^{curt}=R_{rt}^{av}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "G_{rt}^{buy}+R_{rt}^{use}=L_{rt}^{F}；G_{rt}^{sell}=R_{rt}^{sell}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "0\\le G_{rt}^{buy}\\le I_r^{max}y_{rt}^{grid}；0\\le G_{rt}^{sell}\\le E_r^{max}(1-y_{rt}^{grid})；y_{rt}^{grid}\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "L_{net}=A_L^{final}/A_W^{final}，A_L=\\sum_{i,r,s}g_i(d_i/60)\\ell_{o_ir}x_{irs}，A_W=\\sum_i g_i(d_i/60)>0；分母不正时不可计算",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "U_{RE}^{q2}=\\sum(R^{use}+R^{sell})\\Delta t/\\sum R^{av}\\Delta t；分母为0时不可计算",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-7",
+        "meaning": "窗口w要求A_C^{w-1}+\\Delta A_C^w\\le\\varepsilon_C，A_L^{w-1}+\\Delta A_L^w\\le\\varepsilon_L(A_W^{w-1}+\\Delta A_W^w+W_{rem}^{LB})，A_U^w+R_{rem}^{av}\\ge\\varepsilon_UA_R^{total}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "L_{rt}^{F}=\\pi_r(L_{rt}^{BAI}+L_{rt}^{N})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "R^{use}+R^{ch}+R^{sell}+R^{curt}=R^{av}；G^{load}+R^{use}+D=L^F；C=R^{ch}+G^{ch}；G^{buy}=G^{load}+G^{ch}；G^{sell}=R^{sell}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "0\\le G_{rt}^{buy}\\le I_r^{max}y_{rt}^{grid}；0\\le G_{rt}^{sell}\\le E_r^{max}(1-y_{rt}^{grid})；y_{rt}^{grid}\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "S_{r,-1}=S_r^0；S_{rt}=S_{r,t-1}+\\eta_r^cC_{rt}\\Delta t-D_{rt}\\Delta t/\\eta_r^d",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "S_r^{min}\\le S_{rt}\\le S_r^{max}；S_{r,2406}\\ge S_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "0\\le C_{rt}\\le u_{rt}^cC_r^{max}；0\\le D_{rt}\\le(1-u_{rt}^c)D_r^{max}；u_{rt}^c\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "N_{rt}=G_{rt}^{buy}-G_{rt}^{sell}；P_r^{peak}\\ge N_{rt}；z_{rt}\\ge\\pm(N_{rt}-N_{r,t-1})；V_r=\\sum_{t=1}^{2406}z_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-8",
+        "meaning": "\\widehat P_r^{peak}=\\max_tN_{rt}；\\widehat V_r=\\sum_{t=1}^{2406}|N_{rt}-N_{r,t-1}|，正式报告使用复算值",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-9",
+        "meaning": "N_r^{EFC}=\\sum_t(C_{rt}+D_{rt})\\Delta t/(2B_r)，其中B_r为StorageCapacity_MWh且仅在B_r>0时计算",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-10",
+        "meaning": "U_{RE}^{q3}=\\sum(R^{use}+R^{ch}+R^{sell})\\Delta t/\\sum R^{av}\\Delta t；分母为0时不可计算",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "shared_definitions中的任务绑定、GPU、负荷、储能、能源流、区域购售电边界及购售互斥约束全部成立",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "U_{RE}^{q4}=\\sum(R^{use}+R^{ch}+R^{sell})\\Delta t/\\sum R^{av}\\Delta t；分母为0时不可计算",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "Q_{RT},Q_{SLA},Q_{deadline},Q_{wait}均由s_i=\\sum s x_{irs}、c_i=s_i+d_i/60及q_{ir}=\\sum_sx_{irs}计算；只保留正分母分量并重新归一权重",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "统一损失y=(C_{op},E_{CO2},L_{net},1-Q_{service},1-U_{RE}^{q4},\\widehat P_1^{peak},...,\\widehat P_6^{peak})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "\\bar y_{jm}=(y_{jm}-y_j^{ideal})/(y_j^{nadir}-y_j^{ideal})，仅保留正极差维度；m^*=\\arg\\min_m\\sqrt{\\sum_j\\bar y_{jm}^2/|J_{disc}|}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "窗口间传递A_C,A_L,A_W,A_U,A_R及服务质量各分量计数，每窗约束剩余预算和终端可达性",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "c_{rt}^{buy,sc}=\\bar c_r+\\delta_P(c_{rt}^{buy}-\\bar c_r)，\\delta_P\\in\\{0.75,1,1.25\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-8",
+        "meaning": "c_{rt}^{sell,sc}=\\delta_Sc_{rt}^{sell}，\\delta_S\\in\\{0,0.5,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-9",
+        "meaning": "R_{rt}^{av,level}=\\max(0,\\delta_RR_{rt}^{av})；R_{rt}^{av,vol}=\\max(0,R_{rt}^{av}+\\sigma_{sc}\\xi_{rt})",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

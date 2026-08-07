@@ -1,0 +1,83 @@
+{
+  "shared_definitions": {
+    "time": "\\mathcal T_A=\\{0,\\ldots,2399\\},\\ \\mathcal T_C=\\{2400,\\ldots,2405\\};\\ 2406仅结算能源和SOC，任务执行区间属于[0,2406)",
+    "overlap": "\\omega_{it}(s)=\\max\\{0,\\min(t+\\Delta t,s+d_i/60)-\\max(t,s)\\}\\ [h],\\quad \\alpha_{it}(s)=\\omega_{it}(s)/\\Delta t\\in[0,1]",
+    "candidate_set": "\\Omega_i=\\{(r,s):\\ell_{o_ir}\\le\\ell_i^{max},\\ s\\ge a_i,\\ s+d_i/60\\le\\min(f_i^{max},2406)\\};\\ i\\in RT\\Rightarrow s=a_i",
+    "task_constraints": "\\sum_{(r,s)\\in\\Omega_i}x_{irs}=1;\\ \\sum_{i,s}g_i\\alpha_{it}(s)x_{irs}\\le G_r^{max}",
+    "task_load": "L_{rt}^{AI}=\\sum_{i,s}g_ip_{k_i}^{GPU}\\alpha_{it}(s)x_{irs};\\ L_{rt}^{IT}=L_{rt}^{N}+L_{rt}^{AI};\\ L_{rt}^{F}=\\pi_rL_{rt}^{IT}",
+    "energy": "R_{rt}^{use}+R_{rt}^{ch}+R_{rt}^{sell}+R_{rt}^{curt}=R_{rt}^{av};\\ G_{rt}^{load}+R_{rt}^{use}+D_{rt}=L_{rt}^{F};\\ C_{rt}=R_{rt}^{ch}+G_{rt}^{ch};\\ G_{rt}^{buy}=G_{rt}^{load}+G_{rt}^{ch};\\ G_{rt}^{sell}=R_{rt}^{sell}",
+    "cost_carbon": "C_{op}=\\sum_{r,t}(c_{rt}^{buy}G_{rt}^{buy}-c_{rt}^{sell}G_{rt}^{sell})\\Delta t;\\ E_{CO2}=\\sum_{r,t}\\kappa_{rt}G_{rt}^{buy}\\Delta t",
+    "renewable_utilization": "U_{RE}=\\sum_{r,t}(R_{rt}^{use}+R_{rt}^{ch}+R_{rt}^{sell})\\Delta t/\\sum_{r,t}R_{rt}^{av}\\Delta t；分母为0时标记不可计算并退出相关排序",
+    "epsilon_grid": "只使用五条联合锚点路径a\\in\\{0,0.25,0.5,0.75,1\\}，所有有效指标同时按同一a在ideal与nadir间插值，故M_epsilon=5，不作多维笛卡尔积",
+    "rolling_budget": "窗口w开始前传递累计碳A_C、时延分子A_L、已确定任务GPU-hour分母A_W、已利用新能源A_U、可用新能源A_R及服务质量分子分母计数；窗口约束使用剩余预算。最后窗口后用全时域精确指标审计",
+    "runtime": "固定H=168；全部工作共享B_total=300s、D_search=t_start+285s；候选启动前检查共同截止，未完整候选丢弃"
+  },
+  "sub_problems": {
+    "q1": {
+      "objective": "预测：\\min\\sum\\rho(D_{rkt}-\\widehat D_{rkt})+\\lambda\\|\\beta\\|_2^2；调度词典序\\min[\\sum_i(s_i-a_i),\\sum_{i,r,s}\\ell_{o_ir}x_{irs},U^{max}]",
+      "constraints": [
+        "预测划分为train=0:2351，validation=2352:2375，test=2376:2399",
+        "\\sum_{(r,s)\\in\\Omega_i}x_{irs}=1，实时任务s_i=a_i",
+        "\\mathcal I^{pre}=\\{i:a_i<2376且基础调度完成时点>2376\\}，包括2376前已开工和已承诺但尚未开工任务",
+        "b_{rt}^{GPU}=\\sum_{i\\in\\mathcal I^{pre}:r_i^0=r}g_i\\alpha_{it}(s_i^0)，b_{rt}^{AI}=\\sum_{i\\in\\mathcal I^{pre}:r_i^0=r}g_ip_{k_i}^{GPU}\\alpha_{it}(s_i^0)",
+        "b_{rt}^{GPU}+\\sum_{i\\in\\mathcal I^{end},s}g_i\\alpha_{it}(s)x_{irs}\\le G_r^{max}",
+        "L_{rt}^{N}+b_{rt}^{AI}+\\sum_{i\\in\\mathcal I^{end},s}g_ip_{k_i}^{GPU}\\alpha_{it}(s)x_{irs}\\le P_r^{IT,max}",
+        "\\pi_rL_{rt}^{IT}\\le P_r^{F,max}",
+        "U^{max}\\ge(b_{rt}^{GPU}+\\sum_{i\\in\\mathcal I^{end},s}g_i\\alpha_{it}(s)x_{irs})/G_r^{max}"
+      ],
+      "variables": ["\\widehat D_{rkt}","\\beta","\\gamma","x_{irs}","s_i","U^{max}"],
+      "method": "验证集选择季节性朴素模型或滞后正则化回归；0–2375重训；按固定前序承诺加最后24小时实际到达任务求MILP",
+      "observability": "需求标签可观测；最优调度标签不可观测，以唯一执行、即时开工、截止、时延、GPU和功率残差验证"
+    },
+    "q2": {
+      "objective": "\\min C_{op}\\ \\mathrm{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U",
+      "constraints": [
+        "任务唯一执行、到达、实时即时开工、不可抢占、时延、截止、GPU、IT功率、设施功率和2406禁占用约束",
+        "R_{rt}^{use}+R_{rt}^{sell}+R_{rt}^{curt}=R_{rt}^{av}",
+        "G_{rt}^{buy}+R_{rt}^{use}=L_{rt}^{F}",
+        "G_{rt}^{sell}=R_{rt}^{sell}",
+        "0\\le G_{rt}^{buy}\\le I_r^{max},\\ 0\\le G_{rt}^{sell}\\le E_r^{max}",
+        "L_{net}=A_L^{final}/A_W^{final}，其中A_L=\\sum g_i(d_i/60)\\ell_{o_ir}x_{irs}，A_W=\\sum g_i(d_i/60)>0",
+        "U_{RE}=A_U^{final}/A_R^{final}，其中q2中A_U=\\sum(R^{use}+R^{sell})\\Delta t，A_R=\\sum R^{av}\\Delta t",
+        "窗口w要求新增碳不超过\\varepsilon_C-A_C^{w-1}；新增时延分子不超过\\varepsilon_L(A_W^{fixed}+W_{rem}^{LB})-A_L^{w-1}；新能源下限用终端可达性A_U^w+R_{rem}^{av}\\ge\\varepsilon_UA_R^{total}"
+      ],
+      "variables": ["x_{irs}","G_{rt}^{buy}","G_{rt}^{sell}","R_{rt}^{use}","R_{rt}^{sell}","R_{rt}^{curt}"],
+      "method": "固定168小时滚动MILP；五条联合epsilon锚点路径；传递累计量和剩余预算，最终全时域复算",
+      "observability": "真实最优标签不可观测；以硬约束、累计预算、能源守恒、成本碳排和求解状态验证"
+    },
+    "q3": {
+      "objective": "\\min C_{op}\\ \\mathrm{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ P_r^{peak}\\le\\varepsilon_{P,r},\\ V_r\\le\\varepsilon_{V,r}",
+      "constraints": [
+        "L_{rt}^{F}=\\pi_r(L_{rt}^{BAI}+L_{rt}^{N})",
+        "共享energy方程全部成立",
+        "S_{r,-1}=S_r^0；S_{rt}=S_{r,t-1}+\\eta_r^cC_{rt}\\Delta t-D_{rt}\\Delta t/\\eta_r^d",
+        "S_r^{min}\\le S_{rt}\\le S_r^{max}；S_{r,2406}\\ge S_r^0",
+        "0\\le C_{rt}\\le u_{rt}^cC_r^{max}；0\\le D_{rt}\\le(1-u_{rt}^c)D_r^{max}；u_{rt}^c\\in\\{0,1\\}",
+        "N_{rt}=G_{rt}^{buy}-G_{rt}^{sell}；P_r^{peak}\\ge N_{rt}",
+        "z_{rt}\\ge\\pm(N_{rt}-N_{r,t-1})；V_r=\\sum_{t=1}^{2406}z_{rt}",
+        "所有正式方案采用词典序二级目标\\min[主目标,\\sum_rP_r^{peak}+\\sum_{r,t}z_{rt}]；报告值仍由N轨迹复算",
+        "U_{RE}按shared_definitions.renewable_utilization计算并计入R^{ch}"
+      ],
+      "variables": ["R_{rt}^{use}","R_{rt}^{ch}","R_{rt}^{sell}","R_{rt}^{curt}","G_{rt}^{load}","G_{rt}^{ch}","C_{rt}","D_{rt}","S_{rt}","G_{rt}^{buy}","G_{rt}^{sell}","P_r^{peak}","z_{rt}","u_{rt}^c"],
+      "method": "固定负荷储能MILP；新能源利用率计入新能源充电；二级目标消除峰值和爬坡辅助量松弛",
+      "observability": "最优储能动作不可观测；由能源平衡、SOC、边界、互斥、终端状态和净购电轨迹复算验证"
+    },
+    "q4": {
+      "objective": "\\min C_{op}\\ \\mathrm{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ Q_{service}\\ge\\varepsilon_Q,\\ U_{RE}\\ge\\varepsilon_U,\\ P_r^{peak}\\le\\varepsilon_{P,r}",
+      "constraints": [
+        "q1任务约束与q3能源、储能、购售电和终端SOC约束全部成立",
+        "U_{RE}=\\sum(R^{use}+R^{ch}+R^{sell})\\Delta t/\\sum R^{av}\\Delta t",
+        "Q_{service}=\\sum_{j\\in J_{def}}\\widetilde w_jQ_j，初始w_j=1/4，无定义分量删除后重新归一",
+        "统一损失y=(C_{op},E_{CO2},L_{net},1-Q_{service},1-U_{RE},P_1^{peak},...,P_6^{peak})",
+        "\\bar y_{jm}=(y_{jm}-y_j^{ideal})/(y_j^{nadir}-y_j^{ideal})，仅保留正区间维度；m^*=\\arg\\min_m\\sqrt{\\sum_jw_j^P\\bar y_{jm}^2}",
+        "窗口间传递A_C,A_L,A_W,A_U,A_R及服务质量各分量的已确定分子、分母；每窗约束剩余预算和终端可达性",
+        "c_{rt}^{buy,sc}=\\bar c_r+\\delta_P(c_{rt}^{buy}-\\bar c_r)，\\delta_P\\in\\{0.75,1,1.25\\}",
+        "c_{rt}^{sell,sc}=\\delta_Sc_{rt}^{sell}，\\delta_S\\in\\{0,0.5,1\\}",
+        "R_{rt}^{av,level}=\\max(0,\\delta_RR_{rt}^{av})；R_{rt}^{av,vol}=\\max(0,R_{rt}^{av}+\\sigma_{sc}\\xi_{rt})"
+      ],
+      "variables": ["x_{irs}","G_{rt}^{buy}","G_{rt}^{sell}","R_{rt}^{use}","R_{rt}^{ch}","R_{rt}^{sell}","R_{rt}^{curt}","C_{rt}","D_{rt}","S_{rt}","P_r^{peak}"],
+      "method": "固定168小时滚动联合MILP；五条联合epsilon路径；累计预算传递；所有Pareto指标转为越小越好的损失后归一化",
+      "observability": "联合最优标签不可观测；以硬约束、累计预算、状态衔接、全时域复算、非支配性和单因素情景响应验证"
+    }
+  }
+}

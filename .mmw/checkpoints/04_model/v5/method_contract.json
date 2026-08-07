@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "正则化时序回归与线性绝对偏差MILP；0–2351训练、2352–2375验证，确定模型后用0–2375重训并递归预测2376–2399；滚动时域ε-约束多目标MILP；单目标参照值生成固定ε网格，窗口间传递正式承诺约束；含充放电互斥、购售电边界、峰值正净购电与绝对爬坡量的储能MILP；ε-约束Pareto联合优化与单因素情景分析，以带正式承诺传递的分层滚动联合MILP实现",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "\\min\\ \\alpha\\sum_{i,r,s}(s-a_i)x_{irs}+\\beta\\sum_{r,t}u_{rt}",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ P_r^{peak}\\le\\varepsilon_{P,r},\\ V_r\\le\\varepsilon_{V,r}\\ (\\forall r)",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U,\\ Q_{service}\\ge\\varepsilon_Q,\\ P_r^{peak}\\le\\varepsilon_{P,r}",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "\\omega_{it}(s)=\\max\\{0,\\min(t+1,s+d_i/60)-\\max(t,s)\\}\\ \\text{h}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "\\mathcal F_i=\\{(r,s):s\\ge a_i,\\ s+d_i/60\\le\\min(f_i,2406),\\ \\ell_{o_ir}\\le L_i^{max}\\};\\ s=a_i\\ \\text{for real-time tasks}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "\\sum_{(r,s)\\in\\mathcal F_i}x_{irs}=1",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "\\sum_{i,s}g_i\\omega_{it}(s)x_{irs}\\le G_r",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "P_{rt}^{AI}=\\sum_{i,s}g_ip_{k_i}\\omega_{it}(s)x_{irs},\\quad P_{rt}^{IT}=N_{rt}+P_{rt}^{AI}\\le P_r^{IT,max},\\quad PUE_rP_{rt}^{IT}\\le P_r^{F,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "u_{rt}\\ge L_{rt}^{GPU}-\\bar L_{rt}^{GPU},\\quad u_{rt}\\ge\\bar L_{rt}^{GPU}-L_{rt}^{GPU},\\quad u_{rt}\\ge0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-7",
+        "meaning": "\\widehat D_{rkt}\\ \\text{uses recursive 24-step forecasting: within 2376--2399, lagged demand is a prior prediction rather than an observed test label}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-8",
+        "meaning": "\\operatorname{Corr}(X,Y)\\ \\text{is reported unavailable if }n<2\\text{ or either sample variance is zero}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "继承q1的任务唯一执行、到达、实时即时开工、时延、截止及GPU/IT/设施容量约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "U_{rt}^{RE}+E_{rt}^{sell}+K_{rt}=A_{rt}^{RE}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "G_{rt}+U_{rt}^{RE}=P_{rt}^{F}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "0\\le G_{rt}\\le I_r^{max},\\quad 0\\le E_{rt}^{sell}\\le E_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "C_{op}=\\sum_{r,t}(c_{rt}G_{rt}-c_{rt}^{sell}E_{rt}^{sell}),\\quad E_{CO2}=\\sum_{r,t}\\kappa_{rt}G_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "L_{net}=|I|^{-1}\\sum_{i,r,s}\\ell_{o_ir}x_{irs}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-7",
+        "meaning": "U_{RE}=Q_{RE}/A_{RE}^{tot}\\ \\text{if }A_{RE}^{tot}>0;\\quad Q_{RE}=\\sum(U^{RE}+E^{sell}),\\ A_{RE}^{tot}=\\sum A^{RE};\\ \\text{otherwise status=unavailable and the }\\varepsilon_U\\text{ scenario is excluded}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-8",
+        "meaning": "滚动窗口承诺约束：对窗口起点前已开工任务固定其唯一(r_i^*,s_i^*)，即x_{ir_i^*s_i^*}=1、其余x_{irs}=0；后续占用固定为g_i\\omega_{it}(s_i^*)，未开工任务仅保留剩余合法候选",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "P_{rt}^{F}=PUE_r(B_{rt}+N_{rt})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "U_{rt}^{RE}+C_{rt}^{RE}+E_{rt}^{sell}+K_{rt}=A_{rt}^{RE}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "G_{rt}+U_{rt}^{RE}+D_{rt}=P_{rt}^{F}+C_{rt}^{G}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "S_{r,-1}=S_r^0,\\quad S_{rt}=S_{r,t-1}+\\eta_r^c(C_{rt}^{RE}+C_{rt}^{G})-D_{rt}/\\eta_r^d",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "S_r^{max}=S_r^{cap}=StorageCapacity_MWh_r,\\quad S_r^{min}\\le S_{rt}\\le S_r^{max},\\quad S_{r,2406}\\ge S_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "0\\le C_{rt}^{RE}+C_{rt}^{G}\\le C_r^{max}z_{rt},\\quad 0\\le D_{rt}\\le D_r^{max}(1-z_{rt}),\\quad z_{rt}\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "0\\le G_{rt}\\le I_r^{max},\\quad 0\\le E_{rt}^{sell}\\le E_r^{max}=\\min(X_r^{grid},X_r^{sell})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-8",
+        "meaning": "M_{rt}=G_{rt}-E_{rt}^{sell},\\quad P_r^{peak}\\ge M_{rt},\\quad P_r^{peak}\\ge0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-9",
+        "meaning": "q_{rt}\\ge M_{rt}-M_{r,t-1},\\quad q_{rt}\\ge M_{r,t-1}-M_{rt},\\quad V_r=\\sum_{t=1}^{2406}q_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-10",
+        "meaning": "U_{RE}=\\sum(U^{RE}+C^{RE}+E^{sell})/\\sum A^{RE}\\ \\text{only for a positive denominator; otherwise status=unavailable and report the absolute utilized amount}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-11",
+        "meaning": "\\operatorname{RelChange}(Y,Y^0)=100(Y-Y^0)/|Y^0|\\%\\ \\text{only if }Y^0\\ne0;\\ \\text{otherwise status=unavailable and report }Y-Y^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "继承q2全部任务、网络、算力和滚动窗口承诺约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "继承q3全部能源、储能、购售电、SOC、峰值和有限输出定义",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "I_E=\\{i:k_i\\in\\{BatchInference,AITraining\\}\\},\\ h_i=\\min(f_i,2406)-d_i/60-a_i",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "w_i=(s_i-a_i)/h_i\\ \\text{if }h_i>0;\\quad w_i=0\\ \\text{if }h_i=0\\text{ and }s_i=a_i;\\quad h_i<0\\text{ means the instance is infeasible}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "W=|I_E|^{-1}\\sum_{i\\in I_E}w_i\\ \\text{if }|I_E|>0;\\quad W=0\\ \\text{if }|I_E|=0;\\quad 0\\le W\\le1",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "Q_F=|I|^{-1}\\sum_i\\mathbf1(s_i+d_i/60\\le\\min(f_i,2406)),\\ Q_R=|I_R|^{-1}\\sum_{i\\in I_R}\\mathbf1(s_i=a_i),\\ Q_L=|I|^{-1}\\sum_i\\mathbf1(\\ell_{o_ir_i}\\le L_i^{max});\\ \\text{an empty denominator gives value 1 and status=not_applicable}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "Q_{service}=(Q_F+Q_R+Q_L+1-W)/4",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-8",
+        "meaning": "Throughput_r=\\sum_t(C_{rt}^{RE}+C_{rt}^{G}+D_{rt}),\\quad EFC_r=\\sum_tD_{rt}/(2S_r^{cap})\\ \\text{if }S_r^{cap}>0;\\ \\text{otherwise status=unavailable}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-9",
+        "meaning": "Pareto normalization uses z_{jm}=(F_{jm}-F_j^{best})/(F_j^{worst}-F_j^{best}) only for a positive range; zero-range indicators have status=no_discrimination and are excluded",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-10",
+        "meaning": "情景扰动后A_{rt}^{RE}\\ge0",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

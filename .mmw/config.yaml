@@ -1,0 +1,22 @@
+name: C题 面向算电协同的多目标调度优化研究
+contest_type: cumcm
+year: 2026
+problem: C
+title: 面向算电协同的多目标调度优化研究
+team_number: ''
+benchmark_case: ''
+max_pages: 20
+figure_backend: matplotlib
+allow_test_placeholders: false
+active_versions:
+  analyze: 1
+  eda: 1
+  research: 1
+  model: 41
+  code: 14
+  solve: 11
+  paper: 17
+  review: 11
+problem_file: C题 面向算电协同的多目标调度优化研究.pdf
+problem_pdf: C题 面向算电协同的多目标调度优化研究.pdf
+created_at: '2026-08-07T19:19:57'

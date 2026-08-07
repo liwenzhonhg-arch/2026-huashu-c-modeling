@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "accepted": true,
+  "rounds": 0,
+  "deterministic_changes": [
+    "sections/model_solution.tex"
+  ],
+  "violations": [],
+  "reason": "compile gate: resize two wide tables and add safe line breaks to one long status token"
+}

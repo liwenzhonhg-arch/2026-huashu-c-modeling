@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "现役候选q1_enhanced：滞后特征正则化回归与最后24小时MILP；季节性朴素预测和启发式作为基准；现役候选q2_enhanced：滚动时域ε-约束多目标MILP；单目标成本MILP提供参照解；现役候选q3_enhanced：含运行互斥、峰值与绝对爬坡量的储能MILP；现役候选q4_enhanced：ε-约束Pareto联合优化与情景分析，以分层滚动联合MILP实现",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "\\min \\sum_{r,t}(u_{rt}^{GPU})^2+\\alpha\\sum_i(s_i-a_i)",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ P_r^{peak}\\le\\varepsilon_P",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "\\min C_{op}\\quad\\text{s.t.}\\quad E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U,\\ Q_{service}\\ge\\varepsilon_Q,\\ P_r^{peak}\\le\\varepsilon_{P,r}",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "\\sum_{r,s}x_{irs}=1",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "s=a_i\\text{ for real-time tasks}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "a_i\\le s_i,\\ s_i+d_i/60\\le\\min(f_i,2406)",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "\\ell_{o_i r}\\le L_i^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "\\sum_{i,s}g_i\\omega_{it}(s)x_{irs}\\le G_r",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "IT_{rt}\\le P_r^{IT,max},\\ PUE_r IT_{rt}\\le P_r^{F,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "\\sum_{r,s}x_{irs}=1",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "任务到达、即时开工、时延、截止时间及GPU/IT/设施容量约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "G_{rt}+A_{rt}^{RE}=P_{rt}^{F}+E_{rt}^{sell}+K_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "0\\le G_{rt}\\le I_r^{max},\\ 0\\le E_{rt}^{sell}\\le E_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "P_{rt}^{F}=PUE_r(B_{rt}+N_{rt})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "U_{rt}^{RE}+C_{rt}^{RE}+E_{rt}^{sell}+K_{rt}=A_{rt}^{RE}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "G_{rt}+U_{rt}^{RE}+D_{rt}=P_{rt}^{F}+C_{rt}^{G}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "S_{rt}=S_{r,t-1}+\\eta_r^c(C_{rt}^{RE}+C_{rt}^{G})-D_{rt}/\\eta_r^d",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "S_r^{min}\\le S_{rt}\\le S_r^{max},\\ S_{r,2406}\\ge S_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "充放电互斥；购售电是否互斥由分源业务口径决定",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "继承q2全部任务、网络和算力约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "继承q3全部能源、储能、购售电和终端SOC约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "跨滚动窗口传递运行任务占用状态与绝对SOC",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "情景扰动后A_{rt}^{RE}\\ge0",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

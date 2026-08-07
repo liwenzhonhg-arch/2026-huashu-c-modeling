@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "accepted": true,
+  "rounds": 2,
+  "deterministic_changes": [
+    "sections/evaluation.tex",
+    "sections/abstract.tex",
+    "sections/model_solution.tex"
+  ],
+  "violations": []
+}

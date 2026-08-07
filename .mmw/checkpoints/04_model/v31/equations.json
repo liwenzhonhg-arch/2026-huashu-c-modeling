@@ -1,0 +1,123 @@
+{
+  "sub_problems": {
+    "q1": {
+      "objective": "预测选型阶段在selection_fit_hours内拟合候选，以2352--2375固定起点递归验证WAPE、MAE及简单模型优先序选型；选型后在final_fit_hours内用截至2375小时的全部可构造有效样本重新拟合选定结构，再递归预测2376--2399。基础调度按实时优先、有效截止升序、时长升序、TaskID升序构造完整可行incumbent。",
+      "variables": ["x_{irs}\\in\\{0,1\\}", "s_i", "r_i", "\\widehat D_{rkt}"],
+      "definitions": [
+        "d_i=EstimatedDuration_min_i/60",
+        "\\bar f_i=min(f_i^{late},2406)当LatestFinishHour有限；实时任务缺失时\\bar f_i=2406；弹性任务缺失时输出invalid_elastic_deadline并停止调度",
+        "\\omega_{it}(s)=max\\{0,min(s+d_i,t+1)-max(s,t)\\}",
+        "\\chi_{it}(s)=1\\{s\\le t<s+d_i\\}",
+        "\\mathcal S_{ir}=\\{s\\in\\{0,...,2405\\}:s\\ge a_i,s+d_i\\le\\bar f_i,\\ell_{o_ir}\\le\\ell_i^{max}\\}；实时任务再限制s=a_i",
+        "G_{rt}^{inst}=\\sum_{i,s\\in\\mathcal S_{ir}}g_i\\chi_{it}(s)x_{irs}",
+        "P_{rt}^{AI,inst}=\\sum_{i,s\\in\\mathcal S_{ir}}g_ip_{k_i}^{GPU}\\chi_{it}(s)x_{irs}",
+        "E_{rt}^{AI}=\\sum_{i,s\\in\\mathcal S_{ir}}g_ip_{k_i}^{GPU}\\omega_{it}(s)x_{irs}",
+        "P_{rt}^{AI,avg}=E_{rt}^{AI}/\\Delta t",
+        "\\mathcal I^{carry}_{2376}=\\{i:a_i<2376,s_i<2376<s_i+d_i\\}",
+        "D_{rkt}=\\sum_{i:o_i=r,k_i=k,a_i=t}g_i",
+        "\\rho_\\delta(e)=e^2/2当|e|\\le\\delta，否则\\delta(|e|-\\delta/2)"
+      ],
+      "constraints": [
+        "\\sum_{r,s\\in\\mathcal S_{ir}}x_{irs}=1",
+        "G_{rt}^{inst}\\le G_r^{max}",
+        "P_{rt}^{NA}+P_{rt}^{AI,inst}\\le P_r^{IT,max}",
+        "\\mathrm{PUE}_r(P_{rt}^{NA}+P_{rt}^{AI,inst})\\le P_r^{fac,max}",
+        "\\chi_{i,2406}(s)x_{irs}=0",
+        "2376--2399容量核算必须包含\\mathcal I^{carry}_{2376}及2376--2399实际到达任务；carry-in任务的既定执行区和开工时刻由0--2405完整基准调度产生",
+        "选型拟合只使用截至2351小时可构造样本；验证区间不得读取区间内真实未来值",
+        "选定结构后使用截至2375小时的全部可构造有效样本重新拟合；测试2376--2399递归预测且不读取测试区间真实值",
+        "WAPE仅在真实需求和为正时计算；相关性和ACF仅在样本数至少2且两序列方差为正时计算"
+      ],
+      "method": "季节基线与四个Huber-Ridge候选验证选型、全历史重训练和确定性瞬时可行调度。",
+      "observability": "历史需求、任务字段及容量可观测；未来需求不可观测，以固定起点MAE、RMSE和可计算WAPE评价。"
+    },
+    "q2": {
+      "objective": "对最多10000个高GPU-hour弹性任务最小化score_{q2}=z_C+z_E-0.5z_R+0.5z_W+0.5z_L，只接受严格改善且通过任务、瞬时容量和能源约束的移动。",
+      "variables": ["x_{irs}", "B_{rt}", "R_{rt}^{use}", "S_{rt}", "K_{rt}"],
+      "definitions": [
+        "使用q1中完整定义的\\bar f_i、\\mathcal S_{ir}、\\omega、\\chi、G^{inst}、P^{AI,inst}、E^{AI}",
+        "P_{rt}^{fac,avg}=PUE_r(P_{rt}^{NA}+E_{rt}^{AI}/\\Delta t)",
+        "B_{rt}+R_{rt}^{use}=P_{rt}^{fac,avg}",
+        "R_{rt}^{use}+S_{rt}+K_{rt}=R_{rt}^{av}",
+        "C_{op}=\\sum_{r,t}(\\pi_{rt}^{buy}B_{rt}-\\pi_{rt}^{sell}S_{rt})\\Delta t",
+        "E_{CO2}=\\sum_{r,t}c_{rt}B_{rt}\\Delta t",
+        "L_{net}=\\sum_i g_id_i\\ell_{o_ir_i}/\\sum_i g_id_i，分母不正时metric_unavailable",
+        "U_{RE}=\\sum_{r,t}(R_{rt}^{use}+S_{rt})\\Delta t/\\sum_{r,t}R_{rt}^{av}\\Delta t，分母不正时metric_unavailable",
+        "\\Delta E_t=PUE_rg_ip_{k_i}^{GPU}\\omega_{it}(s)，E=\\sum_t\\Delta E_t",
+        "R_{rt}^{res,E}=max\\{0,(R_{rt}^{av}-P_{rt}^{fac,avg,-i})\\Delta t\\}，单位MWh",
+        "z_C=\\sum_t\\Delta E_t\\pi_{rt}^{buy}/max(1,E\\widetilde\\pi)",
+        "z_E=\\sum_t\\Delta E_tc_{rt}/max(1,E\\widetilde c)",
+        "z_R=\\sum_t min(\\Delta E_t,R_{rt}^{res,E})/max(1,E)",
+        "z_W=(s-a_i)/max(1,floor(\\bar f_i-d_i)-a_i)",
+        "z_L=\\ell_{o_ir}/max(1,\\ell_i^{max})",
+        "\\widetilde\\pi与\\widetilde c分别为附件中严格正购电价格和严格正碳强度的中位数；对应集合为空则局部评分结构化不可用并停止q2"
+      ],
+      "constraints": [
+        "q1的任务唯一性、有效截止、时延、2406禁占用、瞬时GPU、IT和设施约束",
+        "0\\le B_{rt}\\le G_r^{import,max}",
+        "0\\le S_{rt}\\le min(R_{rt}^{av},G_r^{export,max})",
+        "R_{rt}^{use}\\ge0,K_{rt}\\ge0；外送仅来自当期新能源",
+        "能源成本、碳排放和新能源分流使用\\omega形成的小时平均负荷，不以\\chi替代\\omega",
+        "每次移动同时移除旧位置的瞬时占用与重叠能量，失败时完整恢复",
+        "旧调度不复用；具体历史超限计数状态为pending_code_execution，由代码阶段在真实附件上复核"
+      ],
+      "method": "从重新构造且通过归一化残差门禁的完整incumbent开始确定性局部改进，输出scenario-feasible候选。",
+      "observability": "真实全局最优不可观测；用全量硬约束归一化残差和迁移前后指标复算验证。"
+    },
+    "q3": {
+      "objective": "固定Baseline_AI_IT_Load与NonAI_IT_Load，按价格四分位储能规则生成可行候选，并比较成本、碳排放、正向峰值净购电和绝对爬坡量。",
+      "variables": ["B_{rt}", "R_{rt}^{use}", "C_{rt}^{RE}", "C_{rt}^{G}", "D_{rt}", "S_{rt}", "K_{rt}", "E_{rt}", "u_{rt}\\in\\{0,1\\}", "v_{rt}\\in\\{0,1\\}"],
+      "definitions": [
+        "P_{rt}^{fac}=PUE_r(P_{rt}^{BAI}+P_{rt}^{NA})",
+        "C_{rt}=C_{rt}^{RE}+C_{rt}^{G}",
+        "E_{r,-1}=E_r^0",
+        "E_{rt}=E_{r,t-1}+\\eta_r^cC_{rt}\\Delta t-D_{rt}\\Delta t/\\eta_r^d",
+        "\\bar S_r=min(G_r^{export,max},S_r^{max})",
+        "N_{rt}=B_{rt}-S_{rt}",
+        "\\widehat P_r^{peak}=max_t max(0,N_{rt})",
+        "\\widehat V=\\sum_r\\sum_{t=1}^{2406}|N_{rt}-N_{r,t-1}|",
+        "N_r^{cycle}=\\sum_t(C_{rt}+D_{rt})\\Delta t/[2(E_r^{max}-E_r^{min})]，仅在E_r^{max}>E_r^{min}时计算"
+      ],
+      "constraints": [
+        "B_{rt}+R_{rt}^{use}+D_{rt}=P_{rt}^{fac}+C_{rt}^{G}",
+        "R_{rt}^{use}+C_{rt}^{RE}+S_{rt}+K_{rt}=R_{rt}^{av}",
+        "E_r^{min}\\le E_{rt}\\le E_r^{max}；E_{r,2406}\\ge E_r^0",
+        "0\\le C_{rt}\\le C_r^{max}u_{rt}；0\\le D_{rt}\\le D_r^{max}(1-u_{rt})",
+        "0\\le B_{rt}\\le G_r^{import,max}v_{rt}",
+        "0\\le S_{rt}\\le\\bar S_r(1-v_{rt})",
+        "v_{rt}\\in\\{0,1\\}保证同一区域同一小时不同时购电和外送",
+        "t=2406禁止放电；全部能源流非负；外送仅来自当期新能源"
+      ],
+      "method": "新能源优先直供和充电、低价电网充电、高价放电；逐时前向SOC递推，并在购电/外送互斥条件下复核。",
+      "observability": "固定负荷、价格、碳强度、新能源及储能状态可观测；最优策略不可观测，结果限定为scenario-feasible。"
+    },
+    "q4": {
+      "objective": "在完整瞬时可行任务方案上最小化score_{q4}=z_C+1.5z_E-z_R+z_W+0.5z_L，并对七个预声明情景分别复算成本、碳、时延、服务质量、新能源利用率和区域峰值。",
+      "variables": ["x_{irs}", "B_{rt}", "R_{rt}^{use}", "C_{rt}^{RE}", "C_{rt}^{G}", "D_{rt}", "S_{rt}", "K_{rt}", "E_{rt}", "u_{rt}\\in\\{0,1\\}", "v_{rt}\\in\\{0,1\\}"],
+      "definitions": [
+        "使用q1中完整定义的\\bar f_i、\\mathcal S_{ir}、\\omega、\\chi和瞬时任务负荷，以及q3的能源流、SOC、充放电互斥和购电外送互斥定义",
+        "M_W=\\sum_{i\\in\\mathcal I^{flex}}(\\bar f_i-d_i-a_i)",
+        "Q_{service}=1-\\sum_{i\\in\\mathcal I^{flex}}(s_i-a_i)/M_W，仅在M_W>0时计算；否则service_quality_unavailable",
+        "U_{RE}=\\sum(R^{use}+C^{RE}+S)\\Delta t/\\sum R^{av}\\Delta t，仅在分母为正时计算",
+        "\\pi_{rt}'=\\bar\\pi_r+\\kappa(\\pi_{rt}^{buy}-\\bar\\pi_r)，\\bar\\pi_r为区域购电价算术平均，\\kappa\\in\\{0.8,1.2\\}",
+        "R_{rt}^{av\\prime}=\\mu R_{rt}^{av}，\\mu\\in\\{0.8,1.2\\}",
+        "carbon10与carbon20分别要求E_{CO2}\\le0.9E_{CO2}^{base}和E_{CO2}\\le0.8E_{CO2}^{base}",
+        "七情景顺序为baseline、carbon10、price0.8、renewable0.8、carbon20、price1.2、renewable1.2",
+        "checked_task_count记录截止前实际完整评估并恢复或接受的任务数，不得填预设上限",
+        "每类约束j的归一化残差为\\varepsilon_j=max(0,原始违反量_j)/max(1,s_j)，其中s_j使用该类约束右端或物理容量的绝对尺度；max_constraint_residual=max_j\\varepsilon_j"
+      ],
+      "constraints": [
+        "q1全部任务约束和q3全部能源、SOC、充放电互斥、购电外送互斥约束",
+        "0\\le B_{rt}\\le G_r^{import,max}v_{rt}；0\\le S_{rt}\\le\\bar S_r(1-v_{rt})",
+        "每个情景必须在变换后输入上重新运行规则并输出scenario_status、checked_task_count、migration_count、cost、carbon、latency、service_quality_proxy、renewable_utilization、regional_peak_import及约束结果",
+        "completed要求所有归一化约束残差不超过\\tau_0=10^{-6}且所有必需指标有限",
+        "carbon10或carbon20未达目标时状态为target_infeasible_within_declared_heuristic并排除推荐排序",
+        "零分母指标输出metric_unavailable并排除排序，不以epsilon替代业务分母",
+        "旧调度不复用；旧调度具体超限计数为pending_code_execution",
+        "q4_pareto.csv含ParetoCertified=false与Credibility=scenario-feasible"
+      ],
+      "method": "重新构造瞬时可行基准；执行确定性任务局部改进，再在购电外送互斥下逐情景重跑能源规则并用逐类归一化残差完整验证。",
+      "observability": "真实Pareto前沿和全局最优不可观测；仅报告实际检查集合内通过硬约束的情景候选。"
+    }
+  }
+}

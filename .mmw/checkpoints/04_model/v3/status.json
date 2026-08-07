@@ -1,0 +1,9 @@
+{
+  "status": "pending",
+  "result": "rework",
+  "rework_target": "model",
+  "upstream_hash": "314f30976e098866829fd4963beb041d",
+  "upstream_changed": false,
+  "approved_by": null,
+  "approved_at": null
+}

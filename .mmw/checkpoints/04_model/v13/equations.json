@@ -1,0 +1,67 @@
+{
+  "sub_problems": {
+    "q1": {
+      "objective": "\\min \\sum_{r,k,t\\in V}(D_{rkt}-\\widehat D_{rkt})^2+\\lambda\\|\\beta\\|_2^2；调度阶段按字典序最小化未完成任务数、总等待时间与迁移时延",
+      "constraints": [
+        "\\sum_{r,s}x_{irs}=1",
+        "s_i=a_i（实时任务）",
+        "a_i\\le s_i，s_i+d_i\\le\\min(f_i,2406)",
+        "L_{o_i r}\\le l_i^{max}",
+        "\\sum_{i,s}g_i h_{it}(s)x_{irs}\\le G_r",
+        "N_{rt}+\\sum_{i,s}g_i p_{k_i}h_{it}(s)x_{irs}\\le P_r^{IT,max}",
+        "PUE_r\\,ITLoad_{rt}\\le P_r^{F,max}"
+      ],
+      "variables": ["预测系数 beta", "预测值 D_hat_rkt", "任务区域—开工变量 x_irs"],
+      "method": "现役候选 q1_enhanced：滞后特征正则化回归与最后24小时MILP；q1_baseline 用作比较及热启动",
+      "observability": "逐小时实际需求可由任务表聚合，预测标签可观测；最优调度标签不存在，以硬约束残差、完成率、等待时间和目标值作代理验证。"
+    },
+    "q2": {
+      "objective": "\\min C_{op}=\\sum_{r,t}(c_{rt}P^{buy}_{rt}-c^{sell}_{rt}P^{sell}_{rt})\\Delta t",
+      "constraints": [
+        "任务唯一执行、实时即时开工、到达、截止、时延及GPU/IT/设施容量约束",
+        "P^{buy}_{rt}+U^{RE}_{rt}=P^{load}_{rt}+P^{sell}_{rt}",
+        "0\\le U^{RE}_{rt}\\le A^{RE}_{rt}",
+        "E_{CO2}=\\sum_{r,t}e_{rt}P^{buy}_{rt}\\Delta t\\le\\epsilon_C",
+        "\\bar L\\le\\epsilon_L",
+        "U_{RE}\\ge\\epsilon_U",
+        "0\\le P^{buy}_{rt}\\le P^{grid,max}_{rt}",
+        "0\\le P^{sell}_{rt}\\le P^{export,max}_{rt}"
+      ],
+      "variables": ["x_irs", "AIITLoad_rt", "P_buy_rt", "U_RE_rt", "P_sell_rt"],
+      "method": "现役候选 q2_enhanced：滚动时域 epsilon-约束多目标MILP；q2_baseline 生成参照解",
+      "observability": "不存在真实最优迁移标签；价格、碳强度、任务和新能源可观测，以约束残差、成本、碳排放、时延分布和新能源利用率验证。"
+    },
+    "q3": {
+      "objective": "\\min C_{op}，并分别通过\\epsilon约束控制E_{CO2}、\\sum_r Peak_r及\\sum_{r,t\\ge1}|Net_{rt}-Net_{r,t-1}|",
+      "constraints": [
+        "P^{load}_{rt}=PUE_r(B_{rt}+N_{rt})",
+        "U_{rt}+RC_{rt}+S_{rt}+W_{rt}=A^{RE}_{rt}",
+        "P^{buy}_{rt}+U_{rt}+D_{rt}=P^{load}_{rt}+GC_{rt}+RC_{rt}+S_{rt}",
+        "C_{rt}=GC_{rt}+RC_{rt}",
+        "SOC_{rt}=SOC_{r,t-1}+\\eta_r^c C_{rt}-D_{rt}/\\eta_r^d",
+        "SOC_{r,-1}=E_r^0，SOC_{r,2406}\\ge E_r^0",
+        "E_r^{min}\\le SOC_{rt}\\le E_r^{max}",
+        "0\\le C_{rt}\\le P_r^{c,max}z_{rt}",
+        "0\\le D_{rt}\\le P_r^{d,max}(1-z_{rt})",
+        "Net_{rt}=P^{buy}_{rt}-S_{rt}\\le Peak_r"
+      ],
+      "variables": ["新能源直接利用 U_rt", "新能源充电 RC_rt", "电网充电 GC_rt", "放电 D_rt", "SOC_rt", "购电 P_buy_rt", "新能源外送 S_rt", "弃电 W_rt", "互斥变量 z_rt"],
+      "method": "现役候选 q3_enhanced：含运行互斥、峰值与爬坡约束的储能MILP；仅当LP试算无循环时可退化为q3_baseline",
+      "observability": "最优储能动作不可观测，附件SOC仅为基准；以能量平衡、SOC递推、边界、终端状态、成本及碳复算作代理验证。"
+    },
+    "q4": {
+      "objective": "\\min C_{op}，满足E_{CO2}\\le\\epsilon_C、\\bar L\\le\\epsilon_L、U_{RE}\\ge\\epsilon_U、Q\\ge\\epsilon_Q、Peak_r\\le\\epsilon_{P,r}",
+      "constraints": [
+        "继承q1/q2全部任务、网络、GPU、IT和设施约束",
+        "继承q3全部新能源守恒、能量平衡、SOC、充放电及购售电边界",
+        "窗口间传递运行任务占用状态和绝对SOC",
+        "任务不得占用第2406小时",
+        "情景新能源A^{RE,omega}_{rt}\\ge0",
+        "除被研究因素外各情景使用同一任务集和参数"
+      ],
+      "variables": ["x_irs", "全部区域能源流", "SOC_rt", "Peak_r", "爬坡辅助变量", "互斥变量"],
+      "method": "现役候选 q4_enhanced：epsilon-约束Pareto联合优化与情景分析，使用q4_baseline分层滚动MILP作为求解骨架",
+      "observability": "联合最优策略标签不存在；以全部硬约束、求解间隙、Pareto非支配性、小实例整体MILP对照和情景一致性作代理验证。"
+    }
+  }
+}

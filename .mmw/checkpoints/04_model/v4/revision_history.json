@@ -1,0 +1,35 @@
+[
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "可求解性",
+        "summary": "问题四服务质量约束使用未定义的归一化等待惩罚W，导致Q_service及其ε约束无法计算。"
+      },
+      {
+        "category": "常识",
+        "summary": "相对变化率和新能源利用率缺少零分母规则，正常输入或情景分支可能产生NaN/Inf。"
+      },
+      {
+        "category": "公式",
+        "summary": "问题一正文的线性绝对偏差MILP与结构化模型中的平方偏差MIQP不一致，问题三结构化模型还遗漏绝对爬坡约束。"
+      },
+      {
+        "category": "约束",
+        "summary": "问题三和问题四未在完整方程中明确购电、外送上限以及StorageCapacity_MWh与最大SOC的映射。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "滚动窗口没有把已开工任务的固定区域、开工决策和后续占用传递规则写成正式约束。"
+      },
+      {
+        "category": "可观测性",
+        "summary": "预测测试的滞后特征使用口径及常数序列下相关系数不可计算时的处理规则尚未明确。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 81479,
+    "tokens_output": 10136
+  }
+]

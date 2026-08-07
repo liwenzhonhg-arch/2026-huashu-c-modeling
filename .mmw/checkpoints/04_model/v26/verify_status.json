@@ -1,0 +1,17 @@
+{
+  "severity": "block",
+  "issues": [
+    {
+      "category": "约束",
+      "summary": "唯一实际实施合同将SOC上界设为StorageCapacity_MWh，并按该容量计算充电空间，遗漏附件规定的MaxSOC_MWh硬上界，可能输出物理不可行的储能轨迹。"
+    },
+    {
+      "category": "可求解性",
+      "summary": "弹性任务初始incumbent统一固定在ArrivalHour，可能在延迟开工可行时产生假阴性停止；应增加原允许时域内的确定性开工搜索。"
+    },
+    {
+      "category": "量纲",
+      "summary": "局部移动score直接混合成本、碳强度、等待时间和时延加权量，缺少统一量纲或尺度归一化；该问题影响启发式质量与解释性。"
+    }
+  ]
+}

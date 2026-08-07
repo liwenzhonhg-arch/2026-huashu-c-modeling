@@ -1,0 +1,18 @@
+[
+  {
+    "attempt": 1,
+    "success": false,
+    "timed_out": false,
+    "error_summary": "RuntimeError: CON-Q2-3: actual=missing, threshold=finite MaxGridExport_MW",
+    "stdout_tail": "",
+    "stderr_tail": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import runpy,sys;sys.path.insert(0,sys.argv[1]);runpy.run_path(sys.argv[2],run_name='__main__')\n                                                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 287, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 1426, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 1121, in main\n    q2_flow, q2_cost, q2_carbon, q2_re = no_storage_energy(d, schedule)\n                                         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\_mmw_temp_script.py\", line 547, in no_storage_energy\n    raise RuntimeError(\n        \"CON-Q2-3: actual=missing, threshold=finite MaxGridExport_MW\"\n    )\nRuntimeError: CON-Q2-3: actual=missing, threshold=finite MaxGridExport_MW\n"
+  },
+  {
+    "attempt": 2,
+    "success": true,
+    "timed_out": false,
+    "error_summary": "",
+    "stdout_tail": "结果: 问题二运行成本=-419658147.707598\n结果: 问题二碳排放=14.391602\n结果: 问题三运行成本=-419516103.810220\n结果: 问题四联合运行成本=-419353923.778507\n结果: 约束满足=True\n结果: full_horizon_feasible=True\n结果: non_Pareto=true\n结果: global_optimality_certificate=false\n",
+    "stderr_tail": ""
+  }
+]

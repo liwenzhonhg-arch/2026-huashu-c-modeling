@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "algorithm_class": "heuristic",
+  "termination_status": "completed",
+  "feasible": true,
+  "constraints_checked": [
+    "CON-Q1-1",
+    "CON-Q1-5",
+    "CON-Q1-6",
+    "CON-Q1-7",
+    "CON-Q1-8",
+    "CON-Q1-9",
+    "CON-Q1-10",
+    "CON-Q1-11",
+    "CON-Q1-12",
+    "CON-Q1-14",
+    "CON-Q2-1",
+    "CON-Q2-2",
+    "CON-Q2-3",
+    "CON-Q2-14",
+    "CON-Q3-1",
+    "CON-Q3-3",
+    "CON-Q3-8",
+    "CON-Q3-9",
+    "CON-Q3-14",
+    "CON-Q4-1",
+    "CON-Q4-16",
+    "CON-Q4-20",
+    "CON-Q4-22",
+    "CON-Q4-26",
+    "CON-Q4-29"
+  ],
+  "seed": 20260807,
+  "objective_value": -793529278.931804,
+  "optimizer": {
+    "used": false
+  },
+  "global_optimality": "not_certified",
+  "elapsed_seconds": 205.79738400003407
+}

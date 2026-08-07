@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "现役候选q1_enhanced：滞后与日周周期特征正则化回归，加最后24小时MILP；q1_baseline作为预测和调度基准及MILP热启动；现役候选q2_enhanced：滚动时域ε-约束多目标MILP；q2_baseline用于取得成本参照解和可行热启动；现役候选q3_enhanced：含充放电互斥、峰值和绝对爬坡线性化的储能MILP；仅当q3_baseline试算自然消除无效循环时才可退化为LP；现役候选q4_enhanced：ε-约束Pareto联合优化和情景分析，以q4_baseline分层滚动联合MILP作为求解骨架与基准",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "\\min \\left(\\mathrm{WAPE}_{val},\\ \\mathrm{MAE}_{val}\\right);\\qquad \\min \\sum_i\\sum_{r,s}x_{irs}\\left[\\alpha(s-a_i)+\\beta\\ell_{o_i r}\\right]",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "\\min C_{op}=\\sum_{r,t}(\\pi_{rt}^{buy}B_{rt}-\\pi_{rt}^{sell}S_{rt})\\Delta t",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "\\min \\left\\{C_{op},E_{CO2},\\sum_rP_r^{peak},\\sum_{r,t\\ge1}z_{rt}\\right\\}\\text{，通过ε约束逐次求解}",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "\\min C_{op}\\ \\text{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ L_{net}\\le\\varepsilon_L,\\ U_{RE}\\ge\\varepsilon_U,\\ Q_{service}\\ge\\varepsilon_Q,\\ P_r^{peak}\\le\\varepsilon_{P,r}",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "\\sum_{r,s\\in\\mathcal S_{ir}}x_{irs}=1,\\ \\forall i",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "x_{irs}=0\\text{ if }\\ell_{o_i r}>\\ell_i^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "s=a_i\\text{ for RealTimeInference}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "s\\ge a_i,\\ s+d_i\\le\\min(f_i^{late},2406)",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "\\sum_{i,s}g_i\\omega_{it}(s)x_{irs}\\le G_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "P_{rt}^{NA}+\\sum_{i,s}g_i p_{k_i}^{GPU}\\omega_{it}(s)x_{irs}\\le P_r^{IT,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-7",
+        "meaning": "\\mathrm{PUE}_r\\left(P_{rt}^{NA}+P_{rt}^{AI}\\right)\\le P_r^{fac,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-8",
+        "meaning": "\\omega_{i,2406}(s)=0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "\\sum_{r,s\\in\\mathcal S_{ir}}x_{irs}=1",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "P_{rt}^{AI}=\\sum_{i,s}g_i p_{k_i}^{GPU}\\omega_{it}(s)x_{irs}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "P_{rt}^{IT}=P_{rt}^{NA}+P_{rt}^{AI}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "P_{rt}^{fac}=\\mathrm{PUE}_rP_{rt}^{IT}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "0\\le P_{rt}^{IT}\\le P_r^{IT,max},\\ 0\\le P_{rt}^{fac}\\le P_r^{fac,max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "B_{rt}+R_{rt}^{use}=P_{rt}^{fac}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-7",
+        "meaning": "R_{rt}^{use}+S_{rt}+K_{rt}=R_{rt}^{av}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-8",
+        "meaning": "0\\le B_{rt}\\le P_{rt}^{grid,max},\\ 0\\le S_{rt}\\le\\min(P_{rt}^{export,max},S_r^{max})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-9",
+        "meaning": "E_{CO2}=\\sum_{r,t}c_{rt}B_{rt}\\Delta t\\le\\varepsilon_C",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-10",
+        "meaning": "L_{net}\\le\\varepsilon_L",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-11",
+        "meaning": "U_{RE}=\\frac{\\sum_{r,t}(R_{rt}^{use}+S_{rt})\\Delta t}{\\sum_{r,t}R_{rt}^{av}\\Delta t}\\ge\\varepsilon_U",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "P_{rt}^{fac}=\\mathrm{PUE}_r(P_{rt}^{BAI}+P_{rt}^{NA})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "B_{rt}+R_{rt}^{use}+D_{rt}=P_{rt}^{fac}+C_{rt}^{RE}+C_{rt}^{G}+S_{rt}+K_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "R_{rt}^{use}+C_{rt}^{RE}+S_{rt}+K_{rt}=R_{rt}^{av}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "C_{rt}=C_{rt}^{RE}+C_{rt}^{G}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "E_{rt}=E_{r,t-1}+\\eta_r^cC_{rt}\\Delta t-D_{rt}\\Delta t/\\eta_r^d",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "E_{r,-1}=E_r^0,\\ E_{r,2406}\\ge E_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "E_r^{min}\\le E_{rt}\\le E_r^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-8",
+        "meaning": "0\\le C_{rt}\\le C_r^{max}u_{rt}^c,\\ 0\\le D_{rt}\\le D_r^{max}(1-u_{rt}^c)",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-9",
+        "meaning": "B_{rt}-S_{rt}\\le P_r^{peak}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-10",
+        "meaning": "z_{rt}\\ge N_{rt}-N_{r,t-1},\\ z_{rt}\\ge N_{r,t-1}-N_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-11",
+        "meaning": "N_{rt}=B_{rt}-S_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "继承q1、q2的任务唯一执行、不可抢占、即时开工、时延、截止时间、GPU、IT与设施功率约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "继承q3的分源能源平衡、绝对SOC递推、充放电边界、终端SOC及峰值约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "R_{rt}^{use}+C_{rt}^{RE}+S_{rt}+K_{rt}=R_{rt}^{av}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "B_{rt}+R_{rt}^{use}+D_{rt}=P_{rt}^{fac}+C_{rt}^{RE}+C_{rt}^{G}+S_{rt}+K_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "Q_{service}=1-\\frac{\\sum_i(s_i-a_i)}{\\sum_i(\\min(f_i^{late},2406)-a_i)+\\delta}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "R_{rt}^{av,\\xi}=\\max\\{0,\\mu_\\xi R_{rt}^{av}+\\sigma_\\xi\\zeta_{rt}^{\\xi}\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "各情景除碳预算、电价或新能源扰动外保持任务集、容量、时延、PUE和功率映射不变",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

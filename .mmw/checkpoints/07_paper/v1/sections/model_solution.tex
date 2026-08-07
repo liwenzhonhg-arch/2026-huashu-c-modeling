@@ -1,0 +1,409 @@
+% MMW-METHOD-CONTRACT: d40225367a8484fdf4e14f9f2b9697a53bf9505a7d0a0b9c2b80a434d054de1b
+\section{模型的建立与求解}
+
+\subsection{统一时域与任务负荷模型}
+
+区域集合记为 $\mathcal R=\{\mathrm A,\mathrm B,\mathrm C,\mathrm D,\mathrm E,\mathrm F\}$。任务到达时域、允许运行时域和能源结算时域分别记为 $\mathcal T^{arr}=\{0,\ldots,2399\}$、$\mathcal T^{run}=\{0,\ldots,2405\}$ 和 $\mathcal T^{energy}=\{0,\ldots,2406\}$，时间步长为 $\Delta t=1\ \mathrm h$。第 $2400$ 至 $2405$ 小时只用于结清此前到达的弹性任务，第 $2406$ 小时只用于能源与储能终端结算。
+
+% MMW-ALGORITHM: 固定起点季节基线、标准化与矩阵秩门禁Huber预测、双阶段收敛回退、全时域可行incumbent、预计算评分尺度的有界局部改进、按评分顺序提前终止的可行候选检查、向量化能源指标复算、确定性储能及七情景重新复算
+
+% MMW-ID: CON-Q1-1
+原始持续时间首先由分钟转换为小时，即 $d_i=\mathrm{EstimatedDuration\_min}_i/60$。任务 $i$ 在整数时刻 $s$ 开工后，其与小时区间 $[t,t+1)$ 的重叠时长被定义为
+\begin{equation}
+\omega_{it}(s)=
+\max\left\{0,\min(s+d_i,t+1)-\max(s,t)\right\}.
+\label{eq:overlap}
+\end{equation}
+
+% MMW-ID: CON-Q1-7
+式~\eqref{eq:overlap}被用于全部 GPU-hour、AI IT 功率和完成时限计算，因而非整数小时任务不会被按完整小时重复计量。满足到达、截止和单向网络时延要求的候选集合为
+\begin{equation}
+\mathcal S_{ir}=
+\left\{
+s\in\mathcal T^{run}:s\ge a_i,\
+s+d_i\le\min(f_i^{late},2406),\
+\ell_{o_ir}\le\ell_i^{max}
+\right\}.
+\label{eq:candidate}
+\end{equation}
+
+% MMW-ID: CON-Q1-4
+网络约束统一采用有向时延矩阵，并要求 $\ell_{o_ir}\le\ell_i^{max}$。实时推理任务的候选开工时刻被限制为 $s=a_i$，弹性任务则可在式~\eqref{eq:candidate}限定的整数时域内开工。每项任务必须且只能被安排一次：
+\begin{equation}
+\sum_{r\in\mathcal R}\sum_{s\in\mathcal S_{ir}}x_{irs}=1,
+\qquad x_{irs}\in\{0,1\}.
+\label{eq:unique}
+\end{equation}
+
+% MMW-ID: CON-Q1-5
+区域 $r$ 在小时 $t$ 的 GPU-hour 占用为
+\begin{equation}
+G_{rt}=\sum_i\sum_{s\in\mathcal S_{ir}}
+g_i\omega_{it}(s)x_{irs},
+\qquad
+G_{rt}\le G_r^{max}\Delta t.
+\label{eq:gpu}
+\end{equation}
+
+% MMW-ID: CON-Q1-6
+由任务类型功率映射得到的 AI IT 平均功率、总 IT 功率和设施功率分别为
+\begin{align}
+P_{rt}^{AI}
+&=\sum_i\sum_{s\in\mathcal S_{ir}}
+g_ip_{k_i}^{GPU}
+\frac{\omega_{it}(s)}{\Delta t}x_{irs},\\
+P_{rt}^{IT}&=P_{rt}^{NA}+P_{rt}^{AI},\\
+P_{rt}^{fac}&=\mathrm{PUE}_rP_{rt}^{IT}.
+\end{align}
+相应容量约束为
+\begin{equation}
+P_{rt}^{IT}\le P_r^{IT,\max},
+\qquad
+P_{rt}^{fac}\le P_r^{fac,\max}.
+\label{eq:power-limit}
+\end{equation}
+
+\subsection{问题一：需求预测与基础调度}
+
+\subsubsection{固定起点短期预测模型}
+
+区域 $r$、类型 $k$ 在小时 $t$ 的到达 GPU 需求被定义为
+\begin{equation}
+D_{rkt}=\sum_{i:o_i=r,k_i=k,a_i=t}g_i.
+\end{equation}
+候选预测器由 $24$ 小时季节基线、$168$ 小时季节基线和 Huber-Ridge 增强模型构成。增强模型采用滞后需求、历史均值及日、周周期谐波作为特征：
+\begin{equation}
+\boldsymbol\phi_{rkt}=
+\left[
+D_{rk,t-1},D_{rk,t-24},D_{rk,t-168},
+\overline D_{rk,t}^{(24)},\overline D_{rk,t}^{(168)},
+\sin\frac{2\pi t}{24},\cos\frac{2\pi t}{24},
+\sin\frac{2\pi t}{168},\cos\frac{2\pi t}{168}
+\right]^\top .
+\end{equation}
+其中 $\overline D_{rk,t}^{(h)}=h^{-1}\sum_{j=1}^{h}D_{rk,t-j}$，有效训练起点固定为 $t=168$。
+
+% MMW-ID: CON-Q1-2
+验证预测固定从第 $2352$ 小时开始，只读取 $t\le2351$ 的真实观测；测试预测固定从第 $2376$ 小时开始，只读取 $t\le2375$ 的真实观测。预测区间内部需要滞后量时，仅使用本轮已经产生的递归预测值，从而避免未来真实需求泄漏。
+
+% MMW-ID: CON-Q1-9
+Huber-Ridge 候选被固定为
+\begin{equation}
+(\alpha,\delta_H/\sigma)\in
+\left\{
+(10^{-3},1),(10^{-3},2),(10^{-1},1),(10^{-1},2)
+\right\},
+\end{equation}
+其中 $\sigma=\max\{1,1.4826\,\mathrm{MAD}\}$，迭代上限为 $80$，收敛容差为 $10^{-4}$。训练窗内零方差特征先被删除，其余特征和目标被确定性标准化。候选按照验证 WAPE、MAE 及简单模型优先序选择；完全同分时依次优先采用 $24$ 小时基线、$168$ 小时基线和增强模型。
+
+% MMW-ID: CON-Q1-8
+误差指标采用
+\begin{align}
+\mathrm{MAE}&=\frac{1}{n}\sum_t|D_t-\widehat D_t|,\\
+\mathrm{RMSE}&=\sqrt{\frac{1}{n}\sum_t(D_t-\widehat D_t)^2},\\
+\mathrm{WAPE}&=\frac{\sum_t|D_t-\widehat D_t|}{\sum_tD_t}.
+\end{align}
+WAPE 只在真实需求总和为正时计算。相关系数和自相关系数只在成对有限样本数不少于 $2$ 且两列方差均为正时计算，否则输出结构化不可用状态。
+
+% MMW-ID: CON-Q1-10
+周期候选被限定为 $h=2,\ldots,336$。只有满足 $\operatorname{ACF}_h>0.3$ 且高于相邻滞后自相关值的局部峰才被保留；最大峰并列时取较小滞后，无合格候选时输出 \texttt{period\_unidentifiable}。
+
+% MMW-ID: OBJ-Q1
+预测器在固定起点验证集上按 WAPE、MAE 和简单模型优先序确定。实际数据包含 $50000.0$ 条有效任务，区域—类型 GPU 需求合计为 $1473614.0$ 等效 GPU。第 $2376$ 至 $2399$ 小时预测总量为 $13155.739194480688$ 等效 GPU，区域—类型序列测试 MAE 均值为 $25.836515435967883$ 等效 GPU，按规定规则识别出的周期序列数为 $0.0$。
+
+\subsubsection{全时域可行基础调度}
+
+% MMW-ID: CON-Q1-3
+基础调度按实时任务优先、最晚完成时刻升序、持续时间升序及任务编号升序构造。每个任务先尝试在到达时刻执行，并按网络时延和区域名的确定性顺序检查区域；弹性任务若在到达时刻无法放置，则从到达时刻至允许的最晚开工时刻扫描完整整数时域。只有所有允许位置均不满足容量约束时，才返回 \texttt{infeasible\_incumbent}。
+
+正式末端调度采用同期实际到达任务而非预测需求。所得第 $2376$ 至 $2399$ 小时调度覆盖 $538.0$ 个任务，其中 $68.0$ 个任务在第 $2400$ 至 $2405$ 小时完成结清。最后 $24$ 小时及收尾时域的区域—小时平均 GPU 利用率为 $37.066751251279804\%$。任务实际起止时间如图~\ref{fig:q1-gantt}所示。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.96\textwidth]{fig_1_q1_gantt.png}
+\caption{第2376至2399小时实际到达任务及收尾任务调度甘特图}
+\label{fig:q1-gantt}
+\end{figure}
+
+图~\ref{fig:q1-gantt}按照任务实际执行区间绘制，跨小时任务的条带保持连续，符合不可抢占约束。图中末端条带可延伸至收尾时域，但不会进入第 $2406$ 小时。甘特图与逐时 GPU-hour 复算采用相同重叠公式，因此任务级展示与容量核验保持一致。
+
+\subsection{问题二：碳感知任务调度}
+
+\subsubsection{能源平衡与评价指标}
+
+% MMW-ID: CON-Q2-1
+问题二继承式~\eqref{eq:overlap}至式~\eqref{eq:power-limit}的全部任务约束。完整初始方案按照实时优先、截止时间升序、持续时间升序和任务编号升序构造，并在满足时延的区域中优先选择较低网络时延位置。
+
+% MMW-ID: CON-Q2-2
+问题二不配置储能，区域逐时能源平衡为
+\begin{align}
+B_{rt}+R_{rt}^{use}&=P_{rt}^{fac},\\
+R_{rt}^{use}+S_{rt}+K_{rt}&=R_{rt}^{av}.
+\label{eq:q2-energy}
+\end{align}
+
+% MMW-ID: CON-Q2-3
+全部能源流均为非负量，并满足
+\begin{equation}
+B_{rt}\le P_{rt}^{grid,\max},
+\qquad
+S_{rt}\le\min\{R_{rt}^{av},P_{rt}^{export,\max}\}.
+\end{equation}
+由于区域购售电边界属于工程硬约束，问题二仅跨表采用储能信息中的最大购电和最大外送接入边界，不使用 SOC、充放电效率或售电限制字段。
+
+% MMW-ID: CON-Q2-4
+运行成本、累计碳排放和 GPU-hour 加权网络时延分别为
+\begin{align}
+C_{\mathrm{op}}
+&=\sum_{r,t}
+\left(\pi_{rt}^{buy}B_{rt}-\pi_{rt}^{sell}S_{rt}\right)\Delta t,\\
+E_{\mathrm{CO2}}
+&=\sum_{r,t}c_{rt}B_{rt}\Delta t,\\
+L_{\mathrm{net}}
+&=\frac{\sum_i\sum_{r,s}g_id_i\ell_{o_ir}x_{irs}}
+{\sum_i g_id_i}.
+\end{align}
+
+% MMW-ID: CON-Q2-5
+新能源利用率按
+\begin{equation}
+U_{\mathrm{RE}}=
+\frac{\sum_{r,t}(R_{rt}^{use}+S_{rt})\Delta t}
+{\sum_{r,t}R_{rt}^{av}\Delta t}
+\end{equation}
+计算，并仅在分母为正时报告。同时，直接消纳率、外送率和弃电率被分别复算，以避免统一利用率掩盖新能源流向差异。
+
+\subsubsection{有界确定性局部改进}
+
+% MMW-ID: OBJ-Q2
+问题二以全时域可行初始方案为起点，对高 GPU-hour 弹性任务进行成本、碳排放、剩余新能源、等待时间和网络时延联合评分。理论上的滚动 $\varepsilon$-约束模型只用于刻画目标和约束关系，实际计算采用确定性有界局部搜索。
+
+对候选位置形成的设施增量能量记为
+\begin{equation}
+\Delta E_t=\mathrm{PUE}_rg_ip_{k_i}^{GPU}\omega_{it}(s).
+\end{equation}
+价格、碳、新能源、等待和时延分量被无量纲化为 $z_C,z_E,z_R,z_W,z_L$，问题二评分固定为
+\begin{equation}
+\operatorname{score}_{Q2}
+=z_C+z_E-0.5z_R+0.5z_W+0.5z_L.
+\label{eq:q2-score}
+\end{equation}
+
+% MMW-ID: CON-Q2-8
+合同允许检查按 GPU-hour 排序的有界任务子集；实际运行受阶段预算控制，固定检查前 $4000$ 个高 GPU-hour 弹性任务。价格与碳强度中位数在搜索前预计算，候选按评分、开工时刻和区域名排序，并在找到首个可行改善位置后停止容量检查。
+
+% MMW-ID: CON-Q2-6
+每次局部移动前先移除任务原有占用，只有新位置评分严格改善且全部硬约束仍满足时才接受；若不存在更优可行位置，则原调度被恢复。搜索结束后，任务唯一性、时延、截止时间、GPU、IT 功率和设施功率均被再次作全时域复核。
+
+% MMW-ID: CON-Q2-7
+所得输出为单个经过验证的情景可行启发式候选，固定文件名中的候选表仅用于保持接口兼容，不被解释为已认证的完整非支配前沿。
+
+实际调度覆盖 $50000.0$ 个任务，局部搜索实际改善 $308$ 个任务，并有 $94.0$ 个末端任务在收尾时域完成。系统运行成本为 $-421711041.2695812$ 元，累计碳排放为 $188.7609768350316$ tCO2，GPU-hour 加权网络时延为 $5.348344374149683$ ms，新能源利用率为 $67.9603558786158\%$。约束验证结果为 $1.0$，对应最大容量残差为 $0.0$。逐时能源流如图~\ref{fig:q2-energy}所示。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.96\textwidth]{fig_2_q2_energy.png}
+\caption{问题二碳感知调度的逐时能源流}
+\label{fig:q2-energy}
+\end{figure}
+
+图~\ref{fig:q2-energy}反映了任务调度形成的设施负荷与新能源直供、外送及电网购电之间的逐时配合。能源流严格按照式~\eqref{eq:q2-energy}复算，售电不会由电网购电转化而来。由于运行成本为购电支出减售电收入，负成本只表示统一核算口径下售电收入超过购电支出，不能单独作为物理效率提高的证据。
+
+\subsection{问题三：固定负荷下的储能协同}
+
+\subsubsection{储能状态与能源守恒}
+
+% MMW-ID: OBJ-Q3
+问题三固定任务负荷，并根据区域购电价格四分位规则生成储能可行候选。成本、碳排放、峰值净购电和负荷波动均从最终能源流重新计算，不预设储能一定降低任一指标。
+
+% MMW-ID: CON-Q3-1
+设施负荷被固定为
+\begin{equation}
+P_{rt}^{fac}=
+\mathrm{PUE}_r\left(P_{rt}^{BAI}+P_{rt}^{NA}\right).
+\end{equation}
+
+% MMW-ID: CON-Q3-2
+负荷侧与新能源侧平衡分别为
+\begin{align}
+B_{rt}+R_{rt}^{use}+D_{rt}
+&=P_{rt}^{fac}+C_{rt}^{G},\\
+R_{rt}^{use}+C_{rt}^{RE}+S_{rt}+K_{rt}
+&=R_{rt}^{av},\\
+C_{rt}&=C_{rt}^{RE}+C_{rt}^{G}.
+\label{eq:q3-energy}
+\end{align}
+
+% MMW-ID: CON-Q3-3
+全部能源流保持非负；购电不超过附件给出的最大接入功率，外送不超过 \texttt{SellLimit\_MW} 与最大外送功率中较小者。缺失边界不被人为补造。
+
+储能绝对状态递推为
+\begin{align}
+E_{r,-1}&=E_r^0,\\
+E_{rt}
+&=E_{r,t-1}+\eta_r^cC_{rt}\Delta t
+-\frac{D_{rt}\Delta t}{\eta_r^d}.
+\label{eq:soc}
+\end{align}
+
+% MMW-ID: CON-Q3-4
+附件未提供 \texttt{MaxSOC\_MWh}，因此以 \texttt{StorageCapacity\_MWh} 作为最大可存储电量。物理边界为 $E_r^{min}\le E_{rt}\le E_r^{max}$，实际启发式进一步采用 $E_{rt}\ge E_r^0$ 的保守限制。
+
+% MMW-ID: CON-Q3-6
+终端状态满足
+\begin{equation}
+E_{r,2406}\ge E_r^0.
+\end{equation}
+
+% MMW-ID: CON-Q3-5
+每小时依次计算新能源直供、新能源充电、电网充电、储能放电、新能源外送与弃电。发生充电时放电量被固定为零，发生放电时充电量被固定为零；储能仅可释放高于初始 SOC 的能量，第 $2406$ 小时禁止放电。
+
+% MMW-ID: CON-Q3-10
+各区域完整购电价格序列的第 $25\%$ 和第 $75\%$ 分位数被分别记为 $p_{25}$ 与 $p_{75}$。低价时段允许在功率、SOC 空间和购电边界内充电，高价时段允许在负荷缺口、放电功率和保守 SOC 余量内放电。
+
+% MMW-ID: CON-Q3-7
+售电逐时只能来自当期可用新能源分流，电网购电转售被禁止。购电供负荷与新能源外送同时出现时，二者仍按分源守恒分别核算，不能被解释为储能协同效率的直接提升。
+
+% MMW-ID: CON-Q3-8
+净购电被定义为 $N_{rt}=B_{rt}-S_{rt}$。区域正式峰值和全系统绝对爬坡量由最终序列复算：
+\begin{align}
+\widehat P_r^{peak}
+&=\max_t\max\{0,N_{rt}\},\\
+\widehat V
+&=\sum_r\sum_{t=1}^{2406}|N_{rt}-N_{r,t-1}|.
+\end{align}
+
+% MMW-ID: CON-Q3-9
+该价格四分位储能规则属于情景可行启发式，其输出不附带优化器间隙，也不对成本、碳排放、峰值或波动的完整搜索空间最优性作认证。
+
+全区域累计充电量为 $2076.3154884465794$ MWh，累计放电量为 $0.0$ MWh，六区域终端 SOC 之和为 $3540.0$ MWh，累计购电量为 $31.597867090000022$ MWh。相较无储能基准，有储能减无储能的成本变化为 $304223.92909026146$ 元，表明本次可行规则并未产生成本下降；碳排放变化为 $0.0$ tCO2，六区域正式峰值之和变化为 $0.0$ MW，绝对爬坡量变化为 $247.77480083325645$ MW。储能运行结果如图~\ref{fig:q3-storage}所示。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.96\textwidth]{fig_3_q3_storage.png}
+\caption{问题三确定性储能规则下的充放电与SOC轨迹}
+\label{fig:q3-storage}
+\end{figure}
+
+图~\ref{fig:q3-storage}展示了储能功率与绝对 SOC 的逐时演化。累计放电量为零说明本次保守规则主要吸收新能源或低价电量，而没有释放高于初始状态的可用能量。约束验证结果为 $1.0$，说明 SOC 边界、充放电功率、效率、购售电边界及终端状态均满足既定要求，但该轨迹只代表保守可行域中的一个候选。
+
+\subsection{问题四：算—储—电联合候选及情景复算}
+
+\subsubsection{联合评价模型}
+
+% MMW-ID: CON-Q4-1
+问题四继承问题一的任务唯一性、到达、时延、截止时间、GPU、IT 功率和设施功率约束，并继承问题三的能源守恒、SOC 递推、充放电互斥、购售电边界及终端状态约束。
+
+% MMW-ID: OBJ-Q4
+实际实施由任务侧有界局部改进和能源侧确定性储能规则组成。任务侧评分固定为
+\begin{equation}
+\operatorname{score}_{Q4}
+=z_C+1.5z_E-z_R+z_W+0.5z_L.
+\label{eq:q4-score}
+\end{equation}
+完整初始方案先被保持可行，再对高 GPU-hour 弹性任务的候选区域与开工时刻进行确定性改进，随后从初始 SOC 出发重新生成能源流。
+
+% MMW-ID: CON-Q4-3
+每次任务移动均以全时域可行方案为基础，移动失败时恢复原位置。能源侧从 $E_r^0$ 逐时向前递推，不复用与新任务负荷不相容的旧 SOC 轨迹。
+
+% MMW-ID: CON-Q4-2
+运行成本、碳排放、网络时延、新能源利用率、服务质量代理和区域峰值净购电均从同一完整候选复算。对弹性任务，服务质量代理定义为
+\begin{equation}
+Q_{\mathrm{service}}
+=1-
+\frac{\sum_{i\in\mathcal I^{flex}}(s_i-a_i)}
+{\sum_{i\in\mathcal I^{flex}}
+[\min(f_i^{late},2406)-d_i-a_i]},
+\end{equation}
+并只在分母为正时计算。该指标仅刻画题内可观测的等待余量，不被解释为用户满意度。
+
+% MMW-ID: CON-Q4-8
+实际基准局部搜索固定检查前 $4000$ 个高 GPU-hour 弹性任务，评分采用式~\eqref{eq:q4-score}。阶段累计截止依次为 $45$、$70$、$130$、$160$、$235$、$270$、$285$ 和 $300$ 秒，排序后的候选在发现首个可行改善位置后停止容量检查。
+
+% MMW-ID: CON-Q4-4
+七个预声明情景依次为基准、碳收紧 $10\%$、峰谷差缩放 $0.8$、新能源缩放 $0.8$、碳收紧 $20\%$、峰谷差缩放 $1.2$ 和新能源缩放 $1.2$。电价情景采用
+\begin{equation}
+\pi_{rt}^{buy,\xi}
+=\bar\pi_r+\kappa_\xi(\pi_{rt}^{buy}-\bar\pi_r),
+\end{equation}
+新能源情景采用 $R_{rt}^{av,\xi}=\mu_\xi R_{rt}^{av}$。碳情景从同一完整初始方案出发，对高 GPU-hour 弹性任务使用
+\begin{equation}
+(w_E,\kappa_C)\in
+\{(2,200),(4,500),(8,1000),(16,2000)\},
+\end{equation}
+并以 $\pi_{rt}^{buy}+\kappa_Cc_{rt}$ 驱动储能排序。合同允许检查前 $2000$ 个弹性任务，实际各碳权重情景受阶段预算约束，固定检查前 $500$ 个高 GPU-hour弹性任务。
+
+% MMW-ID: CON-Q4-9
+碳情景只有在完整复算后达到相应硬目标时才能标记为完成；若四级候选均未达到目标，则返回 \texttt{target\_infeasible\_within\_declared\_heuristic}，该行不得进入可行情景或候选权衡集合。
+
+% MMW-ID: CON-Q4-5
+全部正式输出必须为有限值，并通过任务、能源、SOC 与指标残差的完整复核。结果可信度被限定为 \texttt{scenario-feasible}，连续参数和任务位置的更大搜索空间未被穷尽。
+
+% MMW-ID: CON-Q4-6
+正式搜索与计算在第 $285$ 秒前截止，最后 $15$ 秒只用于完整残差验证和文件写出。任何必答阶段未完成时，整次运行被判定为失败，部分输出不会冒充完整结果。
+
+% MMW-ID: CON-Q4-7
+固定文件 \texttt{q2\_pareto.csv} 与 \texttt{q4\_pareto.csv} 仅为候选比较兼容表，字段固定包含 \texttt{ParetoCertified=false} 与 \texttt{Credibility=scenario-feasible}。因此图~\ref{fig:q4-tradeoff}被称为候选权衡图，而非已认证的完整前沿。
+
+推荐联合候选发生跨区域迁移的任务数为 $94.0$，储能累计充放电吞吐量为 $2076.31548844658$ MWh，累计购电量为 $1.0062499999997954$ MWh。运行成本为 $-421426260.17689997$ 元，碳排放为 $0.2384812499999515$ tCO2，GPU-hour 加权网络时延为 $5.261793096373322$ ms，服务质量代理为 $99.94443144071555\%$，新能源利用率为 $67.97312488530743\%$，六区域正向峰值净购电之和为 $1.0062499999997954$ MW。共有 $5.0$ 个候选通过完整有限值检查，候选关系如图~\ref{fig:q4-tradeoff}所示。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.96\textwidth]{fig_4_q4_pareto.png}
+\caption{问题四通过完整复核的候选权衡关系}
+\label{fig:q4-tradeoff}
+\end{figure}
+
+图~\ref{fig:q4-tradeoff}展示了有限候选之间成本、碳排放及其他指标的折中关系。图中的每个点均来源于同一完整任务—能源候选的重新计算，因而不会混用不同任务集或不同能源轨迹。候选数只反映预声明启发式和运行预算内通过检查的方案数量，不能据此推断未搜索决策空间的形状。
+
+\subsection{实际实现偏差与可信度边界}
+
+% MMW-LIMITATION: D1
+理论滚动 $\varepsilon$-约束 MILP 未被实际执行；其作用仅限于说明变量、约束和多目标关系，正式数值全部来自确定性启发式。
+
+% MMW-LIMITATION: D2
+候选兼容表中的 \texttt{ParetoCertified} 被固定为 \texttt{false}，候选权衡图只比较已生成并通过复核的有限方案。
+
+% MMW-LIMITATION: D3
+更大决策空间的最优性没有得到认证，本文只保证预声明有限候选中的可行结果。
+
+% MMW-LIMITATION: D4
+Huber 拟合前，训练窗内零方差特征被删除，其余既有特征和目标被确定性标准化。
+
+% MMW-LIMITATION: D5
+当 Huber 设计矩阵秩不足、目标为常数、拟合未收敛或预测值非有限时，该增强候选被丢弃。
+
+% MMW-LIMITATION: D6
+验证阶段与正式训练阶段的 \texttt{ConvergenceWarning} 均被显式捕获，警告不会被静默忽略。
+
+% MMW-LIMITATION: D7
+问题二和问题四的基准局部搜索实际固定检查前 $4000$ 个高 GPU-hour 弹性任务，未检查任务保持初始可行决策。
+
+% MMW-LIMITATION: D8
+四个碳权重情景分别固定检查前 $500$ 个高 GPU-hour 弹性任务，因此碳约束响应只在该有界集合内搜索。
+
+% MMW-LIMITATION: D9
+区域价格与碳强度中位数在局部搜索开始前预计算，避免候选接受过程反向改变评分尺度。
+
+% MMW-LIMITATION: D10
+候选按评分排序后，在找到第一个满足容量约束的改善位置时提前停止检查，因而采用的是确定性首个可行改善规则。
+
+% MMW-LIMITATION: D11
+增强预测候选失败时，下一名可执行的预声明候选被采用，不临时增加模型、超参数或决策变量。
+
+% MMW-LIMITATION: L1
+正式结果的最高可信等级为 \texttt{scenario-feasible}，其含义是完整候选满足已声明硬约束。
+
+% MMW-LIMITATION: L2
+问题二与问题四只改进按 GPU-hour 排序的有界任务子集，未搜索任务保持可行初始安排。
+
+% MMW-LIMITATION: L3
+碳目标只在四级预声明启发式候选中搜索，失败状态只说明该有限搜索范围内未找到达标候选。
+
+% MMW-LIMITATION: L4
+完整非支配前沿未被认证，固定文件中的候选表只承担结果接口与有限方案比较功能。
+
+% MMW-LIMITATION: L5
+Huber 候选只有同时通过矩阵秩、有限值、验证窗收敛和正式训练窗收敛门禁时才会被采用。
+
+确定性实现基于 NumPy、pandas 与 scikit-learn，随机种子固定为 $20260807$。整体过程包含输入校验、固定起点预测、全时域可行初始方案、有界局部改进、确定性储能规则、七情景重算和向量化指标复核。相关建模依据采用稳健回归、时间序列验证、多目标决策和储能状态建模的通用理论\cite{huber1964robust,hyndman2018forecasting,miettinen1999multiobjective,lindenberger2017energy}。

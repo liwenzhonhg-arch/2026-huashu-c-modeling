@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "budget_seconds": 30,
+  "checks": [
+    {
+      "id": "PILOT-DATA-ROWS",
+      "passed": true,
+      "actual": 50000,
+      "threshold": "workload rows > 0"
+    },
+    {
+      "id": "PILOT-FINITE-DEMAND",
+      "passed": true,
+      "actual": "all_finite",
+      "threshold": "100 percent finite"
+    },
+    {
+      "id": "PILOT-TIME-COVERAGE",
+      "passed": true,
+      "actual": 2407,
+      "threshold": "2407 hours per region"
+    },
+    {
+      "id": "PILOT-LATENCY-COVERAGE",
+      "passed": true,
+      "actual": 36,
+      "threshold": "36 directed pairs"
+    }
+  ]
+}

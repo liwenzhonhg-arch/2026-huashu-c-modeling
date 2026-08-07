@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "Huber-岭回归在未截断线性输出上训练，验证后用0–2375小时重拟合；2376–2399小时实际任务采用启发式热启动的MILP。；无储能分源 ε-约束滚动 MILP；固定窗口、冻结与截止保护规则在正文给出，并服从 runtime。；固定题面基线负荷的储能 MILP；与无储能和附件基准比较，服从共享运行预算。；联合 ε-约束 Pareto 滚动 MILP和有限情景分析；所有参考解、ε点和情景共享 runtime。",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "预测与调度是两个顺序独立模型。预测训练：\\min_{\\beta}\\sum\\rho_\\delta(D_{rkt}-y_{rkt}^{raw})+\\lambda\\sum\\|\\beta_{rk}\\|_2^2，其中 y^{raw}=\\beta_0+\\beta^Tz；仅输出时取 \\widehat D=\\max(0,y^{raw})。调度：\\min \\sum[(s-a_i)/W_{max}+\\omega_L\\ell_{o_ir}/L_{max}]x_{irs}，正量程由候选集合计算；零量程项删除。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "\\min C_{op}=\\sum_{r,t\\in\\mathcal T_E}(c_{rt}^{buy}I_{rt}-c_{rt}^{sell}X_{rt}^R)\\Delta t",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "\\min C_{op}\\ \\text{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ 0\\le P_r^{peak}\\le\\varepsilon_{P,r},\\ V_r\\le\\varepsilon_{V,r}",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "\\min C_{op}\\ \\text{s.t.}\\ E_{CO2}\\le\\varepsilon_C,\\ \\bar L\\le\\varepsilon_L,\\ Q_{service}\\ge\\varepsilon_Q,\\ U_{RE}\\ge\\varepsilon_U,\\ 0\\le P_r^{peak}\\le\\varepsilon_{P,r}；不适用指标按 definitions 删除。",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "\\sum_{r,s\\in\\mathcal S_{ir}}x_{irs}=1,\\ x_{irs}\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "\\mathcal S_{ir}=\\{s\\in\\mathbb Z:s\\ge a_i,\\ s+d_i\\le\\min(f_i,2406),\\ \\ell_{o_ir}\\le\\ell_i^{max}\\};\\ 实时任务另有 s=a_i",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "\\sum_{i,s}g_i[H_{it}(s)/\\Delta t]x_{irs}\\le G_r^{max},\\ t\\in\\mathcal T_J",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "L_{rt}^{IT}\\le P_r^{IT,max},\\ \\phi_rL_{rt}^{IT}\\le P_r^{F,max},\\ t\\in\\mathcal T_J",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "energy_q2",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "0\\le U_{rt},X_{rt}^R,W_{rt};\\ 0\\le I_{rt}\\le I_{rt}^{max};\\ X_{rt}^R\\le X_{rt}^{max}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "E_{CO2}=\\sum\\kappa_{rt}I_{rt}\\Delta t\\le\\varepsilon_C",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "\\bar L\\le\\varepsilon_L；renewable_status 适用时 U_{RE}=\\sum(U+X^R)\\Delta t/R_\\Sigma\\ge\\varepsilon_U",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "q1 的全部任务唯一执行、即时开工、时延、截止、GPU、IT及设施功率约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "L_{rt}^{F}=\\phi_r(L_{rt}^{BAI}+L_{rt}^{NA})",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "energy_q34",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "soc",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "S_r^{min}\\le S_{rt}\\le S_r^{max};\\ S_{r,2406}\\ge S_r^0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "C_{rt}^R+C_{rt}^G\\le C_r^{max}z_{rt}^c;\\ D_{rt}\\le D_r^{max}(1-z_{rt}^c);\\ z_{rt}^c\\in\\{0,1\\}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "N_{rt}=I_{rt}-X_{rt}^R;\\ N_{rt}\\le P_r^{peak};\\ P_r^{peak}\\ge0",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "q_{rt}\\ge\\pm(N_{rt}-N_{r,t-1});\\ V_r=\\sum_{t=1}^{2406}q_{rt}",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "q1 的全部任务约束与 task_load",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "energy_q34 与 soc",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "service",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "情景 \\omega 只替换预先固定的 c_{rt}^{buy,(\\omega)},c_{rt}^{sell,(\\omega)},R_{rt}^{(\\omega)}，其余输入保持一致",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "所有能源约束覆盖 t\\in\\mathcal T_E；任务占用仅覆盖 t\\in\\mathcal T_J",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

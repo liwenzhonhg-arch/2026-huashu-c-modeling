@@ -1,0 +1,16 @@
+{
+  "stage": "paper",
+  "version": 2,
+  "created_at": "2026-08-08T00:21:29.981328",
+  "model_used": "gpt-5.6-sol; typesetter=gpt-5.6-sol",
+  "tokens_input": 195487,
+  "tokens_output": 2751,
+  "upstream_versions": {
+    "analyze": 1,
+    "eda": 1,
+    "research": 1,
+    "model": 29,
+    "code": 5,
+    "solve": 2
+  }
+}

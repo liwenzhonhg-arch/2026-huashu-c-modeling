@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "local_references": [],
+  "hmml_index_loaded": true,
+  "external_search_performed": false,
+  "external_queries": [],
+  "external_sources": [],
+  "external_errors": [],
+  "unresolved_searches": [
+    "大规模不可抢占异构GPU任务调度的候选变量筛选与滚动时域MILP方法",
+    "数据中心碳感知任务调度中ε约束法与Pareto前沿构造案例",
+    "储能优化中购电与新能源外送并存时的能源流分源建模方法",
+    "含终端SOC约束的储能等效循环次数与退化成本计算方法",
+    "时间序列WAPE在零值和间歇性需求场景下的评价规范"
+  ]
+}

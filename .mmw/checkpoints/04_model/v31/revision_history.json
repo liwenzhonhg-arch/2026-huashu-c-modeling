@@ -1,0 +1,79 @@
+[
+  {
+    "round": 0,
+    "source_version": 29,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "下游反馈",
+        "summary": "review v1确认基础可行域错误，必须定向修订model v29并重算四问。GPU_Demand是任务运行时持续占用的等效GPU，49238/50000个任务时长非整小时；现行GPU_Demand×overlap只约束GPU-hour平均量。因StartHour为整数，对每个任务触及的整数小时h（StartHour<=h<FinishHour）必须按完整GPU_Demand检查瞬时GPU；AI IT瞬时功率按GPU_Demand×任务功率映射检查，叠加NonAI后检查Max_IT_Power与PUE设施功率。能源成本、碳与可再生能量流仍按小时重叠时长计MWh。独立复核：q2瞬时GPU/IT/设施分别超限159/99/99个区域小时，最大超211 GPU/16.481 MW/22.250 MW；q4分别151/96/96，最大GPU超265。新方法合同必须要求输出瞬时并发峰值和残差，约束验证不得沿用旧结果。另要求q4七情景逐项输出状态、实际检查数、迁移数、成本、碳、时延、服务代理、新能源利用率、峰值和约束结果；carbon10/20未达标必须标target_infeasible_within_declared_heuristic并排除候选。"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "可求解性",
+        "summary": "预测模型完成验证选型后未按题面要求使用截至2375小时的数据重新训练，最终测试流程与指定口径不一致。"
+      },
+      {
+        "category": "约束",
+        "summary": "候选集合对所有任务直接使用LatestFinishHour；实时任务该字段若为空会导致min运算和候选集合不可计算。"
+      },
+      {
+        "category": "约束",
+        "summary": "模型假设要求必要时禁止同时购电和外送，但问题三、四的正式方程未落实该互斥条件，存在能源套利风险。"
+      },
+      {
+        "category": "约束",
+        "summary": "最后24小时调度未明确计入2376小时前已开工但仍占用资源的存量任务，可能低估容量占用。"
+      },
+      {
+        "category": "公式",
+        "summary": "不同量纲约束的原始残差被统一取最大值，缺少逐类尺度归一化，综合残差口径不严谨。"
+      },
+      {
+        "category": "可观测性",
+        "summary": "模型阶段未运行代码却引用旧版具体超限计数；若无可追溯下游证据，应改为待代码阶段复核。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 94737,
+    "tokens_output": 15197
+  },
+  {
+    "round": 2,
+    "severity": "block",
+    "issues": [
+      {
+        "category": "量纲",
+        "summary": "式（43）—（47）及MAD尺度把无量纲常数1与元、tCO2、MWh、小时、毫秒或GPU量比较，导致局部评分不再严格无量纲，排序会随单位选择改变。"
+      },
+      {
+        "category": "约束",
+        "summary": "问题二缺少购电与新能源外送互斥，允许购电供负荷同时出售本地新能源，可能形成套利并使成本与新能源分配结论失效。"
+      },
+      {
+        "category": "可求解性",
+        "summary": "问题三、四的分位数启发式没有完整定义能源流量、终端SOC可达性和互斥变量的构造，不能保证产生满足全部混合整数约束的可行策略。"
+      },
+      {
+        "category": "公式",
+        "summary": "问题二成本评分未计入新能源替代、弃电和售电机会成本，只能作为候选排序代理，不能解释为真实运行成本增量。"
+      },
+      {
+        "category": "参数",
+        "summary": "多目标评分权重和碳价系数可以作为预声明启发式参数，但缺少尺度解释与敏感性分析，不能支持一般性的Pareto最优结论。"
+      },
+      {
+        "category": "可观测性",
+        "summary": "模型正确避免了无真实标签情况下的准确率、召回率和混淆矩阵，也未在代码执行前虚构拟合或验证结果；服务质量仍须明确标记为代理指标。"
+      }
+    ],
+    "review_source": "llm-verifier",
+    "tokens_input": 146432,
+    "tokens_output": 32930
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "attempt": 1,
+    "success": true,
+    "timed_out": false,
+    "error_summary": "",
+    "stdout_tail": "结果: 正式求解开始\n结果: 问题二完整复算候选上限=8\n结果: 输入读取完成, 耗时=4.840秒\n结果: 输入校验完成, 耗时=4.850秒\n结果: 问题一预测完成, 耗时=5.318秒\n结果: 问题一可行构造完成, 任务数=50000, 耗时=8.982秒\n结果: 问题二有限搜索完成, 检查候选数=8, 耗时=59.725秒\n结果: 问题三储能搜索完成, 检查候选数=13, 耗时=112.674秒\n结果: 问题四任务候选数=2, 情景候选评价数=24, 耗时=227.691秒\n结果: 问题二运行成本=-419658147.707598\n结果: 问题二碳排放=14.391602\n结果: 问题二局部搜索状态=searched_no_improvement\n结果: 问题二检查候选数=8\n结果: 问题三运行成本=-419516103.810220\n结果: 问题三储能搜索状态=searched_no_improvement\n结果: 问题三检查候选数=13\n结果: 问题四联合运行成本=-419353923.778507\n结果: 问题四联合搜索状态=searched_no_improvement\n结果: 约束满足=True\n结果: full_horizon_feasible=True\n结果: non_Pareto=true\n结果: global_optimality_certificate=false\n",
+    "stderr_tail": ""
+  }
+]

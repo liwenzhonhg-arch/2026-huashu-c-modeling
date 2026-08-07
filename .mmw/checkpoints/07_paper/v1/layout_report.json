@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "accepted": false,
+  "rounds": 2,
+  "deterministic_changes": [
+    "sections/abstract.tex",
+    "sections/problem_restatement.tex",
+    "sections/problem_analysis.tex",
+    "sections/assumptions.tex",
+    "sections/symbols.tex",
+    "sections/model_solution.tex",
+    "sections/sensitivity.tex",
+    "sections/evaluation.tex"
+  ],
+  "violations": [
+    "sections/symbols.tex 的数值、引用、标签、图表或文献键发生变化"
+  ]
+}

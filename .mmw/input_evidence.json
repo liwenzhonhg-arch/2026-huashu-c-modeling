@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "problem": {
+    "file": "C题 面向算电协同的多目标调度优化研究.pdf",
+    "sha256": "0adc971ab421a7de5e3dd1c19c8540479b16977893edf4af13486e88410622c9",
+    "text_extracted": true
+  },
+  "native_shape_text": {
+    "present": false,
+    "evidence_level": "native-shape-text"
+  },
+  "visual_assets": [],
+  "visual_interpretation": {
+    "schema_version": 1,
+    "provider_supports_images": false,
+    "evidence": [],
+    "requires_human_confirmation": false,
+    "confirmation_items": [],
+    "status": "no_assets",
+    "reason": "题目未提取到受支持图片资产"
+  },
+  "errors": []
+}

@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "验证集按WAPE、MAE、RMSE及固定候选顺序选模，随后用0–2375重训；前序跨界承诺审计通过后求末端MILP。；先求四个唯一锚点，再按封闭插值生成五条168小时滚动MILP路径；只保留完整可行候选，报告global_optimality_certificate=false。；在共享300秒预算内先求基准与必要锚点，再生成最多五条封闭epsilon路径；未完成候选丢弃，完整轨迹复算，global_optimality_certificate=false。；先求统一基准和必要单目标锚点，再按封闭公式生成五条168小时滚动联合MILP路径；完整复算后选折中解并重求情景；共享300秒预算，global_optimality_certificate=false。",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "预测最小化 sum_{r,k,t} rho_delta((D_{rkt}-Dhat_{rkt})/sigma_{rk})+lambda||beta||_2^2，delta∈{0.5,1,1.5,2}，lambda∈{0,10^-4,10^-3,10^-2,10^-1,1}；末端调度词典序最小化[sum_i(s_i-a_i),sum_{i,r,s}ell_{o_i r}x_{irs},Umax]。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "对a∈{0,0.25,0.5,0.75,1}最小化C_op；约束E_CO2<=E_loose-a(E_loose-E_ideal)，L_net<=L_loose-a(L_loose-L_ideal)，U_RE>=U_loose+a(U_ideal-U_loose)。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "对a∈{0,0.25,0.5,0.75,1}词典序最小化[C_op,sum_r P_r^{peak}+sum_{r,t}z_{rt}]，并采用E、各区域P、各区域V的锚点插值阈值。",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "对a∈{0,0.25,0.5,0.75,1}最小化C_op，采用E、L、1-Q、1-U及各区域P的有序锚点插值上界epsilon_j(a)=loose_j-a(loose_j-ideal_j)。",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "h_i=d_i/60，F_i=min(f_i^{max},2406)，Omega_i={(r,s):ell_{o_i r}<=ell_i^{max},s>=a_i,s+h_i<=F_i}；实时任务另有s=a_i；sum_{(r,s)in Omega_i}x_{irs}=1。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "omega_{it}(s)=max(0,min(t+1,s+h_i)-max(t,s))，chi_{it}(s)=1{omega_{it}(s)>0}。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "瞬时容量：sum_{i,s}g_i chi_{it}(s)x_{irs}<=G_r^{max}；L_{rt}^{AI,cap}=sum_{i,s}g_i p_{k_i}^{GPU}chi_{it}(s)x_{irs}；L_N+L_AI_cap<=P_IT_max；pi_r(L_N+L_AI_cap)<=P_F_max。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "小时结算：E_{rt}^{AI}=sum_{i,s}g_i p_{k_i}^{GPU}omega_{it}(s)x_{irs}，L_{rt}^{AI,avg}=E_{rt}^{AI}/Delta t；omega只用于GPU-hour和MWh，不用于瞬时容量。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "训练、验证、测试区间为0–2351、2352–2375、2376–2399；sigma=max(训练标准差,1 GPU)；WAPE分母为0时输出不可用并排除该分组WAPE排序。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "任务候选、唯一执行、实时即时开工、截止、时延及chi瞬时容量约束与q1完整定义一致。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "E_AI=sum g_i p_k omega x；L_AI_avg=E_AI/Delta t；L_F_avg=pi_r(L_N+L_AI_avg)，能源平衡仅使用L_F_avg：G_buy+R_use=L_F_avg。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "无储能：R_ch=G_ch=C=D=0；R_use+R_sell+R_curt=R_av；G_sell=R_sell。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "E_r^{max}=min(MaxGridExport_r,SellLimit_r)；0<=G_buy<=I_r^{max}y_grid；0<=G_sell<=E_r^{max}(1-y_grid)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "C_op=sum(c_buy G_buy-c_sell G_sell)Delta t；E_CO2=sum kappa G_buy Delta t；L_net=sum g_i h_i ell x/sum g_i h_i；U_RE=sum(R_use+R_sell)Delta t/sum R_av Delta t。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "统一硬约束成本最优基准b0按[C_op,E_CO2,L_net,-U_RE,任务ID-区域-开工序]词典序唯一化；E^0=E_CO2(b0)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-7",
+        "meaning": "E_loose=E_CO2(b0)，E_ideal为硬约束下碳最优锚点排放；L_loose=L_net(b0)，L_ideal为时延最优锚点时延；U_loose=U_RE(b0)，U_ideal为新能源利用率最优锚点利用率。若方向颠倒则取对应两值的min/max形成有序端点；锚点失败则结构化停止。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "固定小时平均设施负荷L_F_avg=pi_r(L_BAI+L_N)，且附件给定负荷须满足IT与设施功率硬上限，否则结构化停止。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "R_use+R_ch+R_sell+R_curt=R_av；G_load+R_use+D=L_F_avg；C=R_ch+G_ch；G_buy=G_load+G_ch；G_sell=R_sell。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "E_r^{max}=min(MaxGridExport_r,SellLimit_r)；购售互斥和充放互斥均用二元变量。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "S_{r,-1}=S_r^0；S_{rt}=S_{r,t-1}+eta_c C Delta t-D Delta t/eta_d；S_min<=S<=S_max；S_{r,2406}>=S_r^0。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "N=G_buy-G_sell；P_peak=max_t N；V=sum_{t=1}^{2406}|N_t-N_{t-1}|，通过线性辅助变量建模并从最终N轨迹复算。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "成本最优硬约束锚点b3给出各指标loose值；E、每个P_r、每个V_r分别单目标最优得到ideal值；epsilon_j(a)=loose_j-a(loose_j-ideal_j)，端点按min/max有序化；任一必要锚点失败则结构化停止。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "U_RE=sum(R_use+R_ch+R_sell)Delta t/sum R_av Delta t；EFC=sum(C+D)Delta t/(2B_r)；对应分母不正时输出不可用或不适用。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "任务瞬时容量使用chi；小时AI电量E_AI=sum g_i p_k omega x，小时平均设施负荷L_F_avg=pi_r(L_N+E_AI/Delta t)，能源平衡、成本和碳排仅使用该小时平均量。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "能源、储能、SOC、购售互斥、充放互斥与q3定义一致；E_r^{max}=min(MaxGridExport_r,SellLimit_r)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "F_i=min(f_i^{max},2406)，W_i^{max}=F_i-a_i-h_i；Q_wait仅在sum W_i^{max}>0时计算，否则标记不可计算并排除。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "Q_RT、Q_SLA、Q_deadline、Q_wait仅在各自分母为正时进入J_def；Q_service为J_def等权平均，J_def为空时退出服务质量约束及排序。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "统一基准b4是在全部题面硬约束下按[C_op,E_CO2,L_net,1-Q_service,1-U_RE,sum P_peak,任务ID-区域-开工序]词典序唯一化的成本最优方案；E^0=E_CO2(b4)。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "以b4产生loose端点；分别最小化E、L、1-Q、1-U及每个P_r产生ideal端点；按方向校正为有序端点并插值。必要指标不可计算时从路径和折中排序删除；必要锚点失败时结构化停止。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-7",
+        "meaning": "碳情景使用E_CO2<=(1-rho_C)E^0；价格与新能源情景均相对同一b4比较。",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-8",
+        "meaning": "候选损失(C_op,E_CO2,L_net,1-Q_service,1-U_RE,P_1,...,P_6)仅对可计算且候选极差为正的维度归一化；无有效维度时按成本、碳、时延词典序选择。",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "",
+    "class": "unclassified",
+    "solver": "",
+    "randomized": false,
+    "seed": null,
+    "covers": [],
+    "deviations": [],
+    "acceptable_termination_statuses": [],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": null,
+    "limitations": []
+  },
+  "bindings": {
+    "model_version": 0,
+    "code_version": 0,
+    "solve_version": 0,
+    "solution_sha256": "",
+    "results_sha256": ""
+  }
+}

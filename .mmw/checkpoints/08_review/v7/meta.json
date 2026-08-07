@@ -1,0 +1,17 @@
+{
+  "stage": "review",
+  "version": 7,
+  "created_at": "2026-08-08T03:49:05.479174",
+  "model_used": "gpt-5.6-sol",
+  "tokens_input": 48373,
+  "tokens_output": 2844,
+  "upstream_versions": {
+    "analyze": 1,
+    "eda": 1,
+    "research": 1,
+    "model": 41,
+    "code": 8,
+    "solve": 5,
+    "paper": 8
+  }
+}

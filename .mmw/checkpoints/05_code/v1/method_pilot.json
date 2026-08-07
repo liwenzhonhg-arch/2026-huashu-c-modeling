@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "budget_seconds": 30,
+  "checks": [
+    {
+      "id": "pilot_read_GPU_information",
+      "passed": true,
+      "actual": 6,
+      "threshold": "至少读取1条真实记录且字段完整"
+    },
+    {
+      "id": "pilot_read_network_latency",
+      "passed": true,
+      "actual": 36,
+      "threshold": "至少读取1条真实记录且字段完整"
+    },
+    {
+      "id": "pilot_read_power_mapping",
+      "passed": true,
+      "actual": 3,
+      "threshold": "至少读取1条真实记录且字段完整"
+    },
+    {
+      "id": "pilot_read_region_time_data",
+      "passed": true,
+      "actual": 48,
+      "threshold": "至少读取1条真实记录且字段完整"
+    },
+    {
+      "id": "pilot_read_storage_information",
+      "passed": true,
+      "actual": 6,
+      "threshold": "至少读取1条真实记录且字段完整"
+    },
+    {
+      "id": "pilot_read_workload_trace",
+      "passed": true,
+      "actual": 512,
+      "threshold": "至少读取1条真实记录且字段完整"
+    },
+    {
+      "id": "pilot_q1_real_demand",
+      "passed": true,
+      "actual": 461,
+      "threshold": "真实任务数值有限、持续时间为正且聚合需求非负"
+    },
+    {
+      "id": "pilot_q1_latency_candidates",
+      "passed": true,
+      "actual": 36,
+      "threshold": "36个有向区域对且时延有限非负"
+    },
+    {
+      "id": "pilot_q3_storage_bounds",
+      "passed": true,
+      "actual": 1,
+      "threshold": "全部初始SOC位于边界内且充放电效率属于(0,1]"
+    }
+  ]
+}

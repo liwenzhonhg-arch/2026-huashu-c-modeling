@@ -1,0 +1,122 @@
+{
+  "rework_stage": "paper",
+  "items": [
+    {
+      "check": "问题一硬性交付物：任务调度甘特图",
+      "status": "fail",
+      "note": "正文明确提出应绘制甘特图，但目前只给出12条代表性任务记录和区域GPU利用率图，不能直观展示最后24小时538个任务的实际起止、并行关系及跨越2400小时的结清过程。应依据现有完整任务轨迹生成可读的分组或分面甘特图，并在正文中分析。",
+      "files": [
+        "sections/model_solution.tex"
+      ]
+    },
+    {
+      "check": "四个子问题核心结果完整性",
+      "status": "pass",
+      "note": "问题一给出预测误差和末端调度规模，问题二给出成本、碳排放、时延、新能源利用率与迁移数，问题三给出储能前后成本、SOC及削峰结果，问题四给出联合基准与15个情景结果。",
+      "files": []
+    },
+    {
+      "check": "数值结果可追溯性",
+      "status": "pass",
+      "note": "数值审计提取的416个数值全部能够匹配求解产出，不存在高置信缺出处或低置信可疑数值；清单同时列出了结果JSON、逐时轨迹和约束审计文件。",
+      "files": []
+    },
+    {
+      "check": "数学模型与启发式实现差异披露",
+      "status": "warning",
+      "note": "论文如实披露未执行预测候选选模、冲突回溯、问题二局部改进、问题三动作搜索及问题四共享交替邻域搜索，因此不据此判定模型错误；但这些差异显著削弱了多目标优化和情景响应结论，只能支持启发式可行性。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/evaluation.tex"
+      ]
+    },
+    {
+      "check": "约束审计与验证逻辑",
+      "status": "warning",
+      "note": "论文提供全时域约束残差审计、代理验证和灵敏度分析，且未虚构不可观测的最优标签；但当前验证主要属于程序内部一致性验证，缺少独立复算摘要、关键残差最大值及容差表。",
+      "files": [
+        "sections/sensitivity.tex",
+        "sections/model_solution.tex"
+      ]
+    },
+    {
+      "check": "预测模型验证与结果报告",
+      "status": "warning",
+      "note": "给出了MAE和RMSE，但未报告分区域、分任务类型误差、WAPE可用状态、基线对比及验证区间选模结果；固定Huber模型的优越性尚未得到充分证据支持。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/evaluation.tex"
+      ]
+    },
+    {
+      "check": "储能策略有效性",
+      "status": "warning",
+      "note": "问题三候选只充电不放电，导致成本增加且碳排放、峰值和爬坡均无改善。论文已诚实说明该结果仅描述规则候选，但尚不能体现储能协同调度模型的决策价值。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/evaluation.tex"
+      ]
+    },
+    {
+      "check": "情景分析充分性",
+      "status": "warning",
+      "note": "15个情景均固定任务方案，碳约束场景未执行碳定向搜索，随机波动仅采用一个固定种子；现有结果属于固定策略复算，不能充分说明联合调度对外部变化的适应性。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/evaluation.tex",
+        "sections/sensitivity.tex"
+      ]
+    },
+    {
+      "check": "公式、符号和单位一致性",
+      "status": "warning",
+      "note": "主要符号和能源平衡关系基本一致，但SOC以小时2406运行后状态表示时，应进一步明确索引对应2406至2407时段还是终端结算点；成本公式中的功率—电量换算及碳强度单位也应在公式后明确说明。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/symbols.tex"
+      ]
+    },
+    {
+      "check": "图表规范与分析",
+      "status": "warning",
+      "note": "现有图表均有编号、标题和正文解释，但缺少规定的任务甘特图；情景表中碳排放、时延和峰值列未在表头逐一标注单位，部分灵敏度数值保留过多小数。",
+      "files": [
+        "sections/model_solution.tex",
+        "sections/sensitivity.tex"
+      ]
+    },
+    {
+      "check": "参考文献与数据来源",
+      "status": "warning",
+      "note": "参考文献条目格式基本统一，但仅有3条方法文献，对Huber回归实现、启发式调度和储能建模的文献支撑偏弱；附件数据及字段来源也应在正文或数据说明中明确。",
+      "files": [
+        "references.bib",
+        "sections/model_solution.tex"
+      ]
+    },
+    {
+      "check": "附录代码完整性",
+      "status": "warning",
+      "note": "清单中存在code/solution.py正式导出路径，但论文附录仅给出一句路径说明。应至少补充运行环境、入口命令、输入输出目录和关键模块说明，并核实竞赛提交规范是否要求正文附录直接列出主要代码。",
+      "files": [
+        "sections/appendix.tex"
+      ]
+    },
+    {
+      "check": "最终版式、页数与浮动体",
+      "status": "warning",
+      "note": "未提供最终编译PDF，无法确认是否不超过20页、摘要是否独立成页以及宽表和浮动体是否越界；应在最终编译后检查。",
+      "files": []
+    },
+    {
+      "check": "程序化数值审计无高置信缺出处数字",
+      "status": "pass",
+      "note": "高置信缺出处数值 0 个"
+    },
+    {
+      "check": "模型、代码、求解与论文方法契约一致",
+      "status": "pass",
+      "note": "方法契约与当前版本绑定"
+    }
+  ]
+}

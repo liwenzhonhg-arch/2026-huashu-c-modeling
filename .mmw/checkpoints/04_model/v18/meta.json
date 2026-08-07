@@ -1,0 +1,13 @@
+{
+  "stage": "model",
+  "version": 18,
+  "created_at": "2026-08-07T21:46:58.245643",
+  "model_used": "gpt-5.6-sol+gpt-5.6-sol",
+  "tokens_input": 45531,
+  "tokens_output": 3441,
+  "upstream_versions": {
+    "analyze": 1,
+    "eda": 1,
+    "research": 1
+  }
+}

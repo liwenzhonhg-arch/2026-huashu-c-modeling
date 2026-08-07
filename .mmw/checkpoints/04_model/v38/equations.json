@@ -1,0 +1,63 @@
+{
+  "sub_problems": {
+    "q1": {
+      "objective": "预测阶段在T_selection={168,...,2351}上最小化Σρ_δ((D_{rkt}-Dhat_{rkt})/σ_{rk})+λ||β||_2^2；末端基础调度按[Σ_i(s_i-a_i),Σ_iℓ_i,Umax,任务ID-区域-开工时刻]词典序最小化。",
+      "constraints": [
+        "有限整数候选域：S={0,...,2405}，h_i=d_i/60，F_i=min(f_i^{valid},2406)，Ω_i={(r,s):r∈R,s∈S,s≥a_i,s+h_i≤F_i,ℓ_{o_i r}≤ℓ_i^{max},ω_{i,2406}(s)=0}；Σ_{(r,s)∈Ω_i}x_{irs}=1；实时任务还要求s=a_i。LatestFinish缺失或不适用于弹性任务时f_i^{valid}=2406；非法有限值导致结构化停止。",
+        "ω_{it}(s)=max{0,min(t+1,s+h_i)-max(t,s)}，χ_{it}(s)=1{ω_{it}(s)>0}。χ只用于瞬时GPU、IT和设施容量；ω用于GPU-hour、MWh、成本和碳排放。",
+        "瞬时容量：Σ_{i,s}g_iχ_{it}(s)x_{irs}≤G_r^{max}；L_{rt}^{AI,cap}=Σ_{i,s}g_ip_{k_i}^{GPU}χ_{it}(s)x_{irs}；L_N+L_AI_cap≤P_IT_max；π_r(L_N+L_AI_cap)≤P_F_max。",
+        "小时结算：E_{rt}^{AI}=Σ_{i,s}g_ip_{k_i}^{GPU}ω_{it}(s)x_{irs}，L_{rt}^{AI,avg}=E_{rt}^{AI}/Δt，L_{rt}^{F,avg}=π_r(L_N+L_AI_avg)。",
+        "Huber特征只在t≥168时构造：Dhat=max{0,β0+Σ_{l∈{1,2,3,24,48,168}}β_lD_{rk,t-l}+γ^Tz_t+α_r+δ_k}。selection_fit仅用168..2351，验证用2352..2375；选模后final_fit用168..2375，预测2376..2399。禁止负索引、补零、循环填充及读取验证或测试未来值。",
+        "季节性24和168候选只在对应滞后可观测时评价；统一比较窗口为验证集2352..2375，因此两者均有真实历史。WAPE分母为0时该分组输出验证不可用，保留MAE、RMSE和可计算总体WAPE。",
+        "前序基础调度不是外部输入：先取I^{<2376}={i:a_i<2376}，按实时任务优先、F_i升序、h_i降序、TaskID升序形成确定性任务顺序；对每个任务在Ω_i中按等待s-a_i、网络时延、当时最大GPU利用率、区域名、s的词典序选择首个满足同一χ瞬时GPU/IT/设施约束的位置。无位置立即输出失败任务及冲突资源并结构化停止。",
+        "从完整前序方案提取I^{pre}={i:a_i<2376,s_i^0+h_i>2376}并冻结其区域和开工时刻；与I^{end}={i:2376≤a_i≤2399}共同执行2376..2405的χ容量检查。最终代码必须对全部任务做0..2406全时域复核，不能只审计末端子集。"
+      ],
+      "variables": ["x_{irs}","s_i","c_i","q_{ir}","U^{max}","\\widehat D_{rkt}","\\beta","\\gamma","r_i^0","s_i^0"],
+      "method": "在统一验证窗口按WAPE、MAE、RMSE和固定候选顺序选模，随后用168..2375重训；按确定性前序基础调度规则生成完整前序方案，再求末端MILP并对全部任务全时域审计。",
+      "observability": "需求标签可由实际到达数据观测；最优调度标签不可观测。代理验证为任务唯一性、时延、截止、χ瞬时容量、ω能源量以及全部任务全时域轨迹复算。"
+    },
+    "q2": {
+      "objective": "对a∈{0,0.25,0.5,0.75,1}最小化C_op，并约束E_CO2≤E_loose-a(E_loose-E_ideal)、L_net≤L_loose-a(L_loose-L_ideal)、U_RE≥U_loose+a(U_ideal-U_loose)。",
+      "constraints": [
+        "所有任务使用q1给出的有限整数Ω_i、唯一执行、实时即时开工、截止、时延、χ瞬时容量和ω小时能源定义。",
+        "无储能：R_ch=G_ch=C=D=0；R_use+R_sell+R_curt=R_av；G_buy+R_use=L_F_avg；G_sell=R_sell。",
+        "L_F_avg=π_r(L_N+Σ_{i,s}g_ip_{k_i}^{GPU}ω_{it}(s)x_{irs}/Δt)，不得用瞬时容量负荷替代。",
+        "E_r^{max}=min(MaxGridExport_r,SellLimit_r)；0≤G_buy≤I_r^{max}y_grid；0≤G_sell≤E_r^{max}(1-y_grid)，y_grid为二元变量。",
+        "C_op=Σ(c_buyG_buy-c_sellG_sell)Δt；E_CO2=ΣκG_buyΔt；L_net=Σg_ih_iℓx/Σg_ih_i；U_RE=Σ(R_use+R_sell)Δt/ΣR_avΔt。任一分母不正时输出不可计算并退出对应路径和排序。",
+        "成本基准b0按[C_op,E_CO2,L_net,-U_RE,任务ID-区域-开工]词典序唯一化；碳、时延、新能源单目标锚点分别产生有序ideal/loose端点；必要锚点失败时结构化停止。"
+      ],
+      "variables": ["x_{irs}","G_{rt}^{buy}","G_{rt}^{sell}","R_{rt}^{use}","R_{rt}^{sell}","R_{rt}^{curt}","y_{rt}^{grid}"],
+      "method": "先求唯一成本基准和三个必要锚点，再生成五条168小时滚动MILP路径；只保留完整拼接并通过全时域复算的候选，声明global_optimality_certificate=false。",
+      "observability": "全局最优标签不可观测；成本、碳排、时延、新能源利用量和所有硬约束均可由附件与完整决策轨迹复算。"
+    },
+    "q3": {
+      "objective": "对a∈{0,0.25,0.5,0.75,1}词典序最小化[C_op,Σ_rP_r^{peak}+Σ_{r,t}z_{rt}]，并约束碳排、各区域峰值和各区域绝对爬坡量不超过各自锚点插值阈值。",
+      "constraints": [
+        "固定设施负荷L_F_avg=π_r(L_BAI+L_N)，不重新优化任务；若给定负荷违反IT或设施硬上限，输出区域、小时和超限量并结构化停止。",
+        "R_use+R_ch+R_sell+R_curt=R_av；G_load+R_use+D=L_F_avg；C=R_ch+G_ch；G_buy=G_load+G_ch；G_sell=R_sell。",
+        "购售上限为E_r^{max}=min(MaxGridExport_r,SellLimit_r)，购售通过y_grid互斥；充放电通过u_c互斥。",
+        "S_{r,-1}=S_r^0；S_{rt}=S_{r,t-1}+η_cC_{rt}Δt-D_{rt}Δt/η_d；S_min≤S≤S_max；S_{r,2406}≥S_r^0。",
+        "N=G_buy-G_sell；P_peak≥N；z≥N_t-N_{t-1}且z≥-(N_t-N_{t-1})；V=Σz。最终从N复算max_tN和Σ|N_t-N_{t-1}|。",
+        "成本基准b3与碳、每区峰值、每区爬坡单目标锚点生成ε_j(a)=loose_j-a(loose_j-ideal_j)；必要锚点失败时结构化停止。",
+        "U_RE=Σ(R_use+R_ch+R_sell)Δt/ΣR_avΔt；EFC=Σ(C+D)Δt/(2B_r)。分母不正时分别输出不可计算或不适用。"
+      ],
+      "variables": ["R_{rt}^{use}","R_{rt}^{ch}","R_{rt}^{sell}","R_{rt}^{curt}","G_{rt}^{load}","G_{rt}^{ch}","G_{rt}^{buy}","G_{rt}^{sell}","C_{rt}","D_{rt}","S_{rt}","P_r^{peak}","z_{rt}","u_{rt}^{c}","y_{rt}^{grid}"],
+      "method": "在共享300秒预算内先求无储能参照、成本基准和必要锚点，再生成最多五条封闭epsilon路径；超时或未完成候选丢弃并进行完整轨迹复算。",
+      "observability": "最优储能动作不可观测；附件SOC仅作基准对照，能源平衡、SOC递推、终端SOC、互斥和净购电轨迹可直接验证。"
+    },
+    "q4": {
+      "objective": "对a∈{0,0.25,0.5,0.75,1}最小化C_op，并对E_CO2、L_net、1-Q_service、1-U_RE及各区域P_peak施加有序锚点插值上界。",
+      "constraints": [
+        "任务采用有限整数Ω_i；χ用于瞬时GPU、IT和设施容量，ω用于AI电量及小时平均设施负荷。第2406小时无任务占用。",
+        "能源、储能、SOC、购售互斥、充放互斥、外送共同上限与q3完整定义相同，设施负荷由实际任务重叠量计算。",
+        "Q_RT、Q_SLA、Q_deadline及Q_wait分别按即时开工比例、时延达标比例、截止达标比例和1-总等待/总允许等待计算；仅正分母分量进入J_def，Q_service为其等权平均；J_def为空时输出不可计算并退出路径和排序。",
+        "基准b4按[C_op,E_CO2,L_net,1-Q_service,1-U_RE,ΣP_peak,任务ID-区域-开工]词典序唯一化，E^0=E_CO2(b4)；必要单目标锚点产生五条路径阈值。",
+        "碳情景：ρ_C∈{0,0.1,0.2,0.3}；购电峰谷价差：δ_P∈{0.75,1,1.25}；售电机制：δ_S∈{0,0.5,1}；新能源水平：δ_R∈{0.8,1,1.2}；新能源波动增强使用seed=2026及区域内标准化扰动。全部情景相对同一b4比较。",
+        "候选损失仅对可计算且候选极差为正的维度进行极差归一化；无有效维度时按成本、碳排、时延和固定候选编号词典序选择。"
+      ],
+      "variables": ["x_{irs}","G_{rt}^{buy}","G_{rt}^{sell}","R_{rt}^{use}","R_{rt}^{ch}","R_{rt}^{sell}","R_{rt}^{curt}","C_{rt}","D_{rt}","S_{rt}","P_r^{peak}","y_{rt}^{grid}","u_{rt}^{c}"],
+      "method": "先求统一基准和必要单目标锚点，再生成五条168小时滚动联合MILP路径；完整复算后选折中解并逐一重求碳、电价、售电及新能源情景；共享300秒预算，结论为best-found。",
+      "observability": "联合全局最优标签不可观测；任务、瞬时容量、小时能源、SOC、成本、碳排、购售边界、等待量和情景变化均可由附件及完整轨迹复算。"
+    }
+  }
+}

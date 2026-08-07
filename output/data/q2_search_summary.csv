@@ -1,0 +1,2 @@
+declared_candidate_limit,task_pool_size,status,checked_candidates,accepted_improvements,baseline_cost_CNY,final_cost_CNY,baseline_carbon_tCO2,final_carbon_tCO2,baseline_latency_ms,final_latency_ms,baseline_wait_h,final_wait_h
+4,4,searched_no_improvement,4,0,-419658147.7075976,-419658147.7075976,14.391601534493985,14.391601534493985,5.159384110987204,5.159384110987204,0.0,0.0

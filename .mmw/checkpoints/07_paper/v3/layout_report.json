@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "accepted": false,
+  "deterministic_changes": [
+    "sections/abstract.tex"
+  ],
+  "violations": [
+    "CodexCLIError，已保留确定性规范化结果"
+  ]
+}
