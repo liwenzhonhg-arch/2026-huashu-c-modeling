@@ -1,14 +1,16 @@
 {
   "schema_version": 1,
-  "created_at": "2026-08-08T11:03:24+08:00",
-  "case": null,
+  "created_at": "2026-08-08T14:08:50.920969+08:00",
+  "case": "2026-HSC-C",
   "workspace": "C题 面向算电协同的多目标调度优化研究",
   "stage": "solve",
-  "version": 12,
-  "review_version": 14,
+  "version": 13,
+  "review_version": 15,
   "bindings": {
-    "solve_results_sha256": "8898066521bcc376f4f7c115524f9dd75e1188566a8ba84bb64fe2286a74ff80",
-    "review_checklist_sha256": "fe5705f209f13f6c84ddd01ee4a5e0f07fa150747134254232af63579ea1021e"
+    "solve_results_sha256": "377f0fc8b247bf8392c5a49ea8fb428a47b029a927ac01de1a49555bcc759956",
+    "review_checklist_sha256": "7df126c6274f0b870ce1cd03a7dedb7833960b441c3d59f7dd820fd7b6051fa4",
+    "solution_sha256": "d53ac7c44fd8de62fd9ada514eb3b51381d6a7810755c5a7fb9f46404bfd411e",
+    "paper_sha256": "18f09975542ca11742f0d2d8b0b960466e57b5012e5a6ce4afb5707d98f9d9e8"
   },
   "generic_gate": {
     "passed": true,
@@ -22,18 +24,19 @@
     "failures": []
   },
   "tables": {
-    "required": false,
+    "required": true,
     "passed": true,
     "failures": []
   },
   "repeatability": {
-    "required": false,
+    "required": true,
     "passed": true,
+    "evidence": "ROBUSTNESS_DOUBLE_RUN_COMPARISON.md",
     "failures": []
   },
   "certification": {
     "level": "scenario-feasible",
-    "meaning": "通过通用约束、可执行性和灵敏度门禁，但没有现实 Oracle"
+    "meaning": "通过输入、全量约束、双次复算、数值审计和版本一致性门禁，但没有现实 Oracle 或全局最优证书"
   },
   "overall_passed": true
 }

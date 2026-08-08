@@ -1,0 +1,61 @@
+{
+  "interpretation": "题面未给出退化成本或循环寿命参数；本项仅为敏感性，不是官方参数",
+  "initial_equal": {
+    "policy": "cost_min",
+    "state_count": 21,
+    "cost_CNY": -458752156.9789531,
+    "carbon_tCO2": 0.0,
+    "renewable_utilization": 0.7117349136242134,
+    "peak_MW": 0.0,
+    "ramp_MW": 0.0,
+    "charge_MWh": 216984.5750400366,
+    "discharge_MWh": 189681.1255,
+    "internal_throughput_MWh": 407923.7,
+    "equivalent_full_cycles_sum": 240.18621951219512,
+    "trajectory_sha256": "d476a386f7370f1a25dd31b97db041f00c332c58666cb08938693198b76747cf",
+    "duplicate_of": null,
+    "nondominated": true,
+    "normalized_cost": 0.0,
+    "normalized_carbon": 0.0,
+    "normalized_renewable_loss": 1.0,
+    "normalized_peak": 0.0,
+    "normalized_ramp": 0.0,
+    "ideal_distance": 0.3872983346207417,
+    "decision_eligible": true
+  },
+  "terminal_free": {
+    "metrics": [
+      -458752156.9789531,
+      0.0,
+      0.7116203729767335,
+      0.0,
+      0.0
+    ],
+    "terminal_soc": [
+      {
+        "Region": "RegionA",
+        "SOC_MWh": 35.0
+      },
+      {
+        "Region": "RegionB",
+        "SOC_MWh": 32.0
+      },
+      {
+        "Region": "RegionC",
+        "SOC_MWh": 30.0
+      },
+      {
+        "Region": "RegionD",
+        "SOC_MWh": 90.0
+      },
+      {
+        "Region": "RegionE",
+        "SOC_MWh": 82.0
+      },
+      {
+        "Region": "RegionF",
+        "SOC_MWh": 85.0
+      }
+    ]
+  }
+}

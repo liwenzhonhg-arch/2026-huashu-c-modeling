@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "state_count": 21,
+  "storage_policy": "cost_min",
+  "joint_metrics": [
+    -458788576.5268564,
+    0.0,
+    0.7114060257387902,
+    0.0,
+    0.0
+  ],
+  "scenario_baseline_metrics": [
+    -458788576.5268564,
+    0.0,
+    0.7114060257387902,
+    0.0,
+    0.0
+  ],
+  "same_data_source": true
+}

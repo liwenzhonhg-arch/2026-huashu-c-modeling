@@ -1,0 +1,9 @@
+{
+  "status": "approved",
+  "result": "proceed",
+  "rework_target": null,
+  "upstream_hash": "314f30976e098866829fd4963beb041d",
+  "upstream_changed": false,
+  "approved_by": "deterministic robustness validation",
+  "approved_at": "2026-08-08T14:08:50.920969+08:00"
+}

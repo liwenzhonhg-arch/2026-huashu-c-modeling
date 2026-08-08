@@ -1,0 +1,246 @@
+{
+  "schema_version": 2,
+  "source_run": "robustness-run-2",
+  "files": [
+    {
+      "path": "data/constraint_audit.csv",
+      "size": 681,
+      "sha256": "6d080ce3fe2223213b6e5a10c2e27f1ac6d9c05e98da184cd7f0e72f24b4040f"
+    },
+    {
+      "path": "data/figure_data/fig_1_gpu_utilization.csv",
+      "size": 2926,
+      "sha256": "02bff0956a8bb82d13b138712ced78a28c94c9d49017ca72ec0c50ccb83d8b11"
+    },
+    {
+      "path": "data/figure_data/fig_2_storage_soc.csv",
+      "size": 91359,
+      "sha256": "62ad905bcbeb9770fba00a07b72539e4f47113eb6aca37f66861284329fd3cd2"
+    },
+    {
+      "path": "data/figure_data/sensitivity_electricity_price.csv",
+      "size": 207,
+      "sha256": "02536b42f1d4e5ac0687600aea35e057cae8621de4e864b3110f4dbc9d3c9188"
+    },
+    {
+      "path": "data/figure_data/sensitivity_renewable_level.csv",
+      "size": 208,
+      "sha256": "5276b4e22c245201b04e2200bc7000664d0965706797f4cdd0c4b4697001bb9c"
+    },
+    {
+      "path": "data/figure_manifest.json",
+      "size": 1839,
+      "sha256": "58d41f196738257b9387f1b961702127ccdb884851dea2b1ae6eadc35d637a85"
+    },
+    {
+      "path": "data/method_runtime.json",
+      "size": 4224,
+      "sha256": "ff1ec31f363fddb449e5d118a0b4e6bb6c03851d800dfb360face39098d63087"
+    },
+    {
+      "path": "data/q1_forecast_2376_2399.csv",
+      "size": 27557,
+      "sha256": "ebd7af1f35ad5727491c6b9b6709d186c6fc7e231ddbee78af49782789ed1f66"
+    },
+    {
+      "path": "data/q1_forecast_metrics.csv",
+      "size": 3891,
+      "sha256": "f950f4ccc8c548dc3e2403ab8e089d6e46673f17d1d205b735b18b7de29076d2"
+    },
+    {
+      "path": "data/q1_gpu_statistics.csv",
+      "size": 899,
+      "sha256": "0bd10d2995ef6bd394ef574916ae06b7de4bb1b63d6bfb9fd78d574c65198550"
+    },
+    {
+      "path": "data/q1_q2_q4_task_schedule.csv",
+      "size": 3599726,
+      "sha256": "79b87f9134a26546504f2d2a65751371c80f06f7513e046d645bbfd66765cedd"
+    },
+    {
+      "path": "data/q2_budget_stability.csv",
+      "size": 1686,
+      "sha256": "38bb553f57521170bd9d9f542c996b7f0a7a6b1555272412dd785fe8bca97bf5"
+    },
+    {
+      "path": "data/q2_constraint_audit_balanced.csv",
+      "size": 681,
+      "sha256": "6d080ce3fe2223213b6e5a10c2e27f1ac6d9c05e98da184cd7f0e72f24b4040f"
+    },
+    {
+      "path": "data/q2_constraint_audit_carbon_min.csv",
+      "size": 694,
+      "sha256": "f1a5d120c06189ee4030d4145a93d35042da9868a3e31c0d07a1edbec75ae93d"
+    },
+    {
+      "path": "data/q2_constraint_audit_cost_min.csv",
+      "size": 696,
+      "sha256": "76063a0cf1522606678f027e61583692692eceefd4efd3b7fbbd36934560c58e"
+    },
+    {
+      "path": "data/q2_constraint_audit_renewable_max.csv",
+      "size": 693,
+      "sha256": "47f1645d5422676bd20a4e822992537c60d10e432ce52476c58ab432443e5ce5"
+    },
+    {
+      "path": "data/q2_constraint_audit_service_first.csv",
+      "size": 694,
+      "sha256": "f1a5d120c06189ee4030d4145a93d35042da9868a3e31c0d07a1edbec75ae93d"
+    },
+    {
+      "path": "data/q2_energy_balanced.csv",
+      "size": 4042907,
+      "sha256": "cee773479b4a08d41230e67a61519bc10ee79b6e5c156b120d3410989f143031"
+    },
+    {
+      "path": "data/q2_energy_carbon_min.csv",
+      "size": 4040489,
+      "sha256": "5e0fec4b3c71fe66cc581b84b886ec0edb9a9d9aa77dbc08e8f7aa6321bdcef5"
+    },
+    {
+      "path": "data/q2_energy_cost_min.csv",
+      "size": 4040987,
+      "sha256": "1b49ffb07c8498c0acba1abed45f93c00eeaef83acda5a4d3b8ad08f2aceeb9f"
+    },
+    {
+      "path": "data/q2_energy_renewable_max.csv",
+      "size": 4042994,
+      "sha256": "de11ad89f4a238561c64e5d0a493743a7733d63fdb3a63d1f07ca9e14a70b889"
+    },
+    {
+      "path": "data/q2_energy_service_first.csv",
+      "size": 4040472,
+      "sha256": "d8db5ebef07f49afcb2eae625a61b42b8627f1ccc147a81f4d944b1535729be9"
+    },
+    {
+      "path": "data/q2_hourly_energy.csv",
+      "size": 4042907,
+      "sha256": "cee773479b4a08d41230e67a61519bc10ee79b6e5c156b120d3410989f143031"
+    },
+    {
+      "path": "data/q2_named_scheme_comparison.csv",
+      "size": 2627,
+      "sha256": "2f551e031dd6f6e08b6de9022c7ee8b331546d051b104ee527355086e1b7ed45"
+    },
+    {
+      "path": "data/q2_schedule_balanced.csv",
+      "size": 3599726,
+      "sha256": "79b87f9134a26546504f2d2a65751371c80f06f7513e046d645bbfd66765cedd"
+    },
+    {
+      "path": "data/q2_schedule_carbon_min.csv",
+      "size": 3598581,
+      "sha256": "6d23b3fb783f9ea253ad1ed7b3221fc293396a7a5fba36f6dbdd3338e0950e6c"
+    },
+    {
+      "path": "data/q2_schedule_cost_min.csv",
+      "size": 3599079,
+      "sha256": "9215818d1b61464a47a3f0184444848e42ac20eccb4b58cf867531b3fe1d524e"
+    },
+    {
+      "path": "data/q2_schedule_renewable_max.csv",
+      "size": 3599909,
+      "sha256": "8a2dd91c59e1de418388f9df53bedaf18e361272cd2ea38083318f71f6847c17"
+    },
+    {
+      "path": "data/q2_schedule_service_first.csv",
+      "size": 3598578,
+      "sha256": "9788770dcad83fba20dd12d8da3bca26bcc39f5ab046d593ea0d94ada7b444eb"
+    },
+    {
+      "path": "data/q2_search_summary.csv",
+      "size": 1200,
+      "sha256": "eb1c60138f01a892925d78615daf8ce4c32ca1e2472ce56195b32288699529bd"
+    },
+    {
+      "path": "data/q2_search_trace.csv",
+      "size": 6450183,
+      "sha256": "931a352fb8fe4b190522de52aa7ab3611786674b7a3af128c8fa3c77310257a9"
+    },
+    {
+      "path": "data/q3_all_policy_trajectories.csv",
+      "size": 13022632,
+      "sha256": "0d26411d68d58f643b83ae7c2c6de342dd15b2291f039e56bd90ec15d1aeab10"
+    },
+    {
+      "path": "data/q3_constraint_audit.csv",
+      "size": 437,
+      "sha256": "2880cf548f045af44a3d21e122683efecc9e5b10592a4daa0818261fc12d9d8f"
+    },
+    {
+      "path": "data/q3_no_storage_baseline.csv",
+      "size": 3849527,
+      "sha256": "7cdf944f5c91dc5bac1db27d9544da493a4169ac780faa0e7f00f30562ac8ca9"
+    },
+    {
+      "path": "data/q3_search_summary.csv",
+      "size": 957,
+      "sha256": "61cf98ef27274eae30fc56308e3f97bcc93ff467d414ca1690c79200cdcd3a70"
+    },
+    {
+      "path": "data/q3_search_trace.csv",
+      "size": 2100,
+      "sha256": "832dde23f5259d4c1a88a3bddacc2597347792c827be15fc50f8bf0a4cdb8078"
+    },
+    {
+      "path": "data/q3_soc_grid_sensitivity.csv",
+      "size": 1108,
+      "sha256": "c03c6379ed61b896f780ff45062a0e8e050676763fd1f84c47c4f91bad1cf92f"
+    },
+    {
+      "path": "data/q3_storage_energy.csv",
+      "size": 1709592,
+      "sha256": "5b252f6fefbe6b7c6038fef5844a973247175aded756fb8353a7922b09dd1031"
+    },
+    {
+      "path": "data/q3_terminal_soc_sensitivity.json",
+      "size": 1519,
+      "sha256": "2d0193f2187bb9d9e664cd51e424067868f1c8dbb4c7c5e67baf3dee68893ce9"
+    },
+    {
+      "path": "data/q4_alternation_trace.csv",
+      "size": 14953,
+      "sha256": "521ee817db2887d11764f7aa4fa1a01489928ce85f36b6a104af7384633329c9"
+    },
+    {
+      "path": "data/q4_baseline_consistency.json",
+      "size": 334,
+      "sha256": "e6cc2b5b2d285c5a65a0fb0d773b8be4b2fe842737d34bcde9dc19a011f3b8bd"
+    },
+    {
+      "path": "data/q4_constraint_audit.csv",
+      "size": 437,
+      "sha256": "2880cf548f045af44a3d21e122683efecc9e5b10592a4daa0818261fc12d9d8f"
+    },
+    {
+      "path": "data/q4_joint_storage_energy.csv",
+      "size": 1769900,
+      "sha256": "c35987a15ac08e04e8e24edd007861e321e8920b3e5a18ba47557aba0d8b0f1f"
+    },
+    {
+      "path": "data/q4_scenario_comparison.csv",
+      "size": 6637,
+      "sha256": "7f301b9ee31e7376cec90dbb020f36cbb5d12537f05165819ba72b9e06ff6388"
+    },
+    {
+      "path": "data/q4_search_summary.csv",
+      "size": 971,
+      "sha256": "1641171fa30e3efc6f921d7d09efb3091d5d920451e10102c5d8acbc07798fde"
+    },
+    {
+      "path": "data/q4_search_trace.csv",
+      "size": 2114,
+      "sha256": "d0eefa37c3d8cf849158341769f3826f3627b6ae9b17eedbf6eb39a692329cf5"
+    },
+    {
+      "path": "data/results.json",
+      "size": 33068,
+      "sha256": "377f0fc8b247bf8392c5a49ea8fb428a47b029a927ac01de1a49555bcc759956"
+    },
+    {
+      "path": "data/sensitivity.json",
+      "size": 9407,
+      "sha256": "8360a914cbcfe1263e04136a1aaa529b774c51e74bb19b4adfda8e59ec9062cf"
+    }
+  ]
+}

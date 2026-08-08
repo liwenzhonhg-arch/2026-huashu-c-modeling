@@ -1,1 +1,8 @@
 * -text
+
+# Formal solver artifacts retain byte-identical run evidence, including CRLF.
+output/code/solution.py -whitespace
+output/data/** -whitespace
+.mmw/checkpoints/** -whitespace
+output/robustness-v43-code16-paper-v21/** -whitespace
+tests/evidence/** -whitespace

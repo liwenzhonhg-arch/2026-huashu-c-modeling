@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "status": "pass",
+  "result_level": "scenario-feasible",
+  "source_run": "robustness-run-2",
+  "second_run": "robustness-run-1",
+  "results_sha256": "377f0fc8b247bf8392c5a49ea8fb428a47b029a927ac01de1a49555bcc759956",
+  "double_run_results_identical": true,
+  "q2_min_scheme_coverage": 0.03038,
+  "q2_combined_coverage": 0.16148,
+  "q4_state_count": 21,
+  "q4_baseline_consistent": true,
+  "max_constraint_residual": 1.1368683772161603e-13
+}

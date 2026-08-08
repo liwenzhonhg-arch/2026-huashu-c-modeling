@@ -1,0 +1,10 @@
+{
+  "score": 97,
+  "needs_upstream_data": false,
+  "checks": {
+    "method_truthful": true,
+    "numbers_bound_to_solve_v12": true,
+    "under_600_chinese_characters": true,
+    "four_questions_covered": true
+  }
+}

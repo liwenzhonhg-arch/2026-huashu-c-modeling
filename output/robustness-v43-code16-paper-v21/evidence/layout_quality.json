@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "paper_version": 21,
+  "pdf_sha256": "18f09975542ca11742f0d2d8b0b960466e57b5012e5a6ce4afb5707d98f9d9e8",
+  "pages": 16,
+  "default_body_font_and_spacing": true,
+  "global_compression": false,
+  "failures": [],
+  "warnings": [],
+  "visual_audit": {
+    "contact_sheet": "output/latex_build/paper_v21/contact-sheet.png",
+    "body_text": "pass",
+    "symbol_table": "pass",
+    "q4_scenario_tables": "pass",
+    "figure_text": "pass"
+  }
+}

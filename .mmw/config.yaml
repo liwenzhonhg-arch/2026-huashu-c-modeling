@@ -12,11 +12,11 @@ active_versions:
   analyze: 1
   eda: 1
   research: 1
-  model: 42
-  code: 15
-  solve: 12
-  paper: 20
-  review: 14
+  model: 43
+  code: 16
+  solve: 13
+  paper: 21
+  review: 15
 problem_file: C题 面向算电协同的多目标调度优化研究.pdf
 problem_pdf: C题 面向算电协同的多目标调度优化研究.pdf
 created_at: '2026-08-07T19:19:57'

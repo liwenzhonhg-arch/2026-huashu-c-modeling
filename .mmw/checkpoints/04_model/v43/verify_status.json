@@ -1,0 +1,15 @@
+{
+  "severity": "warning",
+  "issues": [
+    {
+      "id": "V42-LIMIT",
+      "severity": "warning",
+      "message": "离散SOC动态规划与有限任务邻域不提供连续全局最优证书"
+    },
+    {
+      "id": "V42-ORACLE",
+      "severity": "warning",
+      "message": "无evaluator-only Oracle，只能标记scenario-feasible"
+    }
+  ]
+}

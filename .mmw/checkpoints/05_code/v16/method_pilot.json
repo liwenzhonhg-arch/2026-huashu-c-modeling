@@ -1,0 +1,12 @@
+{
+  "schema_version": 2,
+  "status": "pass",
+  "checks": [
+    "full_input_validation_all_50000",
+    "latency_36_directed_pairs",
+    "power_mapping_all_task_types",
+    "q2_stratified_coverage",
+    "timeout_internal_loop"
+  ],
+  "source_tests": "tests/test_robustness.py and robustness-timeout.incomplete"
+}

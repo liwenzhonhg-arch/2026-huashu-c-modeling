@@ -1,0 +1,13 @@
+# Local execution and archive evidence; portable summaries live in tests/evidence.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+output/code/__pycache__/
+output/archive/
+output/runs/
+output/latex_build/paper_v20_probe_1/
+output/latex_build/paper_v21/
+
+# Expanded ZIP staging directories; the ZIPs themselves are formal deliverables.
+output/submission-v43-code16/
+output/reproducibility-v43-code16/

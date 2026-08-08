@@ -1,0 +1,51 @@
+{
+  "status": "pass",
+  "compared_at": "2026-08-08T13:52:05.066374+08:00",
+  "output_file_count": [
+    53,
+    53
+  ],
+  "file_lists_identical": true,
+  "results_sha256": [
+    "377f0fc8b247bf8392c5a49ea8fb428a47b029a927ac01de1a49555bcc759956",
+    "377f0fc8b247bf8392c5a49ea8fb428a47b029a927ac01de1a49555bcc759956"
+  ],
+  "results_hash_identical": true,
+  "method_runtime_semantics_excluding_run_id_elapsed_identical": true,
+  "q2_semantics_identical": true,
+  "q3_semantics_identical": true,
+  "q4_semantics_identical": true,
+  "byte_different_files": [
+    "data/method_runtime.json",
+    "data/q3_soc_grid_sensitivity.csv",
+    "data/sensitivity.json"
+  ],
+  "expected_runtime_variation_files": [
+    "data/method_runtime.json",
+    "data/q3_soc_grid_sensitivity.csv",
+    "data/sensitivity.json"
+  ],
+  "max_positive_constraint_residuals": {
+    "constraint_audit.csv": [
+      0.0,
+      0.0
+    ],
+    "q3_constraint_audit.csv": [
+      1.1368683772161605e-13,
+      1.1368683772161605e-13
+    ],
+    "q4_constraint_audit.csv": [
+      1.1368683772161605e-13,
+      1.1368683772161605e-13
+    ]
+  },
+  "core_results": {
+    "q2_cost_CNY": -421378290.27901584,
+    "q2_carbon_tCO2": 8.75688585449398,
+    "q3_selected_policy": "cost_min",
+    "q3_cost_CNY": -458752156.9789531,
+    "q4_cost_CNY": -458788576.5268564,
+    "q4_carbon_tCO2": 0.0,
+    "q4_state_count": 21
+  }
+}

@@ -1,53 +1,18 @@
 {
   "schema_version": 1,
   "passed": true,
-  "paper_version": 20,
-  "pdf_sha256": "c442be7f4098734bcf56148a94279911846fd95693293aeca12f308c10179b55",
+  "paper_version": 21,
+  "pdf_sha256": "18f09975542ca11742f0d2d8b0b960466e57b5012e5a6ce4afb5707d98f9d9e8",
   "pages": 16,
+  "default_body_font_and_spacing": true,
+  "global_compression": false,
   "failures": [],
-  "warnings": [
-    "页面预览生成失败：CalledProcessError"
-  ],
-  "figures": [
-    {
-      "file": "fig_1_gpu_utilization.png",
-      "width": 2422,
-      "height": 1522,
-      "dpi_x": 299.9994,
-      "dpi_y": 299.9994,
-      "passed": true,
-      "failures": [],
-      "warnings": []
-    },
-    {
-      "file": "fig_2_storage_soc.png",
-      "width": 2422,
-      "height": 1522,
-      "dpi_x": 299.9994,
-      "dpi_y": 299.9994,
-      "passed": true,
-      "failures": [],
-      "warnings": []
-    },
-    {
-      "file": "sensitivity_electricity_price.png",
-      "width": 2422,
-      "height": 1522,
-      "dpi_x": 299.9994,
-      "dpi_y": 299.9994,
-      "passed": true,
-      "failures": [],
-      "warnings": []
-    },
-    {
-      "file": "sensitivity_renewable_level.png",
-      "width": 2422,
-      "height": 1522,
-      "dpi_x": 299.9994,
-      "dpi_y": 299.9994,
-      "passed": true,
-      "failures": [],
-      "warnings": []
-    }
-  ]
+  "warnings": [],
+  "visual_audit": {
+    "contact_sheet": "output/latex_build/paper_v21/contact-sheet.png",
+    "body_text": "pass",
+    "symbol_table": "pass",
+    "q4_scenario_tables": "pass",
+    "figure_text": "pass"
+  }
 }
