@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "check": "代码 v15 与求解 v12 方法契约一致",
+      "status": "pass",
+      "note": "method_validation passed; 30 个 OBJ/CON ID 全覆盖"
+    },
+    {
+      "check": "双隔离运行可重复",
+      "status": "pass",
+      "note": "48 个正式输出文件一致；仅 elapsed_seconds 不同"
+    },
+    {
+      "check": "全时域硬约束",
+      "status": "pass",
+      "note": "任务残差 <=1e-6；储能最大残差 2.274e-13"
+    },
+    {
+      "check": "程序化数值审计",
+      "status": "warning",
+      "note": "40 个原始高置信项均完成来源裁决；保留误报明细，未发现编造数值"
+    },
+    {
+      "check": "模型、代码、求解与论文方法契约一致",
+      "status": "pass",
+      "note": "method_consistency passed"
+    },
+    {
+      "check": "论文 PDF 编译与视觉布局",
+      "status": "pass",
+      "note": "XeLaTeX 三遍编译；7 页；无致命排版错误"
+    },
+    {
+      "check": "可信等级边界",
+      "status": "warning",
+      "note": "无独立 Oracle，只能标记 scenario-feasible；不得写 verified/global optimum"
+    },
+    {
+      "check": "工程适用边界",
+      "status": "warning",
+      "note": "未建模储能退化成本和循环寿命硬上限，Q3 高循环轨迹不可直接下发真实设备"
+    }
+  ]
+}

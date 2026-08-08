@@ -1,0 +1,16 @@
+{
+  "stage": "paper",
+  "version": 20,
+  "created_at": "2026-08-08T10:44:05.657276",
+  "model_used": "manual readability repair bound to model42/code15/solve12",
+  "tokens_input": 0,
+  "tokens_output": 0,
+  "upstream_versions": {
+    "analyze": 1,
+    "eda": 1,
+    "research": 1,
+    "model": 42,
+    "code": 15,
+    "solve": 12
+  }
+}

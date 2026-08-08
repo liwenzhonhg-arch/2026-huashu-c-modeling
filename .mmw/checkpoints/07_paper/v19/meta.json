@@ -1,0 +1,16 @@
+{
+  "stage": "paper",
+  "version": 19,
+  "created_at": "2026-08-08T09:40:43.844412",
+  "model_used": "manual technical repair bound to model42/code15/solve12",
+  "tokens_input": 0,
+  "tokens_output": 0,
+  "upstream_versions": {
+    "analyze": 1,
+    "eda": 1,
+    "research": 1,
+    "model": 42,
+    "code": 15,
+    "solve": 12
+  }
+}

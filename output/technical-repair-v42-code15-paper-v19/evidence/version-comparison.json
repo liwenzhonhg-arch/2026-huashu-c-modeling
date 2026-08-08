@@ -1,0 +1,26 @@
+{
+  "v17": {
+    "pages": 16,
+    "source_chars": 38555,
+    "section_commands": 30,
+    "figures": 5,
+    "tables": 5,
+    "citation_commands": 3
+  },
+  "v18": {
+    "pages": 7,
+    "source_chars": 14263,
+    "section_commands": 16,
+    "figures": 3,
+    "tables": 1,
+    "citation_commands": 2
+  },
+  "v19": {
+    "pages": 12,
+    "source_chars": 26613,
+    "section_commands": 27,
+    "figures": 5,
+    "tables": 7,
+    "citation_commands": 4
+  }
+}

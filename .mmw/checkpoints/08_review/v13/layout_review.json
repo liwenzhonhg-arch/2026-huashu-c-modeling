@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "pages": 12,
+  "target_pages": "12-16",
+  "engine": "XeLaTeX 2026",
+  "compile_passes": 14,
+  "overfull_boxes": 0,
+  "undefined_references": 0,
+  "blank_pages": 0,
+  "visual_contact_sheet": "output/technical-repair-v42-code15-paper-v19/evidence/paper-v19-contact-sheet.png",
+  "pdf_sha256": "6c2d26015781dc934180cde0514bb12949ed83223caaa055a2c9653f47739acc"
+}

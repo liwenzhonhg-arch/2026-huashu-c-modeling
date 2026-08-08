@@ -1,0 +1,9 @@
+{
+  "status": "approved",
+  "result": "proceed",
+  "rework_target": null,
+  "upstream_hash": "b182fe13c729839d34bc47fb24a74e56",
+  "upstream_changed": false,
+  "approved_by": "用户执行授权；XeLaTeX三遍编译与视觉审计通过",
+  "approved_at": "2026-08-08T08:56:41.365142"
+}

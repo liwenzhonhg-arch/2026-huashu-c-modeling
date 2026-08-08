@@ -1,0 +1,64 @@
+{
+  "baseline": {
+    "objective": -421801727.4501783,
+    "objective_name": "系统运行成本"
+  },
+  "experiments": [
+    {
+      "param": "electricity_price",
+      "delta_pct": -20,
+      "param_value": 0.8,
+      "objective": -421804612.25160474,
+      "change_pct": -0.0006839235685091919
+    },
+    {
+      "param": "electricity_price",
+      "delta_pct": -10,
+      "param_value": 0.9,
+      "objective": -421803169.85089153,
+      "change_pct": -0.00034196178425459594
+    },
+    {
+      "param": "electricity_price",
+      "delta_pct": 10,
+      "param_value": 1.1,
+      "objective": -421800285.0494651,
+      "change_pct": 0.00034196178425459594
+    },
+    {
+      "param": "electricity_price",
+      "delta_pct": 20,
+      "param_value": 1.2,
+      "objective": -421798842.6487519,
+      "change_pct": 0.0006839235685091919
+    },
+    {
+      "param": "renewable_level",
+      "delta_pct": -20,
+      "param_value": 0.8,
+      "objective": -303912263.18784463,
+      "change_pct": 27.94902357915506
+    },
+    {
+      "param": "renewable_level",
+      "delta_pct": -10,
+      "param_value": 0.9,
+      "objective": -381129183.9609836,
+      "change_pct": 9.642573949391624
+    },
+    {
+      "param": "renewable_level",
+      "delta_pct": 10,
+      "param_value": 1.1,
+      "objective": -446460089.89118695,
+      "change_pct": -5.845960515636148
+    },
+    {
+      "param": "renewable_level",
+      "delta_pct": 20,
+      "param_value": 1.2,
+      "objective": -457667554.3692564,
+      "change_pct": -8.503006172091695
+    }
+  ]
+}

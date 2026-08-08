@@ -1,0 +1,8 @@
+\appendix
+\section{程序代码与运行说明}
+正式程序为交付目录中的 \texttt{solution.py}，在含 \texttt{附件数据} 的目录执行：
+\begin{verbatim}
+python solution.py
+python validate_results.py
+\end{verbatim}
+程序无默认墙钟终止；只有显式设置正数环境变量 \texttt{MMW\_MAX\_RUNTIME\_SECONDS} 才允许外部时间上限，触发时结果必须标记 incomplete 并阻断审批。正式结果写入 \texttt{output/data}，图表写入 \texttt{output/figures}。主要证据包括 \texttt{results.json}、\texttt{method\_runtime.json}、五方向 Q2 比较表、Q3 轨迹表、Q4 情景表和逐轮交替 trace。

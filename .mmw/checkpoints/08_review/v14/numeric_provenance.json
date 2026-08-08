@@ -1,0 +1,546 @@
+{
+  "schema_version": 1,
+  "paper_version": 20,
+  "built_in_total": 390,
+  "built_in_matched": 257,
+  "built_in_scaled": 55,
+  "built_in_high_to_review": 76,
+  "built_in_low": 2,
+  "adjudicated": 76,
+  "unresolved": 0,
+  "status": "pass",
+  "items": [
+    {
+      "raw": "4.218017\\times10^8",
+      "source_file": "sections/abstract.tex",
+      "context": "问题二每个方向评价 10000 个候选；平衡方案成本为 $-4.218017\\times10^8$ 元，碳排放 16.5160 tCO$_2$，迁移 561",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:cost_CNY; direct; scientific rounded 6 digits; evidence value=-421801700"
+    },
+    {
+      "raw": "485",
+      "source_file": "sections/evaluation.tex",
+      "context": "静态单向时延，未纳入带宽、拥塞和迁移能耗；最大等待仍可达到 485 小时，说明综合服务指标不能替代任务级尾部检查。20\\% 与",
+      "verdict": "verified",
+      "provenance": "data/q2_search_summary.csv:final_wait_h; direct; evidence value=485"
+    },
+    {
+      "raw": "48,168",
+      "source_file": "sections/model_solution.tex",
+      "context": "{rkt}$，Huber 候选使用滞后 $1,2,3,24,48,168$ 及日、周正余弦特征。其损失为   \\min_{b,\\th",
+      "verdict": "parser",
+      "provenance": "comma-separated lag list 48 and 168, not number 48168"
+    },
+    {
+      "raw": "35.3032",
+      "source_file": "sections/model_solution.tex",
+      "context": " & WAPE\\\\\\midrule 24 小时季节朴素 & 35.3032 & 46.9509 & 1.0809\\\\ 168 小时季节",
+      "verdict": "verified",
+      "provenance": "evidence/q1-naive-comparison.csv:mean_series_MAE; direct; rounded 4dp; evidence value=35.3032"
+    },
+    {
+      "raw": "46.9509",
+      "source_file": "sections/model_solution.tex",
+      "context": "midrule 24 小时季节朴素 & 35.3032 & 46.9509 & 1.0809\\\\ 168 小时季节朴素 & 35.91",
+      "verdict": "verified",
+      "provenance": "evidence/q1-naive-comparison.csv:mean_series_RMSE; direct; rounded 4dp; evidence value=46.9509"
+    },
+    {
+      "raw": "1.0809",
+      "source_file": "sections/model_solution.tex",
+      "context": " 小时季节朴素 & 35.3032 & 46.9509 & 1.0809\\\\ 168 小时季节朴素 & 35.9120 & 46.9",
+      "verdict": "verified",
+      "provenance": "evidence/q1-naive-comparison.csv:mean_series_WAPE; direct; rounded 4dp; evidence value=1.0809"
+    },
+    {
+      "raw": "35.9120",
+      "source_file": "sections/model_solution.tex",
+      "context": ".9509 & 1.0809\\\\ 168 小时季节朴素 & 35.9120 & 46.9954 & 1.2171\\\\ 验证集选定模型 ",
+      "verdict": "verified",
+      "provenance": "evidence/q1-naive-comparison.csv:mean_series_MAE; direct; rounded 3dp; evidence value=35.912"
+    },
+    {
+      "raw": "46.9954",
+      "source_file": "sections/model_solution.tex",
+      "context": "0809\\\\ 168 小时季节朴素 & 35.9120 & 46.9954 & 1.2171\\\\ 验证集选定模型 & 25.5892 ",
+      "verdict": "verified",
+      "provenance": "evidence/q1-naive-comparison.csv:mean_series_RMSE; direct; rounded 4dp; evidence value=46.9954"
+    },
+    {
+      "raw": "1.2171",
+      "source_file": "sections/model_solution.tex",
+      "context": " 小时季节朴素 & 35.9120 & 46.9954 & 1.2171\\\\ 验证集选定模型 & 25.5892 & 34.5070",
+      "verdict": "verified",
+      "provenance": "evidence/q1-naive-comparison.csv:mean_series_WAPE; direct; rounded 4dp; evidence value=1.2171"
+    },
+    {
+      "raw": "0.8231",
+      "source_file": "sections/model_solution.tex",
+      "context": "验证集选定模型 & 25.5892 & 34.5070 & 0.8231\\\\\\bottomrule       \\centering",
+      "verdict": "verified",
+      "provenance": "evidence/q1-naive-comparison.csv:mean_series_WAPE; direct; rounded 4dp; evidence value=0.8231"
+    },
+    {
+      "raw": "3.1140",
+      "source_file": "sections/model_solution.tex",
+      "context": "PU & 平均 WAPE\\\\\\midrule 实时推理 & 3.1140 & 4.3412 & 0.8465\\\\ 批量推理 & 12",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):MAE; six-region mean for RealTimeInference; recomputed=3.1140184073"
+    },
+    {
+      "raw": "4.3412",
+      "source_file": "sections/model_solution.tex",
+      "context": "APE\\\\\\midrule 实时推理 & 3.1140 & 4.3412 & 0.8465\\\\ 批量推理 & 12.7318 & 1",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):RMSE; six-region mean for RealTimeInference; recomputed=4.3411501184"
+    },
+    {
+      "raw": "0.8465",
+      "source_file": "sections/model_solution.tex",
+      "context": "rule 实时推理 & 3.1140 & 4.3412 & 0.8465\\\\ 批量推理 & 12.7318 & 16.9469 & ",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):WAPE; six-region mean for RealTimeInference; recomputed=0.8465243696"
+    },
+    {
+      "raw": "12.7318",
+      "source_file": "sections/model_solution.tex",
+      "context": "40 & 4.3412 & 0.8465\\\\ 批量推理 & 12.7318 & 16.9469 & 0.7328\\\\ AI 训练 & ",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):MAE; six-region mean for BatchInference; recomputed=12.7318302203"
+    },
+    {
+      "raw": "16.9469",
+      "source_file": "sections/model_solution.tex",
+      "context": "2 & 0.8465\\\\ 批量推理 & 12.7318 & 16.9469 & 0.7328\\\\ AI 训练 & 60.9217 & ",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):RMSE; six-region mean for BatchInference; recomputed=16.9468812748"
+    },
+    {
+      "raw": "0.7328",
+      "source_file": "sections/model_solution.tex",
+      "context": "\\\\ 批量推理 & 12.7318 & 16.9469 & 0.7328\\\\ AI 训练 & 60.9217 & 82.2330 &",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):WAPE; six-region mean for BatchInference; recomputed=0.7327799308"
+    },
+    {
+      "raw": "60.9217",
+      "source_file": "sections/model_solution.tex",
+      "context": " & 16.9469 & 0.7328\\\\ AI 训练 & 60.9217 & 82.2330 & 0.8899\\\\\\bottomru",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):MAE; six-region mean for AITraining; recomputed=60.9216671075"
+    },
+    {
+      "raw": "82.2330",
+      "source_file": "sections/model_solution.tex",
+      "context": " & 0.7328\\\\ AI 训练 & 60.9217 & 82.2330 & 0.8899\\\\\\bottomrule      AI",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):RMSE; six-region mean for AITraining; recomputed=82.2330450593"
+    },
+    {
+      "raw": "0.8899",
+      "source_file": "sections/model_solution.tex",
+      "context": "\\ AI 训练 & 60.9217 & 82.2330 & 0.8899\\\\\\bottomrule      AI 训练的绝对误差最",
+      "verdict": "verified",
+      "provenance": "output/technical-repair-v42-code15/data/q1_forecast_metrics.csv (solve12 SHA-256 f950f4...):WAPE; six-region mean for AITraining; recomputed=0.8898759866"
+    },
+    {
+      "raw": "27.5",
+      "source_file": "sections/model_solution.tex",
+      "context": "。相对两条朴素基线，验证集选定模型的平均 MAE 至少下降 27.5\\%，说明独立验证选模在本测试窗口内有效；但这只是一次保留测",
+      "verdict": "verified",
+      "provenance": "derived:q1 MAE reduction vs SeasonalNaive24; derived percentage; rounded 1dp; evidence value=27.5"
+    },
+    {
+      "raw": "-4.2334",
+      "source_file": "sections/model_solution.tex",
+      "context": "ms & 迁移数 & 接受数\\\\\\midrule 成本 & -4.2334 & 10.2851 & 0.680386 & 6.2235",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:cost_CNY; direct; 亿元 rounded 4dp; evidence value=-4.2334"
+    },
+    {
+      "raw": "10.2851",
+      "source_file": "sections/model_solution.tex",
+      "context": " 接受数\\\\\\midrule 成本 & -4.2334 & 10.2851 & 0.680386 & 6.2235 & 368 & 4",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:carbon_tCO2; direct; rounded 4dp; evidence value=10.2851"
+    },
+    {
+      "raw": "6.2235",
+      "source_file": "sections/model_solution.tex",
+      "context": "4.2334 & 10.2851 & 0.680386 & 6.2235 & 368 & 422\\\\ 碳 & -4.1966 & 1",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:network_latency_ms; direct; rounded 4dp; evidence value=6.2235"
+    },
+    {
+      "raw": "368",
+      "source_file": "sections/model_solution.tex",
+      "context": "10.2851 & 0.680386 & 6.2235 & 368 & 422\\\\ 碳 & -4.1966 & 14.3916",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:migration_count; direct; evidence value=368"
+    },
+    {
+      "raw": "422",
+      "source_file": "sections/model_solution.tex",
+      "context": "1 & 0.680386 & 6.2235 & 368 & 422\\\\ 碳 & -4.1966 & 14.3916 & 0.6",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:accepted_improvements; direct; evidence value=422"
+    },
+    {
+      "raw": "0.679078",
+      "source_file": "sections/model_solution.tex",
+      "context": "422\\\\ 碳 & -4.1966 & 14.3916 & 0.679078 & 5.1594 & 209 & 0\\\\ 新能源 & -4",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:renewable_utilization; direct; rounded 6dp; evidence value=0.679078"
+    },
+    {
+      "raw": "5.1594",
+      "source_file": "sections/model_solution.tex",
+      "context": "4.1966 & 14.3916 & 0.679078 & 5.1594 & 209 & 0\\\\ 新能源 & -4.2230 & 1",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:network_latency_ms; direct; rounded 4dp; evidence value=5.1594"
+    },
+    {
+      "raw": "209",
+      "source_file": "sections/model_solution.tex",
+      "context": "14.3916 & 0.679078 & 5.1594 & 209 & 0\\\\ 新能源 & -4.2230 & 14.3916",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:migration_count; direct; evidence value=209"
+    },
+    {
+      "raw": "-4.2230",
+      "source_file": "sections/model_solution.tex",
+      "context": "78 & 5.1594 & 209 & 0\\\\ 新能源 & -4.2230 & 14.3916 & 0.680193 & 7.0758",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:cost_CNY; direct; 亿元 rounded 3dp; evidence value=-4.223"
+    },
+    {
+      "raw": "7.0758",
+      "source_file": "sections/model_solution.tex",
+      "context": "4.2230 & 14.3916 & 0.680193 & 7.0758 & 574 & 761\\\\ 服务 & -4.1966 & ",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:network_latency_ms; direct; rounded 4dp; evidence value=7.0758"
+    },
+    {
+      "raw": "574",
+      "source_file": "sections/model_solution.tex",
+      "context": "14.3916 & 0.680193 & 7.0758 & 574 & 761\\\\ 服务 & -4.1966 & 14.391",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:migration_count; direct; evidence value=574"
+    },
+    {
+      "raw": "0.679078",
+      "source_file": "sections/model_solution.tex",
+      "context": "61\\\\ 服务 & -4.1966 & 14.3916 & 0.679078 & 5.1594 & 209 & 0\\\\ 平衡 & -4.",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:renewable_utilization; direct; rounded 6dp; evidence value=0.679078"
+    },
+    {
+      "raw": "5.1594",
+      "source_file": "sections/model_solution.tex",
+      "context": "4.1966 & 14.3916 & 0.679078 & 5.1594 & 209 & 0\\\\ 平衡 & -4.2180 & 16",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:network_latency_ms; direct; rounded 4dp; evidence value=5.1594"
+    },
+    {
+      "raw": "209",
+      "source_file": "sections/model_solution.tex",
+      "context": "14.3916 & 0.679078 & 5.1594 & 209 & 0\\\\ 平衡 & -4.2180 & 16.5160 ",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:migration_count; direct; evidence value=209"
+    },
+    {
+      "raw": "485",
+      "source_file": "sections/model_solution.tex",
+      "context": "量审计。平衡方案的服务质量为 0.990393，最大等待为 485 小时；这说明代理评分允许以等待损失换取其他指标，不能只根据",
+      "verdict": "verified",
+      "provenance": "data/q2_search_summary.csv:final_wait_h; direct; evidence value=485"
+    },
+    {
+      "raw": "25.8055",
+      "source_file": "sections/model_solution.tex",
+      "context": "收入/亿元 & 净成本/亿元\\\\\\midrule 成本 & 25.8055 & 1343742.0294 & 0.8516 & 4.2",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_cost_min.csv:buy_MWh aggregate; aggregate; rounded 4dp; evidence value=25.8055"
+    },
+    {
+      "raw": "1343742.0294",
+      "source_file": "sections/model_solution.tex",
+      "context": "本/亿元\\\\\\midrule 成本 & 25.8055 & 1343742.0294 & 0.8516 & 4.2335 & -4.2334\\\\",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_cost_min.csv:sell_MWh aggregate; aggregate; rounded 4dp; evidence value=1343742.0294"
+    },
+    {
+      "raw": "0.8516",
+      "source_file": "sections/model_solution.tex",
+      "context": "成本 & 25.8055 & 1343742.0294 & 0.8516 & 4.2335 & -4.2334\\\\ 碳 & 40.4",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_cost_min.csv:buy_expense_CNY aggregate; aggregate; 万元 rounded 4dp; evidence value=0.8516"
+    },
+    {
+      "raw": "4.2335",
+      "source_file": "sections/model_solution.tex",
+      "context": "055 & 1343742.0294 & 0.8516 & 4.2335 & -4.2334\\\\ 碳 & 40.4664 & 132",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_cost_min.csv:sell_revenue_CNY aggregate; aggregate; 亿元 rounded 4dp; evidence value=4.2335"
+    },
+    {
+      "raw": "-4.2334",
+      "source_file": "sections/model_solution.tex",
+      "context": "3742.0294 & 0.8516 & 4.2335 & -4.2334\\\\ 碳 & 40.4664 & 1329591.2956 ",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:cost_CNY; direct; 亿元 rounded 4dp; evidence value=-4.2334"
+    },
+    {
+      "raw": "40.4664",
+      "source_file": "sections/model_solution.tex",
+      "context": "8516 & 4.2335 & -4.2334\\\\ 碳 & 40.4664 & 1329591.2956 & 1.2328 & 4.1",
+      "verdict": "verified",
+      "provenance": "data/q4_search_summary.csv:baseline_peak_MW; direct; rounded 4dp; evidence value=40.4664"
+    },
+    {
+      "raw": "1329591.2956",
+      "source_file": "sections/model_solution.tex",
+      "context": "335 & -4.2334\\\\ 碳 & 40.4664 & 1329591.2956 & 1.2328 & 4.1967 & -4.1966\\\\",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_carbon_min.csv:sell_MWh aggregate; aggregate; rounded 4dp; evidence value=1329591.2956"
+    },
+    {
+      "raw": "40.4664",
+      "source_file": "sections/model_solution.tex",
+      "context": "28 & 4.1967 & -4.1966\\\\ 新能源 & 40.4664 & 1339961.0855 & 1.2328 & 4.2",
+      "verdict": "verified",
+      "provenance": "data/q4_search_summary.csv:baseline_peak_MW; direct; rounded 4dp; evidence value=40.4664"
+    },
+    {
+      "raw": "1339961.0855",
+      "source_file": "sections/model_solution.tex",
+      "context": "7 & -4.1966\\\\ 新能源 & 40.4664 & 1339961.0855 & 1.2328 & 4.2231 & -4.2230\\\\",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_renewable_max.csv:sell_MWh aggregate; aggregate; rounded 4dp; evidence value=1339961.0855"
+    },
+    {
+      "raw": "4.2231",
+      "source_file": "sections/model_solution.tex",
+      "context": "664 & 1339961.0855 & 1.2328 & 4.2231 & -4.2230\\\\ 服务 & 40.4664 & 13",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_renewable_max.csv:sell_revenue_CNY aggregate; aggregate; 亿元 rounded 4dp; evidence value=4.2231"
+    },
+    {
+      "raw": "-4.2230",
+      "source_file": "sections/model_solution.tex",
+      "context": "9961.0855 & 1.2328 & 4.2231 & -4.2230\\\\ 服务 & 40.4664 & 1329591.2956",
+      "verdict": "verified",
+      "provenance": "data/q2_named_scheme_comparison.csv:cost_CNY; direct; 亿元 rounded 3dp; evidence value=-4.223"
+    },
+    {
+      "raw": "40.4664",
+      "source_file": "sections/model_solution.tex",
+      "context": "328 & 4.2231 & -4.2230\\\\ 服务 & 40.4664 & 1329591.2956 & 1.2328 & 4.1",
+      "verdict": "verified",
+      "provenance": "data/q4_search_summary.csv:baseline_peak_MW; direct; rounded 4dp; evidence value=40.4664"
+    },
+    {
+      "raw": "1329591.2956",
+      "source_file": "sections/model_solution.tex",
+      "context": "31 & -4.2230\\\\ 服务 & 40.4664 & 1329591.2956 & 1.2328 & 4.1967 & -4.1966\\\\",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_carbon_min.csv:sell_MWh aggregate; aggregate; rounded 4dp; evidence value=1329591.2956"
+    },
+    {
+      "raw": "43.7999",
+      "source_file": "sections/model_solution.tex",
+      "context": "328 & 4.1967 & -4.1966\\\\ 平衡 & 43.7999 & 1337864.0359 & 1.4424 & 4.2",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_balanced.csv:buy_MWh aggregate; aggregate; rounded 4dp; evidence value=43.7999"
+    },
+    {
+      "raw": "1337864.0359",
+      "source_file": "sections/model_solution.tex",
+      "context": "67 & -4.1966\\\\ 平衡 & 43.7999 & 1337864.0359 & 1.4424 & 4.2182 & -4.2180\\\\",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_balanced.csv:sell_MWh aggregate; aggregate; rounded 4dp; evidence value=1337864.0359"
+    },
+    {
+      "raw": "1.4424",
+      "source_file": "sections/model_solution.tex",
+      "context": "平衡 & 43.7999 & 1337864.0359 & 1.4424 & 4.2182 & -4.2180\\\\\\bottomru",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_balanced.csv:buy_expense_CNY aggregate; aggregate; 万元 rounded 4dp; evidence value=1.4424"
+    },
+    {
+      "raw": "4.2182",
+      "source_file": "sections/model_solution.tex",
+      "context": "999 & 1337864.0359 & 1.4424 & 4.2182 & -4.2180\\\\\\bottomrule   }   ",
+      "verdict": "verified",
+      "provenance": "data/q2_energy_balanced.csv:sell_revenue_CNY aggregate; aggregate; 亿元 rounded 4dp; evidence value=4.2182"
+    },
+    {
+      "raw": "0.679150",
+      "source_file": "sections/model_solution.tex",
+      "context": "o-action & -4.1982 & 8.8506 & 0.679150 & 是\\\\ 成本 & -4.5875 & 0.0000 &",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:renewable_utilization; direct; rounded 5dp; evidence value=0.67915"
+    },
+    {
+      "raw": "0.711735",
+      "source_file": "sections/model_solution.tex",
+      "context": "& 是\\\\ 成本 & -4.5875 & 0.0000 & 0.711735 & 是\\\\ 碳 & -4.1990 & 0.0000 & ",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:renewable_utilization; direct; rounded 6dp; evidence value=0.711735"
+    },
+    {
+      "raw": "4.6997",
+      "source_file": "sections/model_solution.tex",
+      "context": ".679300 & 是\\\\ 新能源 & -4.5856 & 4.6997 & 0.771475 & 是\\\\ 峰值 & -4.1990",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:carbon_tCO2; direct; rounded 4dp; evidence value=4.6997"
+    },
+    {
+      "raw": "11.4975",
+      "source_file": "sections/model_solution.tex",
+      "context": "00 & 否（同碳策略）\\\\ 爬坡 & -4.1982 & 11.4975 & 0.679305 & 是\\\\ 平衡 & -4.5858",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:carbon_tCO2; direct; rounded 4dp; evidence value=11.4975"
+    },
+    {
+      "raw": "2.146",
+      "source_file": "sections/model_solution.tex",
+      "context": "6 & 是\\\\ 碳 & 0.0000 & 0.0000 & 2.146 & 否\\\\ 新能源 & 2.7455 & 15.2020 ",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:equivalent_full_cycles_sum; direct; rounded 3dp; evidence value=2.146"
+    },
+    {
+      "raw": "2.7455",
+      "source_file": "sections/model_solution.tex",
+      "context": " & 0.0000 & 2.146 & 否\\\\ 新能源 & 2.7455 & 15.2020 & 1568.882 & 是\\\\ 峰值",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:peak_MW; direct; rounded 4dp; evidence value=2.7455"
+    },
+    {
+      "raw": "15.2020",
+      "source_file": "sections/model_solution.tex",
+      "context": " & 2.146 & 否\\\\ 新能源 & 2.7455 & 15.2020 & 1568.882 & 是\\\\ 峰值 & 0.0000 ",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:ramp_MW; direct; rounded 3dp; evidence value=15.202"
+    },
+    {
+      "raw": "1568.882",
+      "source_file": "sections/model_solution.tex",
+      "context": " 否\\\\ 新能源 & 2.7455 & 15.2020 & 1568.882 & 是\\\\ 峰值 & 0.0000 & 0.0000 & ",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:equivalent_full_cycles_sum; direct; rounded 3dp; evidence value=1568.882"
+    },
+    {
+      "raw": "2.146",
+      "source_file": "sections/model_solution.tex",
+      "context": " & 是\\\\ 峰值 & 0.0000 & 0.0000 & 2.146 & 否\\\\ 爬坡 & 40.9020 & 81.8040 ",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:equivalent_full_cycles_sum; direct; rounded 3dp; evidence value=2.146"
+    },
+    {
+      "raw": "40.9020",
+      "source_file": "sections/model_solution.tex",
+      "context": "0 & 0.0000 & 2.146 & 否\\\\ 爬坡 & 40.9020 & 81.8040 & 2.496 & 否\\\\ 平衡 & ",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:peak_MW; direct; rounded 3dp; evidence value=40.902"
+    },
+    {
+      "raw": "81.8040",
+      "source_file": "sections/model_solution.tex",
+      "context": " & 2.146 & 否\\\\ 爬坡 & 40.9020 & 81.8040 & 2.496 & 否\\\\ 平衡 & 0.3740 & 0",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:ramp_MW; direct; rounded 3dp; evidence value=81.804"
+    },
+    {
+      "raw": "2.496",
+      "source_file": "sections/model_solution.tex",
+      "context": " 否\\\\ 爬坡 & 40.9020 & 81.8040 & 2.496 & 否\\\\ 平衡 & 0.3740 & 0.7480 & ",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:equivalent_full_cycles_sum; direct; rounded 3dp; evidence value=2.496"
+    },
+    {
+      "raw": "1568.242",
+      "source_file": "sections/model_solution.tex",
+      "context": " & 否\\\\ 平衡 & 0.3740 & 0.7480 & 1568.242 & 是\\\\\\bottomrule   }    选中的平衡",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:equivalent_full_cycles_sum; direct; rounded 3dp; evidence value=1568.242"
+    },
+    {
+      "raw": "1800",
+      "source_file": "sections/model_solution.tex",
+      "context": "028 的波动情景在第 1 轮接受一次改进，总计 3 轮和 1800 个候选。所有情景合计 37 轮、22200 个候选。   ",
+      "verdict": "verified",
+      "provenance": "data/q4_scenario_comparison_v42.csv:checked_candidates; direct; evidence value=1800"
+    },
+    {
+      "raw": "58.075356",
+      "source_file": "sections/model_solution.tex",
+      "context": "nt；碳削减 10\\% 情景仅第 2 轮被接受，联合分数由 58.075356 降至 0.101290，随后连续两轮无改善停止；波动种子 ",
+      "verdict": "verified",
+      "provenance": "data/q4_alternation_trace.csv:joint_score_before; direct; rounded 6dp; evidence value=58.075356"
+    },
+    {
+      "raw": "0.101290",
+      "source_file": "sections/model_solution.tex",
+      "context": "景仅第 2 轮被接受，联合分数由 58.075356 降至 0.101290，随后连续两轮无改善停止；波动种子 2028 仅第 1 轮被",
+      "verdict": "verified",
+      "provenance": "data/q4_alternation_trace.csv:joint_score_before; direct; rounded 5dp; evidence value=0.10129"
+    },
+    {
+      "raw": "303.034335",
+      "source_file": "sections/model_solution.tex",
+      "context": "无改善停止；波动种子 2028 仅第 1 轮被接受，分数由 303.034335 降至 294.820472。该对照表明邻域随前一轮储能信号",
+      "verdict": "verified",
+      "provenance": "data/q4_alternation_trace.csv:joint_score_before; direct; rounded 6dp; evidence value=303.034335"
+    },
+    {
+      "raw": "294.820472",
+      "source_file": "sections/model_solution.tex",
+      "context": "8 仅第 1 轮被接受，分数由 303.034335 降至 294.820472。该对照表明邻域随前一轮储能信号动态重建，而不是从固定候选表",
+      "verdict": "verified",
+      "provenance": "data/q4_alternation_trace.csv:joint_score_before; direct; rounded 6dp; evidence value=294.820472"
+    },
+    {
+      "raw": "582",
+      "source_file": "sections/model_solution.tex",
+      "context": "8912 & 0.4438\\\\ 削减 0.10 & 4 & 582 & -4.583651 & 0.4245 & 0.7689",
+      "verdict": "verified",
+      "provenance": "data/q4_scenario_comparison_v42.csv:migration_count; direct; evidence value=582"
+    },
+    {
+      "raw": "583",
+      "source_file": "sections/model_solution.tex",
+      "context": "8729 & 298.6499\\\\ 波动 & 2028 & 583 & -4.537630 & 464.9554 & 0.76",
+      "verdict": "verified",
+      "provenance": "data/q4_scenario_comparison_v42.csv:migration_count; direct; evidence value=583"
+    },
+    {
+      "raw": "1706.49",
+      "source_file": "sections/sensitivity.tex",
+      "context": "v15 与固定种子，自然耗时分别为 1687.58 s 和 1706.49 s。除记录自然耗时的 \\texttt{method\\_ru",
+      "verdict": "verified",
+      "provenance": "evidence\\run-comparison.json/run_2_elapsed_seconds; direct; rounded 2dp; evidence value=1706.49"
+    },
+    {
+      "raw": "1568.242",
+      "source_file": "sections/sensitivity.tex",
+      "context": "价格结构而非末端库存；但平衡与新能源策略的等效循环分别达到 1568.242 和 1568.882。题面未给循环寿命与退化成本，故高循环",
+      "verdict": "verified",
+      "provenance": "data/q3_search_trace.csv:equivalent_full_cycles_sum; direct; rounded 3dp; evidence value=1568.242"
+    },
+    {
+      "raw": "-298.6499",
+      "source_file": "sections/sensitivity.tex",
+      "context": "  Q4 三个新能源波动种子的峰值购电为 146.1294--298.6499 MW、碳排放为 464.9554--852.0600 tC",
+      "verdict": "parser",
+      "provenance": "TeX range separator `--` attached to positive upper endpoint; +298.6499 and +852.0600 are in frozen solve12 q4_scenario_comparison_v42.csv"
+    },
+    {
+      "raw": "-852.0600",
+      "source_file": "sections/sensitivity.tex",
+      "context": "94--298.6499 MW、碳排放为 464.9554--852.0600 tCO$_2$，显示单一随机轨迹不足以概括风险；当前三种子",
+      "verdict": "parser",
+      "provenance": "TeX range separator `--` attached to positive upper endpoint; +298.6499 and +852.0600 are in frozen solve12 q4_scenario_comparison_v42.csv"
+    }
+  ]
+}

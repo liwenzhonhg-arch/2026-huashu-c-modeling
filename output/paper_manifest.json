@@ -1,9 +1,9 @@
 {
   "versions": {
-    "code": 14,
-    "solve": 11,
-    "paper": 17,
-    "review": 11
+    "code": 15,
+    "solve": 12,
+    "paper": 20,
+    "review": 14
   },
-  "pdf_sha256": "1cb30e1cd64305b69654306f01a146b7c7340da94ad5e6b045a1dc61bb413b80"
+  "pdf_sha256": "c442be7f4098734bcf56148a94279911846fd95693293aeca12f308c10179b55"
 }

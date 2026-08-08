@@ -1,0 +1,250 @@
+% MMW-METHOD-CONTRACT: ead1dc31de5453e83924fd80c141e14521697c804489a275435dbb5338b47dac
+% MMW-METHOD-CONTRACT: ead1dc31de5453e83924fd80c141e14521697c804489a275435dbb5338b47dac
+% MMW-ID: OBJ-Q1
+% MMW-ID: OBJ-Q2
+% MMW-ID: OBJ-Q3
+% MMW-ID: OBJ-Q4
+% MMW-ID: CON-Q1-1
+% MMW-ID: CON-Q1-2
+% MMW-ID: CON-Q1-3
+% MMW-ID: CON-Q1-4
+% MMW-ID: CON-Q1-5
+% MMW-ID: CON-Q1-6
+% MMW-ID: CON-Q1-7
+% MMW-ID: CON-Q2-1
+% MMW-ID: CON-Q2-2
+% MMW-ID: CON-Q2-3
+% MMW-ID: CON-Q2-4
+% MMW-ID: CON-Q2-5
+% MMW-ID: CON-Q2-6
+% MMW-ID: CON-Q3-1
+% MMW-ID: CON-Q3-2
+% MMW-ID: CON-Q3-3
+% MMW-ID: CON-Q3-4
+% MMW-ID: CON-Q3-5
+% MMW-ID: CON-Q3-6
+% MMW-ID: CON-Q3-7
+% MMW-ID: CON-Q4-1
+% MMW-ID: CON-Q4-2
+% MMW-ID: CON-Q4-3
+% MMW-ID: CON-Q4-4
+% MMW-ID: CON-Q4-5
+% MMW-ID: CON-Q4-6
+% MMW-ALGORITHM: 严格闭环预测；五方案增量任务局部搜索；离散SOC动态规划；按情景动态重建邻域的任务-储能交替有限搜索
+\section{模型的建立与求解}
+
+\subsection{统一时间、资源与能源口径}
+任务 $i$ 的 GPU 数、到达时刻、持续小时数和有效截止分别记为 $g_i,a_i,h_i,F_i$，其中 $h_i=d_i/60$，$F_i=\min\{l_i,2406\}$。任务在整数时刻 $s_i$ 开工，与小时区间 $[t,t+1)$ 的重叠量为
+\begin{equation}
+\omega_{it}=\max\{0,\min(t+1,s_i+h_i)-\max(t,s_i)\},\qquad
+\chi_{it}=\mathbf 1\{\omega_{it}>0\}.
+\end{equation}
+$\chi_{it}$ 用于瞬时 GPU 与功率边界，$\omega_{it}$ 用于电量。合法候选集合满足
+\begin{equation}
+\Omega_i=\{(r,s):s\ge a_i,\ s+h_i\le F_i,\ \ell_{o_i r}\le \ell_i^{\max},\ \omega_{i,2406}=0\}.
+\end{equation}
+每个任务恰选一个候选，实时任务还满足 $s_i=a_i$。区域 $r$ 在小时 $t$ 的 GPU、IT 与设施功率约束为
+\begin{align}
+\sum_i g_i\chi_{it}\mathbf 1(r_i=r)&\le \bar G_r,\\
+L_{rt}^{N}+\sum_i g_i p_{k_i}^{GPU}\chi_{it}\mathbf 1(r_i=r)&\le \bar P_r^{IT},\\
+\pi_r\!\left(L_{rt}^{N}+\sum_i g_i p_{k_i}^{GPU}\chi_{it}\mathbf 1(r_i=r)\right)&\le \bar P_r^{F}.
+\end{align}
+AI 平均负荷则以 $\omega_{it}$ 累计。运行成本、购电碳排放与新能源利用率统一为
+\begin{align}
+C&=\sum_{r,t}(c^{buy}_{rt}G^{buy}_{rt}-c^{sell}_{rt}G^{sell}_{rt}),\\
+E&=\sum_{r,t}\kappa_{rt}G^{buy}_{rt},\\
+U&=\frac{\sum_{r,t}(R^{use}_{rt}+R^{ch}_{rt}+R^{sell}_{rt})}{\sum_{r,t}R^{av}_{rt}},
+\end{align}
+其中 $U$ 仅在分母为正时计算。网络时延按任务 GPU-hour 加权，服务质量由实时 SLA、按期完成率和等待统计共同解释。
+
+\subsection{问题一：严格闭环预测与基础调度}
+\subsubsection{候选预测模型与选模}
+对区域 $r$、任务类型 $k$ 的到达 GPU 序列 $D_{rkt}$，Huber 候选使用滞后 $1,2,3,24,48,168$ 及日、周正余弦特征。其损失为
+\begin{equation}
+\min_{b,\theta,\sigma>0}n\sigma+\sigma\sum_t\rho_{\epsilon}\!\left(\frac{D_{rkt}-b-x_t^\mathsf T\theta}{\sigma}\right)+\alpha\|\theta\|_2^2.
+\end{equation}
+超参数网格为 $\epsilon\in\{1.10,1.35,1.75\}$、$\alpha\in\{10^{-4},10^{-3},10^{-2}\}$，并与 24 小时、168 小时季节朴素模型比较。第 0 至 2351 小时训练，第 2352 至 2375 小时验证，第 2376 至 2399 小时测试。验证阶段按 RMSE、MAE、WAPE 和固定模型次序破除并列；测试阶段闭环递推，字段 \texttt{FeatureUsesTestTruth} 全为 false。
+
+\begin{table}[H]\centering
+\caption{问题一最终测试的模型比较（18 条序列指标取平均）}\label{tab:q1model}
+\begin{tabular}{lrrr}\toprule
+模型 & MAE/GPU & RMSE/GPU & WAPE\\\midrule
+24 小时季节朴素 & 35.3032 & 46.9509 & 1.0809\\
+168 小时季节朴素 & 35.9120 & 46.9954 & 1.2171\\
+验证集选定模型 & 25.5892 & 34.5070 & 0.8231\\\bottomrule
+\end{tabular}
+\end{table}
+
+18 条序列中 17 条选择 Huber，RegionC 的实时推理选择 168 小时季节朴素。相对两条朴素基线，验证集选定模型的平均 MAE 至少下降 27.5\%，说明独立验证选模在本测试窗口内有效；但这只是一次保留测试，不代表长期泛化误差。将 18 条序列聚合后的逐小时预测与真实值见图~\ref{fig:q1forecast}。
+\begin{figure}[H]\centering
+\includegraphics[width=.86\textwidth]{q1_forecast_actual.png}
+\caption{第 2376 至 2399 小时聚合 GPU 需求：预测与真实值}\label{fig:q1forecast}
+\end{figure}
+
+\subsubsection{538 个实际任务的末端调度}
+最后 24 小时不用预测需求，而使用 538 个实际到达任务。确定性可行构造依次按实时属性、截止、持续时间、GPU 需求和任务编号排序，再按等待、时延和新增峰值利用率选择候选。共有 68 个任务在第 2400 至 2405 小时完成，且第 2406 小时任务占用为零。峰值利用率与按重叠时间折算的平均利用率分别为
+\begin{equation}
+U^{peak}_{rt}=\frac{\sum_i g_i\chi_{it}\mathbf 1(r_i=r)}{\bar G_r},\qquad
+U^{avg}_{rt}=\frac{\sum_i g_i\omega_{it}\mathbf 1(r_i=r)}{\bar G_r}.
+\end{equation}
+图~\ref{fig:gpu} 来自 solve v12 的逐时图形数据，完整调度表接受任务唯一性、时窗、时延和三类容量全量审计。
+\begin{figure}[H]\centering
+\includegraphics[width=.86\textwidth]{fig_1_gpu_utilization.png}
+\caption{最后 24 小时各区域 GPU 利用率}\label{fig:gpu}
+\end{figure}
+
+\subsection{问题二：五方向增量任务搜索}
+问题二不启用储能。逐时能源满足
+\begin{align}
+R^{use}_{rt}&=\min\{R^{av}_{rt},L^F_{rt}\},\\
+G^{buy}_{rt}+R^{use}_{rt}&=L^F_{rt},\\
+R^{use}_{rt}+R^{sell}_{rt}+R^{curt}_{rt}&=R^{av}_{rt},
+\end{align}
+且购售电互斥并受进出口上限约束。每个搜索方向以同一可行任务方案为起点，完整评价 10000 个候选；“方向名”仅说明候选排序准则。
+
+\begin{table}[H]\centering\small
+\caption{问题二五类有限搜索结果}\label{tab:q2schemes}
+\begin{tabular}{lrrrrrr}\toprule
+方向 & 成本/亿元 & 碳/t & 新能源率 & 时延/ms & 迁移数 & 接受数\\\midrule
+成本 & -4.2334 & 10.2851 & 0.680386 & 6.2235 & 368 & 422\\
+碳 & -4.1966 & 14.3916 & 0.679078 & 5.1594 & 209 & 0\\
+新能源 & -4.2230 & 14.3916 & 0.680193 & 7.0758 & 574 & 761\\
+服务 & -4.1966 & 14.3916 & 0.679078 & 5.1594 & 209 & 0\\
+平衡 & -4.2180 & 16.5160 & 0.679962 & 6.5824 & 561 & 854\\\bottomrule
+\end{tabular}
+\end{table}
+
+平衡方向被用于后续联合基线。五次搜索共评价 50000 个候选，每个方向均对 50000 个任务执行一次全量审计。平衡方案的服务质量为 0.990393，最大等待为 485 小时；这说明代理评分允许以等待损失换取其他指标，不能只根据“平衡”名称推断服务最优。
+
+\begin{table}[H]\centering\small
+\caption{问题二成本现金流分解}\label{tab:q2cost}
+\begin{tabular}{lrrrrr}\toprule
+方向 & 购电/MWh & 售电/MWh & 购电支出/万元 & 售电收入/亿元 & 净成本/亿元\\\midrule
+成本 & 25.8055 & 1343742.0294 & 0.8516 & 4.2335 & -4.2334\\
+碳 & 40.4664 & 1329591.2956 & 1.2328 & 4.1967 & -4.1966\\
+新能源 & 40.4664 & 1339961.0855 & 1.2328 & 4.2231 & -4.2230\\
+服务 & 40.4664 & 1329591.2956 & 1.2328 & 4.1967 & -4.1966\\
+平衡 & 43.7999 & 1337864.0359 & 1.4424 & 4.2182 & -4.2180\\\bottomrule
+\end{tabular}
+\end{table}
+
+表~\ref{tab:q2cost} 说明负成本几乎完全由售电收入驱动。平衡方案相对于未搜索基线把净成本由 $-4.196581\times10^8$ 元降至 $-4.218017\times10^8$ 元，但碳排放由 14.3916 增至 16.5160 tCO$_2$；它是有限候选集中的折中结果，不构成跨方案 Pareto 最优。
+
+\subsection{问题三：离散 SOC 动态规划与候选筛选}
+设施负荷固定为 $L^F_{rt}=\pi_r(L^{BAI}_{rt}+L^N_{rt})$。令 $S_{rt}$ 为时段末 SOC，充放电功率为 $C_{rt},D_{rt}$，则
+\begin{align}
+S_{rt}&=S_{r,t-1}+\eta_r^cC_{rt}-D_{rt}/\eta_r^d,\\
+S_r^{min}\le S_{rt}&\le S_r^{max},\qquad S_{r,2406}=S_r^0.
+\end{align}
+每区使用 21 个等距状态并加入 $S_r^0$，逐时保留满足能源平衡、功率和互斥边界的可达转移。峰值、爬坡和等效循环定义为
+\begin{equation}
+P=\sum_r\max\{0,\max_t(G^{buy}_{rt}-G^{sell}_{rt})\},\quad
+V=\sum_{r,t}|N_{rt}-N_{r,t-1}|,
+\end{equation}
+\begin{equation}
+N^{cycle}=\sum_r\frac{\sum_t(C_{rt}+D_{rt})}{2(S_r^{max}-S_r^{min})}.
+\end{equation}
+
+\begin{table}[H]\centering\scriptsize
+\caption{问题三七策略与六条唯一轨迹}\label{tab:q3policies}
+\begin{tabular}{lrrrrrrc}\toprule
+策略 & 成本/亿元 & 碳/t & 新能源率 & 峰值/MW & 爬坡/MW & 等效循环 & 非支配\\\midrule
+no-action & -4.1982 & 8.8506 & 0.679150 & 31.5979 & 63.1957 & 0.000 & 否\\
+成本 & -4.5875 & 0.0000 & 0.711735 & 0.0000 & 0.0000 & 240.186 & 是\\
+碳 & -4.1990 & 0.0000 & 0.679300 & 0.0000 & 0.0000 & 2.146 & 否\\
+新能源 & -4.5856 & 4.6997 & 0.771475 & 2.7455 & 15.2020 & 1568.882 & 是\\
+峰值 & -4.1990 & 0.0000 & 0.679300 & 0.0000 & 0.0000 & 2.146 & 否$^*$\\
+爬坡 & -4.1982 & 11.4975 & 0.679305 & 40.9020 & 81.8040 & 2.496 & 否\\
+平衡 & -4.5858 & 0.2241 & 0.771439 & 0.3740 & 0.7480 & 1568.242 & 是\\\bottomrule
+\multicolumn{8}{l}{$^*$峰值策略与碳策略轨迹相同，故 7 个标签对应 6 条唯一轨迹。}
+\end{tabular}
+\end{table}
+
+选中的平衡策略相对 no-action：成本减少 38764304.59 元，碳排放减少 8.6265 tCO$_2$，峰值减少 31.2239 MW，绝对爬坡减少 62.4478 MW。累计充、放电分别为 906765.54 MWh 和 786695.83 MWh。图~\ref{fig:soc} 显示终端 SOC 回到初始值。
+\begin{figure}[H]\centering
+\includegraphics[width=.86\textwidth]{fig_2_storage_soc.png}
+\caption{问题三平衡策略的六区域 SOC 轨迹}\label{fig:soc}
+\end{figure}
+
+循环次数很高，主要源于未计退化成本和有限 SOC 网格允许逐日重复利用价差与新能源富余。它不违反题面给定硬约束，但会削弱工程可实施性；因此本文只把该轨迹称为候选集内非支配方案。终端 SOC 放宽实验下，各区终端值降至 35、32、30、90、82、85 MWh，而成本最小策略的成本与强制回到初值时相同，说明当前成本最小候选的结果并非由终端库存被迫抬高造成。
+
+\subsection{问题四：任务—储能动态交替搜索}
+联合模型用真实任务轨迹重建 $L^F_{rt}$，并继承前三问全部任务、能源和 SOC 约束。联合基线从问题二平衡任务方案出发，储能侧仍从真实初始 SOC 重启。候选集内的基准联合结果为：成本 $-458716347.97$ 元，碳排放 0.268398 tCO$_2$，网络时延 6.582432 ms，服务质量 0.990393，新能源利用率 0.771883，峰值购电 0.364428 MW。
+
+实际交替过程如下。
+\begin{enumerate}
+\item 对当前任务方案重建逐时设施负荷，并求离散 SOC 储能策略；
+\item 由当前电价、碳强度、购电和弃电形成任务移动信号；
+\item 按固定次序评价 600 个任务移动候选，只接受通过增量边界的严格改进；
+\item 对候选执行 50000 任务全量审计，若接受则以新任务与新储能作为下一轮 incumbent；
+\item 达到 8 轮上限或连续 2 轮无改善时停止；每个情景独立重启。
+\end{enumerate}
+
+基准情景完成 2 轮、评价 1200 个候选且未接受轮次；10\% 碳削减情景在第 2 轮接受一次改进，总计 4 轮和 2400 个候选；种子 2028 的波动情景在第 1 轮接受一次改进，总计 3 轮和 1800 个候选。所有情景合计 37 轮、22200 个候选。
+
+
+表~\ref{tab:q4rounds} 选取三类有代表性的轮次。\texttt{local moves} 是增量边界内曾改善该轮任务方向的移动数，并不等于整轮被接受；整轮只有在储能重建、联合评分和全量任务审计共同通过后才接受。改进量定义为“旧联合分数减新联合分数”，故正值表示改进。
+\begin{table}[H]\centering\scriptsize
+\caption{问题四代表性动态交替轮次}\label{tab:q4rounds}
+\begin{tabular}{llrrrrrc}\toprule
+情景 & 轮次 & 候选数 & local moves & 旧分数 & 新分数 & 改进量 & 接受\\\midrule
+基准 & 1 & 600 & 44 & 0.185976 & 0.188133 & -0.002157 & 否\\
+基准 & 2 & 600 & 53 & 0.185976 & 0.188231 & -0.002255 & 否\\
+碳削减 0.10 & 1 & 600 & 57 & 58.075356 & 308.572069 & -250.496713 & 否\\
+碳削减 0.10 & 2 & 600 & 56 & 58.075356 & 0.101290 & 57.974066 & 是\\
+碳削减 0.10 & 3 & 600 & 50 & 0.101290 & 0.103909 & -0.002619 & 否\\
+碳削减 0.10 & 4 & 600 & 7 & 0.101290 & 0.101485 & -0.000194 & 否\\
+波动 2028 & 1 & 600 & 59 & 303.034335 & 294.820472 & 8.213862 & 是\\
+波动 2028 & 2 & 600 & 20 & 294.820472 & 294.820781 & -0.000309 & 否\\
+波动 2028 & 3 & 600 & 40 & 294.820472 & 294.821904 & -0.001431 & 否\\\bottomrule
+\end{tabular}
+\end{table}
+
+基准两轮虽然分别出现 44 和 53 次局部移动，但储能重建后的联合分数均变差，故 incumbent 不变。碳削减 0.10 在第 2 轮接受新方案后，又连续两轮没有改善而停止；波动种子 2028 则在第 1 轮接受新方案。该对照直接证明邻域确实按前一轮储能信号重建，而不是从固定候选表中挑选。
+
+\begin{table}[H]\centering\scriptsize
+\caption{问题四 17 个情景的动态交替结果}\label{tab:q4scenarios}
+\begin{tabular}{llrrrrrl}\toprule
+类型 & 水平/种子 & 轮数 & 迁移数 & 成本/亿元 & 碳/t & 新能源率 & 峰值/MW\\\midrule
+基准 & 1.00 & 2 & 561 & -4.583419 & 0.5789 & 0.768912 & 0.4438\\
+碳削减 & 0.00 & 2 & 561 & -4.583419 & 0.5789 & 0.768912 & 0.4438\\
+碳削减 & 0.10 & 4 & 582 & -4.583651 & 0.4245 & 0.768957 & 0.4438\\
+碳削减 & 0.20 & 2 & 561 & -4.583418 & 0.5789 & 0.768912 & 0.4438\\
+碳削减 & 0.30 & 2 & 561 & -4.583417 & 0.5789 & 0.768912 & 0.4438\\
+峰谷价差 & 0.75 & 2 & 561 & -4.583419 & 0.5789 & 0.768912 & 0.4438\\
+峰谷价差 & 1.00 & 2 & 561 & -4.583419 & 0.5789 & 0.768912 & 0.4438\\
+峰谷价差 & 1.25 & 2 & 561 & -4.583419 & 0.5789 & 0.768912 & 0.4438\\
+售电系数 & 0.00 & 2 & 561 & 0.000005 & 0.5789 & 0.768926 & 0.4438\\
+售电系数 & 0.50 & 2 & 561 & -2.291688 & 0.5789 & 0.768917 & 0.4438\\
+售电系数 & 1.00 & 2 & 561 & -4.583419 & 0.5789 & 0.768912 & 0.4438\\
+新能源 & 0.80 & 2 & 561 & -3.914911 & 500.5503 & 0.892089 & 92.1180\\
+新能源 & 1.00 & 2 & 561 & -4.583419 & 0.5789 & 0.768912 & 0.4438\\
+新能源 & 1.20 & 2 & 561 & -4.592361 & 0.0000 & 0.652385 & 0.0000\\
+波动 & 2026 & 2 & 561 & -4.534058 & 760.7500 & 0.768841 & 273.9082\\
+波动 & 2027 & 2 & 561 & -4.532170 & 852.0600 & 0.768729 & 298.6499\\
+波动 & 2028 & 3 & 583 & -4.537630 & 464.9554 & 0.768887 & 146.1294\\\bottomrule
+\end{tabular}
+\end{table}
+
+20\% 与 30\% 碳削减目标的状态是 \texttt{target\_infeasible\_within\_declared\_heuristic}，即声明搜索内未达到。售电系数改变几乎只影响净成本，新能源水平和波动则同时改变碳排放与峰值购电，说明新能源不确定性是联合运行的主要敏感源。
+
+\subsection{统一约束审计与方法边界}
+任务审计逐项检查唯一执行、实时即时开工、到达、截止、单向时延、第 2406 小时禁占用、GPU、IT 和设施功率。能源审计检查
+\begin{align}
+e^{energy}_{rt}&=G^{buy}_{rt}+R^{av}_{rt}+D_{rt}-L^F_{rt}-C_{rt}-G^{sell}_{rt}-R^{curt}_{rt},\\
+e^{SOC}_{rt}&=S_{rt}-S_{r,t-1}-\eta_r^cC_{rt}+D_{rt}/\eta_r^d.
+\end{align}
+只有最大残差、互斥、功率边界与终端等式全部通过才写出正式结果。
+
+% MMW-LIMITATION: D1
+\paragraph{实现边界 D1}Q2 与 Q4 是预声明候选预算内的 best-found 可行解，不是穷举最优解。
+% MMW-LIMITATION: D2
+\paragraph{实现边界 D2}Q3 使用 21 个 SOC 网格状态，未计题面未给出的退化成本与循环寿命上限。
+% MMW-LIMITATION: D3
+\paragraph{实现边界 D3}Q4 的随机波动只使用固定种子 2026、2027、2028，并逐情景独立重启。
+% MMW-LIMITATION: L1
+\paragraph{证据边界 L1}无独立 Oracle，最高可信等级为 scenario-feasible。
+% MMW-LIMITATION: L2
+\paragraph{证据边界 L2}候选集内非支配不等于完整决策空间的 Pareto 前沿。
+% MMW-LIMITATION: L3
+\paragraph{证据边界 L3}Q2 方案名表示搜索方向，不表示跨方案的对应目标最小值。

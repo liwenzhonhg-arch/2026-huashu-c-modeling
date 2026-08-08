@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-08-08T11:03:24+08:00",
+  "active_versions": {
+    "model": 42,
+    "code": 15,
+    "solve": 12,
+    "paper": 20,
+    "review": 14
+  },
+  "statuses": {
+    "model": "approved",
+    "code": "approved",
+    "solve": "approved",
+    "paper": "approved",
+    "review": "approved"
+  },
+  "paper_quality_error": "",
+  "review_quality_error": "",
+  "pages": 16,
+  "page_readability_gate_passed": true,
+  "layout_quality": {
+    "passed": true,
+    "paper_version": 20,
+    "failures": [],
+    "warnings": [
+      "页面预览生成失败：CalledProcessError"
+    ]
+  },
+  "paper_sha256": "c442be7f4098734bcf56148a94279911846fd95693293aeca12f308c10179b55",
+  "submission_zip_sha256": "1bf0e195d4402d82624b6e28e891902b44f2199f1bd1e611b05f7f3ed842536c",
+  "zip_test": true,
+  "root_versioned_pdf_identical": true,
+  "root_versioned_zip_identical": true,
+  "benchmark": {
+    "overall_passed": true,
+    "level": "scenario-feasible",
+    "binding_error": ""
+  },
+  "tests": "126 passed in 14.50s",
+  "passed": true
+}

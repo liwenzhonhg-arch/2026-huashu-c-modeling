@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "figures": [
+    {
+      "file": "fig_1_gpu_utilization.png",
+      "kind": "line",
+      "data_file": "figure_data/fig_1_gpu_utilization.csv",
+      "x": "Hour",
+      "y": [
+        "RegionA",
+        "RegionB",
+        "RegionC",
+        "RegionD",
+        "RegionE",
+        "RegionF"
+      ],
+      "title": "最后24小时区域GPU峰值利用率",
+      "x_label": "时刻 / h",
+      "y_label": "GPU利用率 / 无量纲",
+      "caption": "最后24小时区域GPU峰值利用率"
+    },
+    {
+      "file": "fig_2_storage_soc.png",
+      "kind": "line",
+      "data_file": "figure_data/fig_2_storage_soc.csv",
+      "x": "Hour",
+      "y": [
+        "RegionA",
+        "RegionB",
+        "RegionC",
+        "RegionD",
+        "RegionE",
+        "RegionF"
+      ],
+      "title": "区域储能SOC轨迹",
+      "x_label": "时刻 / h",
+      "y_label": "SOC / MWh",
+      "caption": "区域储能SOC轨迹"
+    },
+    {
+      "file": "sensitivity_electricity_price.png",
+      "kind": "line",
+      "data_file": "figure_data/sensitivity_electricity_price.csv",
+      "x": "delta_pct",
+      "y": [
+        "objective",
+        "baseline"
+      ],
+      "title": "electricity_price灵敏度",
+      "x_label": "扰动幅度 / %",
+      "y_label": "系统运行成本 / 元",
+      "caption": "electricity_price灵敏度"
+    },
+    {
+      "file": "sensitivity_renewable_level.png",
+      "kind": "line",
+      "data_file": "figure_data/sensitivity_renewable_level.csv",
+      "x": "delta_pct",
+      "y": [
+        "objective",
+        "baseline"
+      ],
+      "title": "renewable_level灵敏度",
+      "x_label": "扰动幅度 / %",
+      "y_label": "系统运行成本 / 元",
+      "caption": "renewable_level灵敏度"
+    }
+  ]
+}

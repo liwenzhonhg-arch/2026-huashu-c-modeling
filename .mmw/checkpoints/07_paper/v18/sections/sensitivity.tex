@@ -1,0 +1,10 @@
+\section{模型的检验与灵敏度分析}
+\subsection{硬约束与双运行检验}
+任务审计最大 GPU、唯一性、时延、截止、实时开工和终端残差均不超过 $10^{-6}$；Q3 与 Q4 储能能量平衡、SOC、功率、互斥和终端状态的最大绝对残差均为 $2.274\times10^{-13}$。两次隔离运行使用相同输入副本和 SHA-256 为 \texttt{846f527b...} 的冻结程序，自然完成耗时分别为 1687.58 s 和 1706.49 s。除 method\_runtime.json 中的实际耗时外，48 个正式输出文件逐字节一致，results.json 的 SHA-256 为 \texttt{691e95d6...}。
+
+\subsection{情景响应}
+新能源水平为 0.8 时，碳排放升至 500.5503 tCO$_2$、峰值购电 92.1180 MW；水平为 1.2 时，两者均降为 0。售电价格系数从 0、0.5 到 1 时，净成本从 524.79 元降至 $-2.291688\times10^8$ 元和 $-4.583419\times10^8$ 元，说明结果对题面售电收益口径高度敏感。图~\ref{fig:ren} 给出新能源水平灵敏度。
+\begin{figure}[H]\centering
+\includegraphics[width=.82\textwidth]{sensitivity_renewable_level.png}
+\caption{新能源水平灵敏度}\label{fig:ren}
+\end{figure}

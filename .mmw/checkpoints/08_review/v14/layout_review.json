@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "pages": 16,
+  "target_pages": "14-16",
+  "engine": "XeLaTeX 2026",
+  "overfull_boxes": 0,
+  "undefined_references": 0,
+  "blank_pages": 0,
+  "default_body_layout": true,
+  "global_compression": false,
+  "visual_contact_sheet": "output/technical-repair-v42-code15-paper-v20/evidence/paper-v20-contact-sheet.png",
+  "pdf_sha256": "c442be7f4098734bcf56148a94279911846fd95693293aeca12f308c10179b55",
+  "compile_source": "standard pipeline assembler",
+  "official_layout_quality": "output/layout_quality.json"
+}

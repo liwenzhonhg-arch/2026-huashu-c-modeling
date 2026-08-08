@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "root": "C:\\Users\\moonman\\Desktop\\2026����߽컪������ѧ��ģ��������\\2026����߽컪������ѧ��ģ��������\\C�⼼����֤\\run-2-final-fast",
+  "q1_series": 18,
+  "q2_candidates": 50000,
+  "q2_unique_task_coverage_max": 0.0087,
+  "q3_unique_trajectories": 6,
+  "q3_selected_policy": "balanced",
+  "q4_scenarios": 17,
+  "q4_trace_rows": 37,
+  "hashes": {
+    "results.json": "691e95d6f0450c63c6b0468a55453af778dfe949316eadadc63a5ad8a0a4daa0",
+    "method_runtime.json": "f2a8f66cbf616d5bc8683286089782c93c6c2edd6e19b9bb5fa0f5f966910428",
+    "q1_forecast_metrics.csv": "f950f4ccc8c548dc3e2403ab8e089d6e46673f17d1d205b735b18b7de29076d2",
+    "q2_named_scheme_comparison.csv": "5ea08be69a8a0d8ef7e384c4fcf008e5929528a9da0231d2d985d2c3342346e7",
+    "q3_search_trace.csv": "0950f62373d6745c01d98678fa6494885d25d7f677a42e423e967fb62886f825",
+    "q4_scenario_comparison_v42.csv": "97a9d0ae4b2036b84e7d1a457258115d418357a5503f4b15b29d818c92c56317",
+    "q4_alternation_trace.csv": "0f38e5d331e3a38a8e51782fda608c620fe8bb5cd3def4affcdff6d0916e755f"
+  }
+}

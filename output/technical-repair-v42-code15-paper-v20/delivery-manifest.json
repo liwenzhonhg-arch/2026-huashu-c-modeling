@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "authoritative_delivery": "output/submission.zip",
+  "paper": "output/paper.pdf",
+  "versioned_mirror": "output/technical-repair-v42-code15-paper-v20",
+  "active_versions": {
+    "model": 42,
+    "code": 15,
+    "solve": 12,
+    "paper": 20,
+    "review": 14
+  },
+  "pages": 16,
+  "certification": "scenario-feasible",
+  "paper_sha256": "c442be7f4098734bcf56148a94279911846fd95693293aeca12f308c10179b55",
+  "submission_sha256": "1bf0e195d4402d82624b6e28e891902b44f2199f1bd1e611b05f7f3ed842536c",
+  "root_and_versioned_pdf_identical": true,
+  "root_and_versioned_zip_identical": true,
+  "zip_test": "pass"
+}
