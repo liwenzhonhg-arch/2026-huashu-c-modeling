@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "q1_method": "greedy_schedule_full_horizon_scenario_feasible_incumbent",
+  "q2_method": "balanced_finite_search_from_q1_incumbent",
+  "q1_schedule_full": {
+    "file": "q1_schedule_full.csv",
+    "sha256": "6d23b3fb783f9ea253ad1ed7b3221fc293396a7a5fba36f6dbdd3338e0950e6c",
+    "task_count": 50000
+  },
+  "q1_schedule_terminal": {
+    "file": "q1_schedule.csv",
+    "sha256": "58dc1fd78abf94a426082100f0c29607bd44538c3b7eec16a57a46c34357660e",
+    "task_count": 538,
+    "arrival_window": [
+      2376,
+      2399
+    ]
+  },
+  "q2_balanced_schedule": {
+    "file": "q2_schedule_balanced.csv",
+    "sha256": "d9c2ed4cdf83a27dd8f053157d67f60a72437c249660136c9ff52d9fde7ed065",
+    "task_count": 50000
+  },
+  "figures": {
+    "q1_gantt.png": {
+      "data_file": "q1_gantt.csv",
+      "data_sha256": "58dc1fd78abf94a426082100f0c29607bd44538c3b7eec16a57a46c34357660e",
+      "figure_sha256": "aeb3b6a0c0240b179fa36fe7cc51fe5dd333638f4625c7407d9e947cd82d4c9a",
+      "generator": "save_q1_gantt"
+    },
+    "q1_gpu_utilization.png": {
+      "data_file": "q1_gpu_utilization.csv",
+      "data_sha256": "28e22d656e1fa55365e63f79893cda84f537ab93917055c1d9152a77a64e4f68",
+      "figure_sha256": "fe0909d32af37691b35cf6875834eeda9c2df56ae9adb2545aac3de774a2285e",
+      "generator": "save_figure_from_q1_full_used_gpu"
+    }
+  },
+  "q1_q2_distinct": true
+}

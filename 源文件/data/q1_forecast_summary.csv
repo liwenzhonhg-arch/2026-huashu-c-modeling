@@ -1,0 +1,6 @@
+Metric,Value,Unit,Definition
+Macro-WAPE,0.806871505833788,ratio,18条区域-任务类型序列分别计算WAPE后取算术平均；对低基数序列敏感
+Micro-WAPE,0.6311997018806543,ratio,全部18x24观测绝对误差之和除以真实值之和；按需求规模加权
+System Aggregate WAPE,0.27941109516125784,ratio,先按小时聚合18条序列再计算WAPE；反映系统总量但允许高低估抵消
+Overall MAE,25.49491573637856,GPU,全部18x24观测的平均绝对误差
+Overall RMSE,53.8961140008492,GPU,全部18x24观测的均方根误差

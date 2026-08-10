@@ -1,0 +1,11 @@
+{
+  "status": "converged",
+  "formal_pass": 5,
+  "formal_budget": 600000,
+  "base_candidate_count": 120000,
+  "highest_common_pass": 6,
+  "reason": "all direct schemes satisfied declared neighborhood-stability rule by common completed pass",
+  "max_passes": 6,
+  "rule": "earliest_common_converged_pass_else_highest_common_completed_pass",
+  "auxiliary_metrics_blocking": false
+}

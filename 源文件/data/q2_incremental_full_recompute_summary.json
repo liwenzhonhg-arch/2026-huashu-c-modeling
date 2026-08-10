@@ -1,0 +1,40 @@
+{
+  "status": "pass",
+  "sample_count": 430,
+  "category_counts": {
+    "fractional_duration": 421,
+    "high_gpu_demand_task": 89,
+    "high_power_task": 89,
+    "no_change": 150,
+    "random_fixed_seed": 430,
+    "duration_lt_1h": 42,
+    "random_feasible_move": 316,
+    "accepted": 20,
+    "region_migration": 255,
+    "feasible_but_rejected": 201,
+    "capacity_rejected": 58,
+    "return_to_baseline": 76,
+    "fractional_cross_two_hours": 51,
+    "hour_boundary": 9,
+    "integer_duration": 9,
+    "cross_2399_2400": 9,
+    "capacity_boundary_highest_pressure": 1,
+    "grid_boundary_highest_pressure": 1,
+    "grid_rejected": 1
+  },
+  "scheme_counts": {
+    "balanced": 84,
+    "carbon_direct": 79,
+    "cost_min": 84,
+    "renewable_max": 82,
+    "service_first": 79
+  },
+  "max_absolute_residual": 8.009374141693115e-08,
+  "max_relative_residual": 2.2081605302524473e-09,
+  "worst_candidate_id": "Q2C049503",
+  "worst_pass_id": 2,
+  "worst_metric": "cost_CNY",
+  "cumulative_state_max_drift": 2.205371856689453e-06,
+  "absolute_tolerance": 1e-06,
+  "relative_tolerance": 1e-08
+}

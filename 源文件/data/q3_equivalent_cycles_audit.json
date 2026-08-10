@@ -1,0 +1,55 @@
+{
+  "formula": "sum_t(eta_charge*Charge_MW+Discharge_MW/eta_discharge)/(2*(SOC_max-SOC_min))",
+  "regions": [
+    {
+      "Region": "RegionA",
+      "soc_min_MWh": 35.0,
+      "soc_max_MWh": 350.0,
+      "usable_soc_interval_MWh": 315.0,
+      "internal_throughput_MWh": 0.0,
+      "equivalent_full_cycles": 0.0
+    },
+    {
+      "Region": "RegionB",
+      "soc_min_MWh": 32.0,
+      "soc_max_MWh": 320.0,
+      "usable_soc_interval_MWh": 288.0,
+      "internal_throughput_MWh": 0.0,
+      "equivalent_full_cycles": 0.0
+    },
+    {
+      "Region": "RegionC",
+      "soc_min_MWh": 30.0,
+      "soc_max_MWh": 300.0,
+      "usable_soc_interval_MWh": 270.0,
+      "internal_throughput_MWh": 0.0,
+      "equivalent_full_cycles": 0.0
+    },
+    {
+      "Region": "RegionD",
+      "soc_min_MWh": 90.0,
+      "soc_max_MWh": 900.0,
+      "usable_soc_interval_MWh": 810.0,
+      "internal_throughput_MWh": 21555.0,
+      "equivalent_full_cycles": 13.305555555555555
+    },
+    {
+      "Region": "RegionE",
+      "soc_min_MWh": 82.0,
+      "soc_max_MWh": 820.0,
+      "usable_soc_interval_MWh": 738.0,
+      "internal_throughput_MWh": 58393.8,
+      "equivalent_full_cycles": 39.56219512195122
+    },
+    {
+      "Region": "RegionF",
+      "soc_min_MWh": 85.0,
+      "soc_max_MWh": 850.0,
+      "usable_soc_interval_MWh": 765.0,
+      "internal_throughput_MWh": 60486.0,
+      "equivalent_full_cycles": 39.53333333333333
+    }
+  ],
+  "EFC_total": 92.40108401084011,
+  "status": "pass"
+}

@@ -1,0 +1,73 @@
+{
+  "interpretation": "题面未给出退化成本或循环寿命参数；本项仅为敏感性，不是官方参数",
+  "facility_source": "formal_q2_balanced",
+  "initial_equal": {
+    "policy": "cost_min",
+    "state_count": 21,
+    "cost_CNY": -454197130.4929471,
+    "carbon_tCO2": 0.0,
+    "renewable_utilization": 0.6931197300192158,
+    "peak_net_grid_purchase_MW": 0.0,
+    "peak_MW": 0.0,
+    "net_grid_ramp_MW": 22178.700101786926,
+    "ramp_MW": 22178.700101786926,
+    "grid_purchase_ramp_MW": 0.0,
+    "grid_sell_ramp_MW": 22178.700101786926,
+    "charge_MWh": 74559.78723404255,
+    "discharge_MWh": 65180.166,
+    "renewable_charge_MWh": 74559.78723404255,
+    "grid_charge_MWh": 0.0,
+    "renewable_sell_MWh": 1405855.0676968107,
+    "storage_sell_MWh": 65178.63961666667,
+    "internal_throughput_MWh": 140172.4,
+    "EFC": 92.22710027100271,
+    "equivalent_full_cycles_sum": 92.22710027100271,
+    "max_energy_balance_abs_residual_MW": 5.684341886080802e-14,
+    "max_source_decomposition_abs_residual_MW": 1.4210854715202004e-14,
+    "trajectory_sha256": "488c896228c5d77cc3c17703e151855ee2a470a01bee4c5bd90e32151271aceb",
+    "duplicate_of": null,
+    "nondominated": true,
+    "normalized_cost": 0.0,
+    "normalized_carbon": 0.0,
+    "normalized_renewable_loss": 0.017898519536118252,
+    "normalized_peak": 0.0,
+    "normalized_ramp": 1.0,
+    "ideal_distance": 0.38736036651965017,
+    "decision_eligible": true
+  },
+  "terminal_free": {
+    "metrics": [
+      -454209605.02716136,
+      0.0,
+      0.6930689284204569,
+      0.0,
+      22079.571846051127
+    ],
+    "terminal_soc": [
+      {
+        "Region": "RegionA",
+        "SOC_MWh": 157.5
+      },
+      {
+        "Region": "RegionB",
+        "SOC_MWh": 144.0
+      },
+      {
+        "Region": "RegionC",
+        "SOC_MWh": 135.0
+      },
+      {
+        "Region": "RegionD",
+        "SOC_MWh": 373.5
+      },
+      {
+        "Region": "RegionE",
+        "SOC_MWh": 82.0
+      },
+      {
+        "Region": "RegionF",
+        "SOC_MWh": 85.0
+      }
+    ]
+  }
+}

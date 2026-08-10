@@ -1,0 +1,144 @@
+{
+  "schema_version": 3,
+  "status": "pass",
+  "primary_run": ".mmw/q3_q4_repair_runs/v21-run-2/output",
+  "secondary_run": ".mmw/q3_q4_repair_runs/v21-run-1/output",
+  "run_ids": [
+    "v21-run-2-1a01af22cba3",
+    "v21-run-1-c4e973d4af39"
+  ],
+  "results_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e",
+  "solution_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+  "q1": {
+    "q1_full_task_count": 50000,
+    "q1_terminal_task_count": 538,
+    "q1_tail_task_count": 68,
+    "q1_peak_utilization": 0.9970355731225296,
+    "q1_mean_utilization": 0.49016689992497653,
+    "q1_macro_wape": 0.8068715058337879,
+    "q1_micro_wape": 0.6311997018806543,
+    "q1_system_aggregate_wape": 0.27941109516125784,
+    "q1_schedule_provenance_sha256": "2b00218c4bb8e055bebdcca1baff518d822552bc83849639f7d1b1c6a0b6b10d"
+  },
+  "q2": {
+    "q2_min_scheme_coverage": 1.0,
+    "q2_common_coverage": 1.0,
+    "q2_formal_pass": 5,
+    "q2_convergence_status": "converged",
+    "q2_common_task_coverage": 1.0,
+    "q2_alternative_task_coverage": 0.99024,
+    "q2_incremental_sample_count": 430,
+    "q2_incremental_max_abs_residual": 8.009374141693115e-08,
+    "q2_incremental_max_rel_residual": 2.2081605302524473e-09,
+    "q2_energy_max_abs_residual": 1.695354967523599e-11
+  },
+  "q3_selected_policy": "balanced",
+  "q3_policy_count": 7,
+  "q3_renewable_accounting": {
+    "formula": "sum(RenewableDirectUse_MW+RenewableCharge_MW+RenewableSell_MW)/sum(AvailableRenewable_MW)",
+    "selected_policy": "balanced",
+    "renewable_direct_use_MWh": 6525650.592266847,
+    "renewable_charge_MWh": 74699.36170212766,
+    "grid_charge_MWh": 0.0,
+    "renewable_sell_MWh": 1405847.7107819137,
+    "storage_sell_MWh": 65300.65561666667,
+    "renewable_curtailment_MWh": 3544570.695249112,
+    "renewable_utilization": 0.6931311766649338,
+    "max_energy_balance_abs_residual_MW": 5.684341886080802e-14,
+    "max_source_decomposition_abs_residual_MW": 1.4210854715202004e-14
+  },
+  "q3_equivalent_cycles": {
+    "formula": "sum_t(eta_charge*Charge_MW+Discharge_MW/eta_discharge)/(2*(SOC_max-SOC_min))",
+    "regions": [
+      {
+        "Region": "RegionA",
+        "soc_min_MWh": 35.0,
+        "soc_max_MWh": 350.0,
+        "usable_soc_interval_MWh": 315.0,
+        "internal_throughput_MWh": 0.0,
+        "equivalent_full_cycles": 0.0
+      },
+      {
+        "Region": "RegionB",
+        "soc_min_MWh": 32.0,
+        "soc_max_MWh": 320.0,
+        "usable_soc_interval_MWh": 288.0,
+        "internal_throughput_MWh": 0.0,
+        "equivalent_full_cycles": 0.0
+      },
+      {
+        "Region": "RegionC",
+        "soc_min_MWh": 30.0,
+        "soc_max_MWh": 300.0,
+        "usable_soc_interval_MWh": 270.0,
+        "internal_throughput_MWh": 0.0,
+        "equivalent_full_cycles": 0.0
+      },
+      {
+        "Region": "RegionD",
+        "soc_min_MWh": 90.0,
+        "soc_max_MWh": 900.0,
+        "usable_soc_interval_MWh": 810.0,
+        "internal_throughput_MWh": 21555.0,
+        "equivalent_full_cycles": 13.305555555555555
+      },
+      {
+        "Region": "RegionE",
+        "soc_min_MWh": 82.0,
+        "soc_max_MWh": 820.0,
+        "usable_soc_interval_MWh": 738.0,
+        "internal_throughput_MWh": 58393.8,
+        "equivalent_full_cycles": 39.56219512195122
+      },
+      {
+        "Region": "RegionF",
+        "soc_min_MWh": 85.0,
+        "soc_max_MWh": 850.0,
+        "usable_soc_interval_MWh": 765.0,
+        "internal_throughput_MWh": 60486.0,
+        "equivalent_full_cycles": 39.53333333333333
+      }
+    ],
+    "EFC_total": 92.40108401084011,
+    "status": "pass"
+  },
+  "q3_soc_figure_provenance": {
+    "selected_q3_policy": "balanced",
+    "q3_flow_file": "q3_storage_energy.csv",
+    "q3_flow_sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c",
+    "figure_data_file": "figure_data/fig_2_storage_soc.csv",
+    "figure_data_sha256": "1ba9fcbb151082a62f35318123af4a86c9759b32ea767d52ea5c6af8f3db2539",
+    "q4_flow_sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c",
+    "figure_data_vs_q3_flow_max_abs_difference_MWh": 5.684341886080802e-14,
+    "figure_data_equals_q4_flow": true,
+    "status": "pass"
+  },
+  "q4_scenario_count": 17,
+  "q4_state_count": 21,
+  "q4_baseline_consistency": {
+    "status": "pass",
+    "state_count": 21,
+    "storage_policy": "balanced",
+    "joint_metrics": [
+      -454174024.61707526,
+      0.0,
+      0.6931311766649338,
+      0.0,
+      22150.241246509893
+    ],
+    "scenario_baseline_metrics": [
+      -454174024.61707526,
+      0.0,
+      0.6931311766649338,
+      0.0,
+      22150.241246509893
+    ],
+    "same_data_source": true,
+    "q2_formal_budget": 600000,
+    "q2_balanced_schedule_sha256": "15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15",
+    "q2_balanced_schedule_file_sha256": "d9c2ed4cdf83a27dd8f053157d67f60a72437c249660136c9ff52d9fde7ed065",
+    "q2_balanced_energy_file_sha256": "d6484bf69be8f74501c0db099dd4c57ba69c0fa0269a1e38911eca0ee2ebb75d"
+  },
+  "q4_carbon_candidate_bank_rows": 42,
+  "q4_carbon_target_statuses": []
+}

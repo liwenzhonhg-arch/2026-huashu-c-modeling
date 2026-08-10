@@ -1,10 +1,10 @@
 # 2026 年华数杯 C 题提交仓库
 
-> **当前公开版本：Q1/Q2 已修复版本**
+> **当前公开版本：Q1–Q4 已修复版本**
 >
-> 版本链：`model v47 / code v20 / solve v17 / paper v25 / review v19`
+> 版本链：`model v48 / code v21 / solve v18 / paper v26 / review v20`
 >
-> Q3/Q4 正在修复，本版本不是最终比赛提交版本。
+> 可信等级：`scenario-feasible`。本仓库用于队内复核与比赛提交准备；参赛编号、承诺书及最终视觉排版仍需在正式提交前确认。
 
 ## 队友提交入口
 
@@ -22,7 +22,15 @@
 
 ## 源文件
 
-- `源文件/solution.py`：本版本完整计算程序。
-- `源文件/paper_latex.md`：与本版本论文对应的公式保留 Markdown。
+`源文件` 是 `提交文件/C参赛编号附件.zip` 的逐文件展开视图，便于在 GitHub 上直接浏览。它包含：
 
-正式提交以 `提交文件` 中的 PDF 与支撑材料 ZIP 为准。
+- `code/solution.py`：完整计算程序；
+- `paper_source/`：论文 Markdown 与展开后的 LaTeX 源文件；
+- `data/`：正式调度表、汇总结果和审计数据；
+- `figures/`：论文图表；
+- `evidence/`：版本、运行与验证证据；
+- `README_run.txt`、`requirements.txt`、`VERSION.json`、`MANIFEST.sha256`：运行说明、依赖、版本和完整性清单。
+
+压缩包内的 105 个文件已全部展开；完整文件名与 SHA-256 可直接查看 [`源文件/MANIFEST.sha256`](源文件/MANIFEST.sha256)。
+
+为控制比赛附件体积，公开版本未包含官方原始题目附件及体积很大的全量搜索轨迹。正式提交以 `提交文件` 中的 PDF 与 ZIP 为准。

@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "figures": [
+    {
+      "file": "q1_gantt.png",
+      "kind": "gantt",
+      "data_file": "q1_gantt.csv",
+      "x": [
+        "StartHour",
+        "FinishHour"
+      ],
+      "y": [
+        "ExecutionRegion",
+        "TaskType",
+        "TaskID"
+      ],
+      "title": "问题一：第2376--2399小时实际到达任务调度甘特图",
+      "caption": "六个执行区域分面；完整任务级起止时刻见q1_gantt.csv"
+    },
+    {
+      "file": "q1_gpu_utilization.png",
+      "kind": "line",
+      "data_file": "figure_data/q1_gpu_utilization.csv",
+      "x": "Hour",
+      "y": [
+        "RegionA",
+        "RegionB",
+        "RegionC",
+        "RegionD",
+        "RegionE",
+        "RegionF"
+      ],
+      "title": "问题一：最后24小时区域GPU利用率",
+      "x_label": "时刻 / h",
+      "y_label": "GPU利用率 / 无量纲",
+      "caption": "问题一：最后24小时区域GPU利用率"
+    },
+    {
+      "file": "fig_2_storage_soc.png",
+      "kind": "line",
+      "data_file": "figure_data/fig_2_storage_soc.csv",
+      "x": "Hour",
+      "y": [
+        "RegionA",
+        "RegionB",
+        "RegionC",
+        "RegionD",
+        "RegionE",
+        "RegionF"
+      ],
+      "title": "问题三所选策略的六区域 SOC 轨迹",
+      "x_label": "时刻 / h",
+      "y_label": "SOC / MWh",
+      "caption": "问题三所选策略的六区域 SOC 轨迹"
+    },
+    {
+      "file": "q4_joint_storage_soc.png",
+      "kind": "line",
+      "data_file": "figure_data/q4_joint_storage_soc.csv",
+      "x": "Hour",
+      "y": [
+        "RegionA",
+        "RegionB",
+        "RegionC",
+        "RegionD",
+        "RegionE",
+        "RegionF"
+      ],
+      "title": "问题四联合基准的六区域 SOC 轨迹",
+      "x_label": "时刻 / h",
+      "y_label": "SOC / MWh",
+      "caption": "问题四联合基准的六区域 SOC 轨迹"
+    },
+    {
+      "file": "sensitivity_electricity_price.png",
+      "kind": "line",
+      "data_file": "figure_data/sensitivity_electricity_price.csv",
+      "x": "delta_pct",
+      "y": [
+        "objective",
+        "baseline"
+      ],
+      "title": "electricity_price灵敏度",
+      "x_label": "扰动幅度 / %",
+      "y_label": "系统运行成本 / 元",
+      "caption": "electricity_price灵敏度"
+    },
+    {
+      "file": "sensitivity_renewable_level.png",
+      "kind": "line",
+      "data_file": "figure_data/sensitivity_renewable_level.csv",
+      "x": "delta_pct",
+      "y": [
+        "objective",
+        "baseline"
+      ],
+      "title": "renewable_level灵敏度",
+      "x_label": "扰动幅度 / %",
+      "y_label": "系统运行成本 / 元",
+      "caption": "renewable_level灵敏度"
+    }
+  ]
+}

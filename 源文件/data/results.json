@@ -1,0 +1,938 @@
+[
+  {
+    "name": "q1_原始行数",
+    "value": 50000.0,
+    "unit": "条",
+    "desc": "工作负载原始任务数"
+  },
+  {
+    "name": "q1_有效行数",
+    "value": 50000.0,
+    "unit": "条",
+    "desc": "通过输入校验的任务数"
+  },
+  {
+    "name": "q1_缺失数量",
+    "value": 0.0,
+    "unit": "个",
+    "desc": "工作负载缺失单元格数"
+  },
+  {
+    "name": "q1_缺失率",
+    "value": 0.0,
+    "unit": "",
+    "desc": "缺失单元格比例"
+  },
+  {
+    "name": "q1_预测总体MAE",
+    "value": 25.49491573637856,
+    "unit": "GPU",
+    "desc": "全部18x24观测总体MAE"
+  },
+  {
+    "name": "q1_预测总体RMSE",
+    "value": 53.8961140008492,
+    "unit": "GPU",
+    "desc": "全部18x24观测总体RMSE"
+  },
+  {
+    "name": "q1_预测Macro_WAPE",
+    "value": 0.806871505833788,
+    "unit": "",
+    "desc": "18条序列WAPE算术平均；对低基数序列敏感"
+  },
+  {
+    "name": "q1_预测Micro_WAPE",
+    "value": 0.6311997018806543,
+    "unit": "",
+    "desc": "432个观测按真实需求规模加权"
+  },
+  {
+    "name": "q1_预测System_Aggregate_WAPE",
+    "value": 0.27941109516125784,
+    "unit": "",
+    "desc": "逐小时先聚合18序列；允许高估低估抵消"
+  },
+  {
+    "name": "q1_rolling_origin窗口数",
+    "value": 8.0,
+    "unit": "个",
+    "desc": "完全位于最终测试之前的expanding-window验证"
+  },
+  {
+    "name": "q1_rolling_origin候选评估数",
+    "value": 1584.0,
+    "unit": "次",
+    "desc": "18序列x11候选x8原点"
+  },
+  {
+    "name": "q1_基础调度峰值GPU利用率",
+    "value": 0.9970355731225297,
+    "unit": "",
+    "desc": "由Q1完整50000任务基础调度独立复算"
+  },
+  {
+    "name": "q1_基础调度平均GPU利用率",
+    "value": 0.49016689992497653,
+    "unit": "",
+    "desc": "Q1完整调度在6区域x24小时的算术平均"
+  },
+  {
+    "name": "q2_迁移任务数",
+    "value": 16924.0,
+    "unit": "个",
+    "desc": "执行区域不同于来源区域的任务数"
+  },
+  {
+    "name": "q2_局部搜索候选数",
+    "value": 3000000.0,
+    "unit": "个",
+    "desc": "实际完整检查的单任务候选数"
+  },
+  {
+    "name": "q2_局部搜索接受改进数",
+    "value": 19182.0,
+    "unit": "个",
+    "desc": "neighborhood_converged"
+  },
+  {
+    "name": "q2_公共前缀任务覆盖率",
+    "value": 1.0,
+    "unit": "",
+    "desc": "五种直接方案共用完全相同的 CandidateID 前缀"
+  },
+  {
+    "name": "q2_单方案最小任务覆盖率",
+    "value": 1.0,
+    "unit": "",
+    "desc": "每方案均使用正式公共预算前缀"
+  },
+  {
+    "name": "q2_局部搜索前运行成本",
+    "value": -419658147.7075976,
+    "unit": "元",
+    "desc": "可行调度基线"
+  },
+  {
+    "name": "q2_局部搜索后运行成本",
+    "value": -439303696.1843225,
+    "unit": "元",
+    "desc": "有限搜索best-found"
+  },
+  {
+    "name": "q2_局部搜索前碳排放",
+    "value": 14.391601534493985,
+    "unit": "tCO2",
+    "desc": "可行调度基线"
+  },
+  {
+    "name": "q2_局部搜索后碳排放",
+    "value": 0.42753997166727425,
+    "unit": "tCO2",
+    "desc": "有限搜索best-found"
+  },
+  {
+    "name": "q2_多目标稳定性未收敛指标数",
+    "value": 1.0,
+    "unit": "个",
+    "desc": "metric_stability_status=converged; nonconverged_metrics=cost_min: service_objective"
+  },
+  {
+    "name": "q3_储能搜索候选数",
+    "value": 7.0,
+    "unit": "个",
+    "desc": "实际完整审计的储能候选数"
+  },
+  {
+    "name": "q3_储能搜索接受改进数",
+    "value": 1.0,
+    "unit": "个",
+    "desc": "pareto_selected"
+  },
+  {
+    "name": "q3_无储能基线运行成本",
+    "value": -439303696.1843225,
+    "unit": "元",
+    "desc": "固定Baseline AI负荷的无储能比较状态"
+  },
+  {
+    "name": "q3_含储能运行成本",
+    "value": -454174024.61707526,
+    "unit": "元",
+    "desc": "固定Baseline AI负荷的含储能策略"
+  },
+  {
+    "name": "q3_储能运行成本变化量",
+    "value": -14870328.432752788,
+    "unit": "元",
+    "desc": "含储能减无储能基线"
+  },
+  {
+    "name": "q3_无储能基线碳排放",
+    "value": 0.42753997166727425,
+    "unit": "tCO2",
+    "desc": "固定负荷无储能碳排放"
+  },
+  {
+    "name": "q3_含储能碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "固定负荷含储能碳排放"
+  },
+  {
+    "name": "q3_储能碳排放变化量",
+    "value": -0.42753997166727425,
+    "unit": "tCO2",
+    "desc": "含储能减无储能基线"
+  },
+  {
+    "name": "q3_无储能峰值净购电功率",
+    "value": 1.5263833333355024,
+    "unit": "MW",
+    "desc": "六区域非负峰值之和"
+  },
+  {
+    "name": "q3_含储能峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "六区域非负峰值之和"
+  },
+  {
+    "name": "q3_峰值净购电变化量",
+    "value": -1.5263833333355024,
+    "unit": "MW",
+    "desc": "含储能减无储能基线"
+  },
+  {
+    "name": "q3_无储能绝对爬坡量",
+    "value": 58043.98030887336,
+    "unit": "MW",
+    "desc": "六区域逐时绝对变化量之和"
+  },
+  {
+    "name": "q3_含储能绝对爬坡量",
+    "value": 22150.241246509893,
+    "unit": "MW",
+    "desc": "六区域逐时绝对变化量之和"
+  },
+  {
+    "name": "q3_绝对爬坡变化量",
+    "value": -35893.73906236347,
+    "unit": "MW",
+    "desc": "含储能减无储能基线"
+  },
+  {
+    "name": "q4_联合基准运行成本",
+    "value": -454174024.61707526,
+    "unit": "元",
+    "desc": "使用任务调度派生设施负荷的联合基准"
+  },
+  {
+    "name": "q4_联合基准碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "使用任务调度派生设施负荷的联合基准"
+  },
+  {
+    "name": "q4_联合基准新能源利用率",
+    "value": 0.6931311766649338,
+    "unit": "",
+    "desc": "联合基准新能源利用率"
+  },
+  {
+    "name": "q4_联合基准峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "六区域非负峰值之和"
+  },
+  {
+    "name": "q4_统一SOC状态数",
+    "value": 21.0,
+    "unit": "个",
+    "desc": "联合基准与17个情景使用同一显式配置"
+  },
+  {
+    "name": "q4_共同起始任务方案数",
+    "value": 1.0,
+    "unit": "个",
+    "desc": "各情景共享一个经50000任务全量审计的起点；替代调度在各情景各轮动态重建，fixed_candidate_set=false"
+  },
+  {
+    "name": "q4_情景任务候选评价数",
+    "value": 51000.0,
+    "unit": "次",
+    "desc": "17个情景均按上一轮储能状态动态重建任务邻域并重新选择储能政策"
+  },
+  {
+    "name": "q4_情景最小交替轮数",
+    "value": 2.0,
+    "unit": "轮",
+    "desc": "各情景实际完成轮数的最小值"
+  },
+  {
+    "name": "q4_情景最大交替轮数",
+    "value": 8.0,
+    "unit": "轮",
+    "desc": "各情景实际完成轮数的最大值"
+  },
+  {
+    "name": "q4_情景交替总轮数",
+    "value": 85.0,
+    "unit": "轮",
+    "desc": "17个情景实际完成轮数之和"
+  },
+  {
+    "name": "q4_情景接受轮数",
+    "value": 63.0,
+    "unit": "轮",
+    "desc": "联合目标严格改善后接受的动态任务-储能交替轮数"
+  },
+  {
+    "name": "q4_完成情景数",
+    "value": 17.0,
+    "unit": "个",
+    "desc": "规定的17个情景均完成动态邻域复算与硬约束审计"
+  },
+  {
+    "name": "q4_网络时延",
+    "value": 16.998674454065213,
+    "unit": "ms",
+    "desc": "联合基准任务方案的GPU小时加权单向网络时延"
+  },
+  {
+    "name": "q4_服务质量等待分量",
+    "value": 0.007548541025855424,
+    "unit": "",
+    "desc": "按平均等待构造的有限代理指标"
+  },
+  {
+    "name": "q4_情景1_运行成本",
+    "value": -454174024.61707526,
+    "unit": "元",
+    "desc": "baseline_baseline_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景1_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "baseline_baseline_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景1_新能源利用率",
+    "value": 0.6931311766649338,
+    "unit": "",
+    "desc": "baseline_baseline_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景1_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "baseline_baseline_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景2_运行成本",
+    "value": -408554274.83200914,
+    "unit": "元",
+    "desc": "carbon_constraint_carbon_reduction_0.0;相对统一基准绝对变化=45619749.7851;selected_candidate=f47997c8ca9bba460384a6dbd96215400188a75c058c84b92651d176d0fca7de"
+  },
+  {
+    "name": "q4_情景2_碳排放",
+    "value": 6597.841341368284,
+    "unit": "tCO2",
+    "desc": "carbon_constraint_carbon_reduction_0.0;相对统一基准绝对变化=6597.84134137;selected_candidate=f47997c8ca9bba460384a6dbd96215400188a75c058c84b92651d176d0fca7de"
+  },
+  {
+    "name": "q4_情景2_新能源利用率",
+    "value": 0.8493369711610099,
+    "unit": "",
+    "desc": "carbon_constraint_carbon_reduction_0.0;相对统一基准绝对变化=0.156205794496;selected_candidate=f47997c8ca9bba460384a6dbd96215400188a75c058c84b92651d176d0fca7de"
+  },
+  {
+    "name": "q4_情景2_峰值净购电功率",
+    "value": 102.32153045000214,
+    "unit": "MW",
+    "desc": "carbon_constraint_carbon_reduction_0.0;相对统一基准绝对变化=102.32153045;selected_candidate=f47997c8ca9bba460384a6dbd96215400188a75c058c84b92651d176d0fca7de"
+  },
+  {
+    "name": "q4_情景3_运行成本",
+    "value": -408952823.37762713,
+    "unit": "元",
+    "desc": "carbon_constraint_carbon_reduction_0.1;相对统一基准绝对变化=45221201.2394;selected_candidate=959b54f601047846ef06aa652275035fd62daf5bfd748b13ccdc698bb605a5a1"
+  },
+  {
+    "name": "q4_情景3_碳排放",
+    "value": 6489.852368807048,
+    "unit": "tCO2",
+    "desc": "carbon_constraint_carbon_reduction_0.1;相对统一基准绝对变化=6489.85236881;selected_candidate=959b54f601047846ef06aa652275035fd62daf5bfd748b13ccdc698bb605a5a1"
+  },
+  {
+    "name": "q4_情景3_新能源利用率",
+    "value": 0.8494202906903685,
+    "unit": "",
+    "desc": "carbon_constraint_carbon_reduction_0.1;相对统一基准绝对变化=0.156289114025;selected_candidate=959b54f601047846ef06aa652275035fd62daf5bfd748b13ccdc698bb605a5a1"
+  },
+  {
+    "name": "q4_情景3_峰值净购电功率",
+    "value": 106.9032804499998,
+    "unit": "MW",
+    "desc": "carbon_constraint_carbon_reduction_0.1;相对统一基准绝对变化=106.90328045;selected_candidate=959b54f601047846ef06aa652275035fd62daf5bfd748b13ccdc698bb605a5a1"
+  },
+  {
+    "name": "q4_情景4_运行成本",
+    "value": -408834244.88329506,
+    "unit": "元",
+    "desc": "carbon_constraint_carbon_reduction_0.2;相对统一基准绝对变化=45339779.7338;selected_candidate=49d43522b56a89e20309437b24f430d09967f275d5b07329dd4acfbfe45825fe"
+  },
+  {
+    "name": "q4_情景4_碳排放",
+    "value": 6520.108205776,
+    "unit": "tCO2",
+    "desc": "carbon_constraint_carbon_reduction_0.2;相对统一基准绝对变化=6520.10820578;selected_candidate=49d43522b56a89e20309437b24f430d09967f275d5b07329dd4acfbfe45825fe"
+  },
+  {
+    "name": "q4_情景4_新能源利用率",
+    "value": 0.8493597368887943,
+    "unit": "",
+    "desc": "carbon_constraint_carbon_reduction_0.2;相对统一基准绝对变化=0.156228560224;selected_candidate=49d43522b56a89e20309437b24f430d09967f275d5b07329dd4acfbfe45825fe"
+  },
+  {
+    "name": "q4_情景4_峰值净购电功率",
+    "value": 112.12723998999878,
+    "unit": "MW",
+    "desc": "carbon_constraint_carbon_reduction_0.2;相对统一基准绝对变化=112.12723999;selected_candidate=49d43522b56a89e20309437b24f430d09967f275d5b07329dd4acfbfe45825fe"
+  },
+  {
+    "name": "q4_情景5_运行成本",
+    "value": -408432279.5101832,
+    "unit": "元",
+    "desc": "carbon_constraint_carbon_reduction_0.3;相对统一基准绝对变化=45741745.1069;selected_candidate=bfd85388f88aec2855aabf63e29b2bfc26e38c4a4633fe4d3ea9c38172782837"
+  },
+  {
+    "name": "q4_情景5_碳排放",
+    "value": 6751.80311757186,
+    "unit": "tCO2",
+    "desc": "carbon_constraint_carbon_reduction_0.3;相对统一基准绝对变化=6751.80311757;selected_candidate=bfd85388f88aec2855aabf63e29b2bfc26e38c4a4633fe4d3ea9c38172782837"
+  },
+  {
+    "name": "q4_情景5_新能源利用率",
+    "value": 0.8493133222259772,
+    "unit": "",
+    "desc": "carbon_constraint_carbon_reduction_0.3;相对统一基准绝对变化=0.156182145561;selected_candidate=bfd85388f88aec2855aabf63e29b2bfc26e38c4a4633fe4d3ea9c38172782837"
+  },
+  {
+    "name": "q4_情景5_峰值净购电功率",
+    "value": 112.30268953999814,
+    "unit": "MW",
+    "desc": "carbon_constraint_carbon_reduction_0.3;相对统一基准绝对变化=112.30268954;selected_candidate=bfd85388f88aec2855aabf63e29b2bfc26e38c4a4633fe4d3ea9c38172782837"
+  },
+  {
+    "name": "q4_情景6_运行成本",
+    "value": -454174024.61707526,
+    "unit": "元",
+    "desc": "price_spread_price_scale_0.75;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景6_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "price_spread_price_scale_0.75;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景6_新能源利用率",
+    "value": 0.6931311766649338,
+    "unit": "",
+    "desc": "price_spread_price_scale_0.75;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景6_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "price_spread_price_scale_0.75;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景7_运行成本",
+    "value": -454214008.1726912,
+    "unit": "元",
+    "desc": "price_spread_price_scale_1.0;相对统一基准绝对变化=-39983.555616;selected_candidate=aaf7c6d4f737732e6b7864e35116a9e11b53e6c9b8f9c5692462b8ba2b980922"
+  },
+  {
+    "name": "q4_情景7_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "price_spread_price_scale_1.0;相对统一基准绝对变化=0;selected_candidate=aaf7c6d4f737732e6b7864e35116a9e11b53e6c9b8f9c5692462b8ba2b980922"
+  },
+  {
+    "name": "q4_情景7_新能源利用率",
+    "value": 0.6931487106440015,
+    "unit": "",
+    "desc": "price_spread_price_scale_1.0;相对统一基准绝对变化=1.75339790677e-05;selected_candidate=aaf7c6d4f737732e6b7864e35116a9e11b53e6c9b8f9c5692462b8ba2b980922"
+  },
+  {
+    "name": "q4_情景7_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "price_spread_price_scale_1.0;相对统一基准绝对变化=0;selected_candidate=aaf7c6d4f737732e6b7864e35116a9e11b53e6c9b8f9c5692462b8ba2b980922"
+  },
+  {
+    "name": "q4_情景8_运行成本",
+    "value": -454174024.61707526,
+    "unit": "元",
+    "desc": "price_spread_price_scale_1.25;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景8_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "price_spread_price_scale_1.25;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景8_新能源利用率",
+    "value": 0.6931311766649338,
+    "unit": "",
+    "desc": "price_spread_price_scale_1.25;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景8_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "price_spread_price_scale_1.25;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景9_运行成本",
+    "value": 0.0,
+    "unit": "元",
+    "desc": "sell_mechanism_sell_scale_0.0;相对统一基准绝对变化=454174024.617;selected_candidate=0360f7c6a8acd079bf26160f60349b124ddc0b1c1aeb5414fedb458819cfe9f2"
+  },
+  {
+    "name": "q4_情景9_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "sell_mechanism_sell_scale_0.0;相对统一基准绝对变化=0;selected_candidate=0360f7c6a8acd079bf26160f60349b124ddc0b1c1aeb5414fedb458819cfe9f2"
+  },
+  {
+    "name": "q4_情景9_新能源利用率",
+    "value": 0.6931462783150688,
+    "unit": "",
+    "desc": "sell_mechanism_sell_scale_0.0;相对统一基准绝对变化=1.5101650135e-05;selected_candidate=0360f7c6a8acd079bf26160f60349b124ddc0b1c1aeb5414fedb458819cfe9f2"
+  },
+  {
+    "name": "q4_情景9_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "sell_mechanism_sell_scale_0.0;相对统一基准绝对变化=0;selected_candidate=0360f7c6a8acd079bf26160f60349b124ddc0b1c1aeb5414fedb458819cfe9f2"
+  },
+  {
+    "name": "q4_情景10_运行成本",
+    "value": -227087012.30853763,
+    "unit": "元",
+    "desc": "sell_mechanism_sell_scale_0.5;相对统一基准绝对变化=227087012.309;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景10_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "sell_mechanism_sell_scale_0.5;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景10_新能源利用率",
+    "value": 0.693131176664934,
+    "unit": "",
+    "desc": "sell_mechanism_sell_scale_0.5;相对统一基准绝对变化=1.11022302463e-16;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景10_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "sell_mechanism_sell_scale_0.5;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景11_运行成本",
+    "value": -454174024.61707526,
+    "unit": "元",
+    "desc": "sell_mechanism_sell_scale_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景11_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "sell_mechanism_sell_scale_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景11_新能源利用率",
+    "value": 0.6931311766649338,
+    "unit": "",
+    "desc": "sell_mechanism_sell_scale_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景11_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "sell_mechanism_sell_scale_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景12_运行成本",
+    "value": -409270798.5328294,
+    "unit": "元",
+    "desc": "renewable_level_renewable_scale_0.8;相对统一基准绝对变化=44903226.0842;selected_candidate=96202fb64f8891deb0dfd31af4e9a58994b77f1d252fa8a9ce51720ef703884a"
+  },
+  {
+    "name": "q4_情景12_碳排放",
+    "value": 6473.673933443414,
+    "unit": "tCO2",
+    "desc": "renewable_level_renewable_scale_0.8;相对统一基准绝对变化=6473.67393344;selected_candidate=96202fb64f8891deb0dfd31af4e9a58994b77f1d252fa8a9ce51720ef703884a"
+  },
+  {
+    "name": "q4_情景12_新能源利用率",
+    "value": 0.8494352812651078,
+    "unit": "",
+    "desc": "renewable_level_renewable_scale_0.8;相对统一基准绝对变化=0.1563041046;selected_candidate=96202fb64f8891deb0dfd31af4e9a58994b77f1d252fa8a9ce51720ef703884a"
+  },
+  {
+    "name": "q4_情景12_峰值净购电功率",
+    "value": 205.97993998999752,
+    "unit": "MW",
+    "desc": "renewable_level_renewable_scale_0.8;相对统一基准绝对变化=205.97993999;selected_candidate=96202fb64f8891deb0dfd31af4e9a58994b77f1d252fa8a9ce51720ef703884a"
+  },
+  {
+    "name": "q4_情景13_运行成本",
+    "value": -454174024.61707526,
+    "unit": "元",
+    "desc": "renewable_level_renewable_scale_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景13_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "renewable_level_renewable_scale_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景13_新能源利用率",
+    "value": 0.6931311766649338,
+    "unit": "",
+    "desc": "renewable_level_renewable_scale_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景13_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "renewable_level_renewable_scale_1.0;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景14_运行成本",
+    "value": -459158006.41751313,
+    "unit": "元",
+    "desc": "renewable_level_renewable_scale_1.2;相对统一基准绝对变化=-4983981.80044;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景14_碳排放",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "renewable_level_renewable_scale_1.2;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景14_新能源利用率",
+    "value": 0.5784132323041261,
+    "unit": "",
+    "desc": "renewable_level_renewable_scale_1.2;相对统一基准绝对变化=-0.114717944361;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景14_峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "renewable_level_renewable_scale_1.2;相对统一基准绝对变化=0;selected_candidate=15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  {
+    "name": "q4_情景15_运行成本",
+    "value": -451946048.218297,
+    "unit": "元",
+    "desc": "renewable_volatility_seed_2026.0;相对统一基准绝对变化=2227976.39878;selected_candidate=4526789020a46f9c25dd597ea39e5c6434e38963c6dbf00ceb6e7c20ce80412a"
+  },
+  {
+    "name": "q4_情景15_碳排放",
+    "value": 1695.1011382717404,
+    "unit": "tCO2",
+    "desc": "renewable_volatility_seed_2026.0;相对统一基准绝对变化=1695.10113827;selected_candidate=4526789020a46f9c25dd597ea39e5c6434e38963c6dbf00ceb6e7c20ce80412a"
+  },
+  {
+    "name": "q4_情景15_新能源利用率",
+    "value": 0.6935339437759072,
+    "unit": "",
+    "desc": "renewable_volatility_seed_2026.0;相对统一基准绝对变化=0.000402767110973;selected_candidate=4526789020a46f9c25dd597ea39e5c6434e38963c6dbf00ceb6e7c20ce80412a"
+  },
+  {
+    "name": "q4_情景15_峰值净购电功率",
+    "value": 294.7860816409422,
+    "unit": "MW",
+    "desc": "renewable_volatility_seed_2026.0;相对统一基准绝对变化=294.786081641;selected_candidate=4526789020a46f9c25dd597ea39e5c6434e38963c6dbf00ceb6e7c20ce80412a"
+  },
+  {
+    "name": "q4_情景16_运行成本",
+    "value": -451563379.35522264,
+    "unit": "元",
+    "desc": "renewable_volatility_seed_2027.0;相对统一基准绝对变化=2610645.26185;selected_candidate=ad394dff499c6122cdc42e0c472bb3e012d57ffeb5b3e185c281f2c0385cb6bd"
+  },
+  {
+    "name": "q4_情景16_碳排放",
+    "value": 1716.0711907563991,
+    "unit": "tCO2",
+    "desc": "renewable_volatility_seed_2027.0;相对统一基准绝对变化=1716.07119076;selected_candidate=ad394dff499c6122cdc42e0c472bb3e012d57ffeb5b3e185c281f2c0385cb6bd"
+  },
+  {
+    "name": "q4_情景16_新能源利用率",
+    "value": 0.6933633904018379,
+    "unit": "",
+    "desc": "renewable_volatility_seed_2027.0;相对统一基准绝对变化=0.000232213736904;selected_candidate=ad394dff499c6122cdc42e0c472bb3e012d57ffeb5b3e185c281f2c0385cb6bd"
+  },
+  {
+    "name": "q4_情景16_峰值净购电功率",
+    "value": 320.78305174453857,
+    "unit": "MW",
+    "desc": "renewable_volatility_seed_2027.0;相对统一基准绝对变化=320.783051745;selected_candidate=ad394dff499c6122cdc42e0c472bb3e012d57ffeb5b3e185c281f2c0385cb6bd"
+  },
+  {
+    "name": "q4_情景17_运行成本",
+    "value": -451904214.2016779,
+    "unit": "元",
+    "desc": "renewable_volatility_seed_2028.0;相对统一基准绝对变化=2269810.4154;selected_candidate=18b2f9c6b976cd833b11573bccbd9e0daccad0a67d151de5fc63d7d3e7c6b37b"
+  },
+  {
+    "name": "q4_情景17_碳排放",
+    "value": 1351.7798379807887,
+    "unit": "tCO2",
+    "desc": "renewable_volatility_seed_2028.0;相对统一基准绝对变化=1351.77983798;selected_candidate=18b2f9c6b976cd833b11573bccbd9e0daccad0a67d151de5fc63d7d3e7c6b37b"
+  },
+  {
+    "name": "q4_情景17_新能源利用率",
+    "value": 0.6935043178490842,
+    "unit": "",
+    "desc": "renewable_volatility_seed_2028.0;相对统一基准绝对变化=0.00037314118415;selected_candidate=18b2f9c6b976cd833b11573bccbd9e0daccad0a67d151de5fc63d7d3e7c6b37b"
+  },
+  {
+    "name": "q4_情景17_峰值净购电功率",
+    "value": 241.89571497235818,
+    "unit": "MW",
+    "desc": "renewable_volatility_seed_2028.0;相对统一基准绝对变化=241.895714972;selected_candidate=18b2f9c6b976cd833b11573bccbd9e0daccad0a67d151de5fc63d7d3e7c6b37b"
+  },
+  {
+    "name": "q1_不同区域不同任务类型的GPU需求统计结果",
+    "value": 43200.0,
+    "unit": "行",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q1_第2376至2399小时GPU需求预测结果",
+    "value": 432.0,
+    "unit": "条",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q1_短期预测模型及测试精度指标",
+    "value": 34.169466489763344,
+    "unit": "GPU",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q1_第2376至2399小时实际到达任务的执行区域与开工完成时刻方案",
+    "value": 538.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q1_跨越第2399小时任务在第2400至2405小时内的结清方案",
+    "value": 68.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q1_最后24小时调度甘特图",
+    "value": 1.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q1_最后24小时各区域GPU利用率",
+    "value": 0.9970355731225297,
+    "unit": "",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q2_实际任务的执行区域与开工完成时刻调度策略",
+    "value": 50000.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q2_系统运行成本",
+    "value": -439303696.1843225,
+    "unit": "元",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q2_碳排放量",
+    "value": 0.42753997166727425,
+    "unit": "tCO2",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q2_网络时延指标",
+    "value": 16.998674454065213,
+    "unit": "ms",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q2_新能源利用率",
+    "value": 0.6866683391770335,
+    "unit": "",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q2_第2400至2405小时末端弹性任务结清及能源结算结果",
+    "value": 171.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q2_GPU容量_IT功率_设施功率_网络时延和完成时限约束验证结果",
+    "value": 1.0,
+    "unit": "",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_各区域逐时储能充电功率",
+    "value": 74699.36170212766,
+    "unit": "MWh",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_各区域逐时储能放电功率",
+    "value": 65302.182,
+    "unit": "MWh",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_各区域逐时SOC及第2406小时终端SOC",
+    "value": 1594.0,
+    "unit": "MWh",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_各区域逐时购电售电与新能源分配策略",
+    "value": 14442.0,
+    "unit": "行",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_储能优化前后运行成本及变化量",
+    "value": -14870328.432752788,
+    "unit": "元",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_储能优化前后碳排放及变化量",
+    "value": -0.42753997166727425,
+    "unit": "tCO2",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_储能优化前后各区域峰值净购电功率及变化量",
+    "value": -1.5263833333355024,
+    "unit": "MW",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_储能优化前后负荷波动程度及变化量",
+    "value": -35893.73906236347,
+    "unit": "MW",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q3_SOC上下限_充放电功率_效率_购售电边界和终端状态约束验证结果",
+    "value": 1.0,
+    "unit": "",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_任务迁移与开工时段联合调度策略",
+    "value": 16924.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_储能充放电与终端SOC策略",
+    "value": 74699.36170212766,
+    "unit": "MWh",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_区域购电售电与新能源分配策略",
+    "value": 14442.0,
+    "unit": "行",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_系统运行成本",
+    "value": -454174024.61707526,
+    "unit": "元",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_碳排放量",
+    "value": 0.0,
+    "unit": "tCO2",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_网络时延指标",
+    "value": 16.998674454065213,
+    "unit": "ms",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_服务质量指标",
+    "value": 0.007548541025855424,
+    "unit": "",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_新能源利用率",
+    "value": 0.6931311766649338,
+    "unit": "",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_各区域峰值净购电功率",
+    "value": 0.0,
+    "unit": "MW",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_多目标权衡关系或Pareto方案",
+    "value": 1.0,
+    "unit": "",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_不同碳约束场景下的策略与指标变化",
+    "value": 19200.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_不同电价机制场景下的策略与指标变化",
+    "value": 9000.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_不同新能源波动场景下的策略与指标变化",
+    "value": 21600.0,
+    "unit": "个",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  },
+  {
+    "name": "q4_GPU容量_IT功率_设施功率_网络时延_任务完成时限_储能和购售电边界约束验证结果",
+    "value": 1.0,
+    "unit": "",
+    "desc": "详细结果见当前运行生成的fresh CSV;状态值由实际审计或实际情景计数派生"
+  }
+]

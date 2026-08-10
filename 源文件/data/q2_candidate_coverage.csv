@@ -1,0 +1,7 @@
+candidate_budget,candidate_id_first,candidate_id_last,different_TaskID,task_coverage_rate,tasks_with_effective_alternative,effective_alternative_task_coverage_rate,candidate_layers,baseline_resource_feasible
+10000,Q2C000001,Q2C010000,10000,0.2,0,0.0,1,10000
+20000,Q2C000001,Q2C020000,20000,0.4,0,0.0,1,20000
+40000,Q2C000001,Q2C040000,40000,0.8,0,0.0,1,40000
+50000,Q2C000001,Q2C050000,50000,1.0,0,0.0,1,50000
+80000,Q2C000001,Q2C080000,50000,1.0,30000,0.6,1|2,78270
+120000,Q2C000001,Q2C120000,50000,1.0,49512,0.99024,1|2|3,115778

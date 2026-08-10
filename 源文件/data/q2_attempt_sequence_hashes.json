@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "shared_order": true,
+  "schemes": {
+    "cost_min": {
+      "attempt_sequence_sha256": "684e1d5a3b2583120aa09850cf6a09214d1739e6b7368128e752d0cb4518d290",
+      "passes": [
+        {
+          "PassID": 1,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 2,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 3,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 4,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 5,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 6,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        }
+      ],
+      "base_candidate_count": 120000,
+      "completed_passes": 6,
+      "attempted_evaluations": 720000
+    },
+    "carbon_direct": {
+      "attempt_sequence_sha256": "684e1d5a3b2583120aa09850cf6a09214d1739e6b7368128e752d0cb4518d290",
+      "passes": [
+        {
+          "PassID": 1,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 2,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 3,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 4,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 5,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 6,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        }
+      ],
+      "base_candidate_count": 120000,
+      "completed_passes": 6,
+      "attempted_evaluations": 720000
+    },
+    "renewable_max": {
+      "attempt_sequence_sha256": "684e1d5a3b2583120aa09850cf6a09214d1739e6b7368128e752d0cb4518d290",
+      "passes": [
+        {
+          "PassID": 1,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 2,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 3,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 4,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 5,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 6,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        }
+      ],
+      "base_candidate_count": 120000,
+      "completed_passes": 6,
+      "attempted_evaluations": 720000
+    },
+    "service_first": {
+      "attempt_sequence_sha256": "684e1d5a3b2583120aa09850cf6a09214d1739e6b7368128e752d0cb4518d290",
+      "passes": [
+        {
+          "PassID": 1,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 2,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 3,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 4,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 5,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 6,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        }
+      ],
+      "base_candidate_count": 120000,
+      "completed_passes": 6,
+      "attempted_evaluations": 720000
+    },
+    "balanced": {
+      "attempt_sequence_sha256": "684e1d5a3b2583120aa09850cf6a09214d1739e6b7368128e752d0cb4518d290",
+      "passes": [
+        {
+          "PassID": 1,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 2,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 3,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 4,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 5,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        },
+        {
+          "PassID": 6,
+          "base_candidate_sequence_sha256": "b7b6e1d56b5a90a9ab218e8c271efc4499ba55902a12f07dcfa935554c4a0237"
+        }
+      ],
+      "base_candidate_count": 120000,
+      "completed_passes": 6,
+      "attempted_evaluations": 720000
+    }
+  }
+}

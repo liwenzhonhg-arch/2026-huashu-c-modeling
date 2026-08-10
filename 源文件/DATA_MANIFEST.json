@@ -1,0 +1,640 @@
+{
+  "schema_version": 2,
+  "files": [
+    {
+      "path": "code/solution.py",
+      "bytes": 242345,
+      "sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71"
+    },
+    {
+      "path": "data/constraint_audit.csv",
+      "bytes": 685,
+      "sha256": "f175012e70363ab49e587b7cb7f6b2bad98a19db4297f17c7138bbbf950a2fab"
+    },
+    {
+      "path": "data/figure_data/fig_2_storage_soc.csv",
+      "bytes": 103568,
+      "sha256": "1ba9fcbb151082a62f35318123af4a86c9759b32ea767d52ea5c6af8f3db2539"
+    },
+    {
+      "path": "data/figure_data/q1_gpu_utilization.csv",
+      "bytes": 2914,
+      "sha256": "28e22d656e1fa55365e63f79893cda84f537ab93917055c1d9152a77a64e4f68"
+    },
+    {
+      "path": "data/figure_data/q4_joint_storage_soc.csv",
+      "bytes": 103568,
+      "sha256": "1ba9fcbb151082a62f35318123af4a86c9759b32ea767d52ea5c6af8f3db2539"
+    },
+    {
+      "path": "data/figure_data/sensitivity_electricity_price.csv",
+      "bytes": 202,
+      "sha256": "c566aa7999129e7c3cb9da8087dc2adb73efd22d65e1ed483f05f65d8679a56f"
+    },
+    {
+      "path": "data/figure_data/sensitivity_renewable_level.csv",
+      "bytes": 201,
+      "sha256": "70578b4e10cfec9d63fbaa1d9394dfbcfd10e216ed4dde763d89f5d63d29ff7e"
+    },
+    {
+      "path": "data/figure_manifest.json",
+      "bytes": 2826,
+      "sha256": "ce345b684250b640920d1276211251881d3ec33267af847bf358091361352cb2"
+    },
+    {
+      "path": "data/method_contract.json",
+      "bytes": 13510,
+      "sha256": "592e18bcae4ecfd9fddadf4e7c318b99ddf9f990068833507568b34561549e96"
+    },
+    {
+      "path": "data/method_runtime.json",
+      "bytes": 6926,
+      "sha256": "28daed78ca2258c95492d02fa8b1d391190d94c20fdac164494cefe06f78354c"
+    },
+    {
+      "path": "data/q1_candidate_summary.csv",
+      "bytes": 35769,
+      "sha256": "bbf942a716b3ff65b67fe661ab43cd59fcc416a5f7d6a4664f75e96ddab80a21"
+    },
+    {
+      "path": "data/q1_constraint_audit.csv",
+      "bytes": 694,
+      "sha256": "f1a5d120c06189ee4030d4145a93d35042da9868a3e31c0d07a1edbec75ae93d"
+    },
+    {
+      "path": "data/q1_forecast_2376_2399.csv",
+      "bytes": 42391,
+      "sha256": "3f35a45e14ace7490c92065f1dcf1aa51488d00910523e8597a360effe4c07a7"
+    },
+    {
+      "path": "data/q1_forecast_metrics.csv",
+      "bytes": 5874,
+      "sha256": "f12fbb1ed7f589cabc1e3eb57eb091c624026a37ce6ae7a743b2777aab8b0c2e"
+    },
+    {
+      "path": "data/q1_forecast_summary.csv",
+      "bytes": 558,
+      "sha256": "64927d8fe806b233645567424d3ec2f66fd74b5885203546a3ae8ecff500b3c1"
+    },
+    {
+      "path": "data/q1_gantt.csv",
+      "bytes": 39450,
+      "sha256": "58dc1fd78abf94a426082100f0c29607bd44538c3b7eec16a57a46c34357660e"
+    },
+    {
+      "path": "data/q1_gpu_statistics.csv",
+      "bytes": 899,
+      "sha256": "0bd10d2995ef6bd394ef574916ae06b7de4bb1b63d6bfb9fd78d574c65198550"
+    },
+    {
+      "path": "data/q1_gpu_utilization.csv",
+      "bytes": 2914,
+      "sha256": "28e22d656e1fa55365e63f79893cda84f537ab93917055c1d9152a77a64e4f68"
+    },
+    {
+      "path": "data/q1_model_selection.csv",
+      "bytes": 4744,
+      "sha256": "3e383c98c476bdc45466fcf1a813aab08de25a8fa70b5799951c622853cf9eca"
+    },
+    {
+      "path": "data/q1_rolling_validation.csv",
+      "bytes": 282807,
+      "sha256": "9418887c508657daa99fe9caae53e64f0e7fb0172493368a7cbd0ed39753ae4b"
+    },
+    {
+      "path": "data/q1_schedule.csv",
+      "bytes": 39450,
+      "sha256": "58dc1fd78abf94a426082100f0c29607bd44538c3b7eec16a57a46c34357660e"
+    },
+    {
+      "path": "data/q1_schedule_full.csv",
+      "bytes": 3598581,
+      "sha256": "6d23b3fb783f9ea253ad1ed7b3221fc293396a7a5fba36f6dbdd3338e0950e6c"
+    },
+    {
+      "path": "data/q2_attempt_sequence_hashes.json",
+      "bytes": 6183,
+      "sha256": "b4d9cfac563d91fe2f0bd857a91678ba8f737b8ee6aff1339f47d943358a421b"
+    },
+    {
+      "path": "data/q2_balanced_score_audit.csv",
+      "bytes": 32208076,
+      "sha256": "48b67e456a6b2d54e96e6084e67c4d294195111fe65cb4650248bf16182ff266"
+    },
+    {
+      "path": "data/q2_budget_stability.csv",
+      "bytes": 14848,
+      "sha256": "54797c171108883395e45587366ac4702b2858569cd48b448321b51b7153386d"
+    },
+    {
+      "path": "data/q2_candidate_coverage.csv",
+      "bytes": 535,
+      "sha256": "1743ce48e570668c5d88a7c161b36ac1b6d2d56efda147773ecbb26823ef5743"
+    },
+    {
+      "path": "data/q2_candidate_semantic_uniqueness.json",
+      "bytes": 794,
+      "sha256": "00f796ddc39c3eab989f9eb33ae8a55d17824ebf345f072b8646166b38f19261"
+    },
+    {
+      "path": "data/q2_carbon_direct_audit.json",
+      "bytes": 384,
+      "sha256": "5cf3c416c8ebf1382ca05a57b24a12a472923f49b98907b51811051eb80a9b9d"
+    },
+    {
+      "path": "data/q2_carbon_multistart_audit.json",
+      "bytes": 1507,
+      "sha256": "b518437333f5b12d4181c0464f4b8920c7c70b39653c4c88006c596a5abdd6e9"
+    },
+    {
+      "path": "data/q2_carbon_multistart_refinement_trace.csv",
+      "bytes": 15623991,
+      "sha256": "2392e4ef4a9fd5c9fbcfd30f1ebe853e78d91fe30358eac7a3545eea35f7ad48"
+    },
+    {
+      "path": "data/q2_carbon_refinement_comparison.csv",
+      "bytes": 568,
+      "sha256": "16e21222354a61343c681e5fd01e51d391ac5a1763584a39b2248fc34ce228a4"
+    },
+    {
+      "path": "data/q2_common_base_candidate_pool.csv",
+      "bytes": 23732138,
+      "sha256": "2db526d7a32d3550fbc7eac2b0e265bb452b2e8d25454a0a51092f32a97cf467"
+    },
+    {
+      "path": "data/q2_common_candidate_pool.csv",
+      "bytes": 23732138,
+      "sha256": "2db526d7a32d3550fbc7eac2b0e265bb452b2e8d25454a0a51092f32a97cf467"
+    },
+    {
+      "path": "data/q2_common_candidate_provenance.json",
+      "bytes": 699,
+      "sha256": "962264920957c672b218383129c1e2fa72773864dfd85fb53a8c3056057f43d9"
+    },
+    {
+      "path": "data/q2_constraint_audit_balanced.csv",
+      "bytes": 685,
+      "sha256": "f175012e70363ab49e587b7cb7f6b2bad98a19db4297f17c7138bbbf950a2fab"
+    },
+    {
+      "path": "data/q2_constraint_audit_carbon_direct.csv",
+      "bytes": 694,
+      "sha256": "f1a5d120c06189ee4030d4145a93d35042da9868a3e31c0d07a1edbec75ae93d"
+    },
+    {
+      "path": "data/q2_constraint_audit_carbon_multistart_refinement.csv",
+      "bytes": 694,
+      "sha256": "f1a5d120c06189ee4030d4145a93d35042da9868a3e31c0d07a1edbec75ae93d"
+    },
+    {
+      "path": "data/q2_constraint_audit_cost_min.csv",
+      "bytes": 695,
+      "sha256": "8358d7c66d84bd92c6615a59077c60e81b649165a0723ed91ddeeeaa16aa8a41"
+    },
+    {
+      "path": "data/q2_constraint_audit_renewable_max.csv",
+      "bytes": 704,
+      "sha256": "9b7686ad557ba3dabd82610a6aa7a2b62b6fe4627cbebe0d86bc837eee7a4fd0"
+    },
+    {
+      "path": "data/q2_constraint_audit_service_first.csv",
+      "bytes": 694,
+      "sha256": "f1a5d120c06189ee4030d4145a93d35042da9868a3e31c0d07a1edbec75ae93d"
+    },
+    {
+      "path": "data/q2_context_checkpoint_audit.csv",
+      "bytes": 16464,
+      "sha256": "8ce1e5f93f57b7d24e9e58fbaf320b2ff730bbe8032bfb7999ac5be73576246e"
+    },
+    {
+      "path": "data/q2_context_checkpoint_summary.json",
+      "bytes": 276,
+      "sha256": "74a191af947dabaf0a1ced25088e0f44241d67a15fca2aef8ae612fd9b377293"
+    },
+    {
+      "path": "data/q2_convergence_audit.csv",
+      "bytes": 2870,
+      "sha256": "1e0aa235c68c6e6ef1767f70ab09d5ef74dbd716c03945a6449384c441522c82"
+    },
+    {
+      "path": "data/q2_energy_balanced.csv",
+      "bytes": 4934204,
+      "sha256": "d6484bf69be8f74501c0db099dd4c57ba69c0fa0269a1e38911eca0ee2ebb75d"
+    },
+    {
+      "path": "data/q2_energy_carbon_direct.csv",
+      "bytes": 4941393,
+      "sha256": "d483ebd0ff9f7076b620e05376ab9d048273e34b599466e385a7c834e1288365"
+    },
+    {
+      "path": "data/q2_energy_carbon_multistart_refinement.csv",
+      "bytes": 4941393,
+      "sha256": "d483ebd0ff9f7076b620e05376ab9d048273e34b599466e385a7c834e1288365"
+    },
+    {
+      "path": "data/q2_energy_cost_min.csv",
+      "bytes": 4939441,
+      "sha256": "d490203796c6d017b9406be2b6b8d13a0febc63f13411c43abb6b8c4ea951f4a"
+    },
+    {
+      "path": "data/q2_energy_renewable_max.csv",
+      "bytes": 4926977,
+      "sha256": "321480194a416ea7eb233b0266443f0285a6606baf87a64909205c0c192f11d2"
+    },
+    {
+      "path": "data/q2_energy_service_first.csv",
+      "bytes": 4941278,
+      "sha256": "226c27189a0ccfc33ee17b82dc2ac6a75223acc396d2ecad323e73417800757f"
+    },
+    {
+      "path": "data/q2_formal_budget_decision.json",
+      "bytes": 389,
+      "sha256": "691278ddb6af7499ad94ab73cbe1e1312256e772586146b83b9ba44ea458f88e"
+    },
+    {
+      "path": "data/q2_hourly_energy.csv",
+      "bytes": 4934204,
+      "sha256": "d6484bf69be8f74501c0db099dd4c57ba69c0fa0269a1e38911eca0ee2ebb75d"
+    },
+    {
+      "path": "data/q2_incremental_full_recompute_audit.csv",
+      "bytes": 171934,
+      "sha256": "746a950a8a9b52c5cf75a1637b693559cdc817dea90b37386270fc88bfb6921d"
+    },
+    {
+      "path": "data/q2_incremental_full_recompute_summary.json",
+      "bytes": 1127,
+      "sha256": "d110f243d0822f155b72b995a0a3d296659cf4a3975ed8362eb5deacce77fd31"
+    },
+    {
+      "path": "data/q2_metric_stability.csv",
+      "bytes": 6482,
+      "sha256": "1472eb8d4fb3b5c44d6e3dfd58c0ef558a99043b00b135df8b2cbb328c53b6c6"
+    },
+    {
+      "path": "data/q2_named_scheme_comparison.csv",
+      "bytes": 4663,
+      "sha256": "16be360a2d8417abc7abfbad01329c1416ee19815d5b285186b2d4b762b483d8"
+    },
+    {
+      "path": "data/q2_objective_normalization.json",
+      "bytes": 1529,
+      "sha256": "64db6539567b6e6d01e601eb8bb88d9c1a0a86638e6b1b77359cde6803c867c0"
+    },
+    {
+      "path": "data/q2_pass_search_trace.csv",
+      "bytes": 437523807,
+      "sha256": "7e927a7f0e322402db13aadf07e072d98cf525311194363760961aee311f2fc6"
+    },
+    {
+      "path": "data/q2_pass_stability.csv",
+      "bytes": 14848,
+      "sha256": "45669b2478f158f038842c2865de25931cab5ad5ddcaedbc22af718df98bf624"
+    },
+    {
+      "path": "data/q2_schedule_balanced.csv",
+      "bytes": 3619837,
+      "sha256": "d9c2ed4cdf83a27dd8f053157d67f60a72437c249660136c9ff52d9fde7ed065"
+    },
+    {
+      "path": "data/q2_schedule_carbon_direct.csv",
+      "bytes": 3598598,
+      "sha256": "f28da651847508d2eb63d320ad94b470c6a56bbfe037ff244b43c818e6d80f83"
+    },
+    {
+      "path": "data/q2_schedule_carbon_multistart_refinement.csv",
+      "bytes": 3598598,
+      "sha256": "f28da651847508d2eb63d320ad94b470c6a56bbfe037ff244b43c818e6d80f83"
+    },
+    {
+      "path": "data/q2_schedule_cost_min.csv",
+      "bytes": 3607841,
+      "sha256": "714cf5607fa4d19157efc9a04dba6d95a3d80d6ed39203674f5e73bb89a3da42"
+    },
+    {
+      "path": "data/q2_schedule_renewable_max.csv",
+      "bytes": 3625630,
+      "sha256": "eb0e4d8853318d1263dd0cf7ad165df0c0af810cb77c85f7d48aaccd961d6f00"
+    },
+    {
+      "path": "data/q2_schedule_service_first.csv",
+      "bytes": 3598579,
+      "sha256": "414eb3112ce252c7b6c03b1df6d7056cb3f19bfa0f3554dabf06663f1f4c3480"
+    },
+    {
+      "path": "data/q2_search_summary.csv",
+      "bytes": 2173,
+      "sha256": "8531467080d3847cda23240ce3597d6200a212f25e0605a0c359469a33e4009c"
+    },
+    {
+      "path": "data/q2_search_trace.csv",
+      "bytes": 161773466,
+      "sha256": "b93c1863f236c8b8d83e35e652dd7ffd219ca6cc611bf2b7dfa69ed3bda39a0c"
+    },
+    {
+      "path": "data/q2_stability_summary.csv",
+      "bytes": 1918,
+      "sha256": "26cbf9c661ee59e3e0351279f0d29ddd3afa1dcab02b9eb5920ae41bc277270c"
+    },
+    {
+      "path": "data/q2_task_candidate_availability.csv",
+      "bytes": 789468,
+      "sha256": "d58370be674fa79829a92210c49529bc3404a48f0a4638fe7fa42c5894240532"
+    },
+    {
+      "path": "data/q2_weight_sensitivity.csv",
+      "bytes": 4022,
+      "sha256": "d4c8da104bc8d2eb644d35497548194a5508addd90d9f2cf2c9921839a4f82cd"
+    },
+    {
+      "path": "data/q3_all_policy_trajectories.csv",
+      "bytes": 24169448,
+      "sha256": "460d24bd3f63e2f6f3621eb910d533e2224fefc5eaaaf63263a3ff2ab60d0403"
+    },
+    {
+      "path": "data/q3_constraint_audit.csv",
+      "bytes": 547,
+      "sha256": "7ba5e9ed73a1ffea893ea3f675a3ef9b2eb4e0e0dc9e7ef34043dd8c99c4d16d"
+    },
+    {
+      "path": "data/q3_energy_source_audit.csv",
+      "bytes": 5733,
+      "sha256": "40372b8aee6a4160985aa90a7e8d6445cea104e1044681b64e8f29578083d4b2"
+    },
+    {
+      "path": "data/q3_equivalent_cycles_audit.json",
+      "bytes": 1531,
+      "sha256": "49ef31648e33a4ce18d774982e126bc4a57c7d58773905813a885eb6bd36714d"
+    },
+    {
+      "path": "data/q3_equivalent_cycles_by_region.csv",
+      "bytes": 362,
+      "sha256": "73435949fe04da5229c7d4d90ab7907dcd1b60d0fcedd309370496d658e6637e"
+    },
+    {
+      "path": "data/q3_input_binding.json",
+      "bytes": 775,
+      "sha256": "0ac50199fa38d326ef8f83f919aeafa6b02a2f6857d4982b25f0a4ff2f7050b6"
+    },
+    {
+      "path": "data/q3_metric_recomputation_audit.csv",
+      "bytes": 3365,
+      "sha256": "b9b352099a35836d9dd0422860dc6ce44391aaba4341b29030aaa1a4362a4cca"
+    },
+    {
+      "path": "data/q3_no_storage_baseline.csv",
+      "bytes": 4869332,
+      "sha256": "45b89c6260ab7644f7dea103131920cebf1ac8383c45454ddf580f505c3c2031"
+    },
+    {
+      "path": "data/q3_renewable_accounting.json",
+      "bytes": 588,
+      "sha256": "f407dd9ef2f4b37b468167a83e379b65f5ad6435aa827f1c8b610f0d83f1a683"
+    },
+    {
+      "path": "data/q3_search_summary.csv",
+      "bytes": 1182,
+      "sha256": "45a8157a60155ab26ba7c83f88a30856e5fd252b3fbe4fcb5e269807152b2aa7"
+    },
+    {
+      "path": "data/q3_search_trace.csv",
+      "bytes": 3365,
+      "sha256": "b9b352099a35836d9dd0422860dc6ce44391aaba4341b29030aaa1a4362a4cca"
+    },
+    {
+      "path": "data/q3_soc_figure_provenance.json",
+      "bytes": 550,
+      "sha256": "c16c72b6685242d7c3126ef33f382edec8444ede4fb10db944f89ee7c8b97e25"
+    },
+    {
+      "path": "data/q3_soc_grid_sensitivity.csv",
+      "bytes": 1504,
+      "sha256": "e339981e9d71e53b5a7d97a85a56b419ab6e9a5b449e8d07189c84ed8074e724"
+    },
+    {
+      "path": "data/q3_storage_energy.csv",
+      "bytes": 2787002,
+      "sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c"
+    },
+    {
+      "path": "data/q3_terminal_soc_sensitivity.json",
+      "bytes": 2116,
+      "sha256": "6d62e8698c2b67cbde023876e63f66e981657132775c6eb8d82055a6c8c307d2"
+    },
+    {
+      "path": "data/q4_all_scenario_energy.csv",
+      "bytes": 65145824,
+      "sha256": "6419b5fbbe25f07ebd0c5dfb3adc7af6e3b07fa44b264319e67749465956331d"
+    },
+    {
+      "path": "data/q4_alternation_trace.csv",
+      "bytes": 52383,
+      "sha256": "05edd27278e62c0f710dc657b12377a73c7e8823f5a25e6c6ce454bb336806db"
+    },
+    {
+      "path": "data/q4_baseline_consistency.json",
+      "bytes": 711,
+      "sha256": "e478e1d0bf101721cbf1e345e49ca4434b006291c28d5a1f3989771047eeb563"
+    },
+    {
+      "path": "data/q4_carbon_candidate_bank.csv",
+      "bytes": 20896,
+      "sha256": "9fc0c501f588b731e335487d1b5b64c6b0c333da8141d767e948997543edc4a7"
+    },
+    {
+      "path": "data/q4_carbon_constraint_provenance.json",
+      "bytes": 444,
+      "sha256": "093e8223d67463103d7550ff35b4d7146bfb536d834b9a447de00276d642876a"
+    },
+    {
+      "path": "data/q4_carbon_nested_feasibility_audit.csv",
+      "bytes": 588,
+      "sha256": "7b29041b34c0a1a1336ced0930150369759e3680196c63511def9af8a854a328"
+    },
+    {
+      "path": "data/q4_constraint_audit.csv",
+      "bytes": 547,
+      "sha256": "7ba5e9ed73a1ffea893ea3f675a3ef9b2eb4e0e0dc9e7ef34043dd8c99c4d16d"
+    },
+    {
+      "path": "data/q4_energy_source_audit.csv",
+      "bytes": 19774,
+      "sha256": "79e76ecb769f9ff57391a751a6a160a505df963f1dc4e07606d1971185e7e3a1"
+    },
+    {
+      "path": "data/q4_joint_storage_energy.csv",
+      "bytes": 2787002,
+      "sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c"
+    },
+    {
+      "path": "data/q4_renewable_accounting.json",
+      "bytes": 60511,
+      "sha256": "d1d0c5677e4949a8edb27be9d59f2067b8e31edceb3677449542609178c779b0"
+    },
+    {
+      "path": "data/q4_scenario_comparison.csv",
+      "bytes": 14706,
+      "sha256": "74fff253e96de5f4e95e68345001d84bc3d5032d3ddde38ac8fae5b00a2bbfba"
+    },
+    {
+      "path": "data/q4_scenario_family_summary.csv",
+      "bytes": 1008,
+      "sha256": "96eebef6a7dbe090602c4a136a5fa6dcf57a9a9b3cfe6b7bddcc0b09bdc9da37"
+    },
+    {
+      "path": "data/q4_search_summary.csv",
+      "bytes": 439,
+      "sha256": "a3eeb72fd063a01f1c29e9d90e8079a5636c62bb3346a8142cd8337321c6165a"
+    },
+    {
+      "path": "data/q4_search_trace.csv",
+      "bytes": 617,
+      "sha256": "cfc8e7a098133f0283951a9bcd5f415dea19b30e6c4b93bba3b0765cf9295f30"
+    },
+    {
+      "path": "data/results.json",
+      "bytes": 35378,
+      "sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
+    },
+    {
+      "path": "data/run_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data/run_stdout.txt",
+      "bytes": 1124,
+      "sha256": "f7852fe2fd974a19fd239e14e3fe57b880ad3f9dec2c22a5e4ec4b0e4b13d29e"
+    },
+    {
+      "path": "data/schedule_provenance.json",
+      "bytes": 1412,
+      "sha256": "2b00218c4bb8e055bebdcca1baff518d822552bc83849639f7d1b1c6a0b6b10d"
+    },
+    {
+      "path": "data/sensitivity.json",
+      "bytes": 74245,
+      "sha256": "764063eab0373f49556dd7e0b49bfe2ebfae327898c38a0d54862cd126c1cf61"
+    },
+    {
+      "path": "data/validation_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data/validation_stdout.txt",
+      "bytes": 1194,
+      "sha256": "82e95e07ce4f58abb277b22e314ae702f61f2112eae7e0a4b0e628806b8caf87"
+    },
+    {
+      "path": "evidence/CURRENT_DELIVERY.md",
+      "bytes": 1234,
+      "sha256": "33ae9463d53ea7181ca244855c3485263df7d8bb58c044d3862c826e55b1f146"
+    },
+    {
+      "path": "evidence/benchmark.json",
+      "bytes": 3699,
+      "sha256": "9bc7fa822317209a1a5e49dacf891f69775cab7a8d5d991f0dc43a1f05159ce0"
+    },
+    {
+      "path": "evidence/benchmark.md",
+      "bytes": 587,
+      "sha256": "6ce40536b6bccad0cb102084fb6b161858664d437448dc6c77a822d54ec84776"
+    },
+    {
+      "path": "evidence/checklist.json",
+      "bytes": 1718,
+      "sha256": "2de73ff47e9f543f9b7c3c48d29c357e3ababd2f4d59ef922c766dfc3b4393f7"
+    },
+    {
+      "path": "evidence/double_run_comparison.json",
+      "bytes": 19961,
+      "sha256": "d689e8cb2a545020b0109e96eccffc1def1383c9e8769bff8f221baa9fbb0406"
+    },
+    {
+      "path": "evidence/layout_review.json",
+      "bytes": 891,
+      "sha256": "2d251461e4e1b8b833af7906f6b6439ee18d4371821c87c7b5a69533244fa087"
+    },
+    {
+      "path": "evidence/method_consistency.json",
+      "bytes": 2271,
+      "sha256": "5f7c5e768ff0fcf626c013d6f3b9ab2b2e6db81052edb5d90a0e5670201bbc3e"
+    },
+    {
+      "path": "evidence/numeric_audit.md",
+      "bytes": 188,
+      "sha256": "17c6a2cb093814f39e9d100d64f4a74db927843f01f08e6872fe832a7a232f66"
+    },
+    {
+      "path": "evidence/numeric_provenance.json",
+      "bytes": 5251,
+      "sha256": "b2e78f7f3f47a03c7be500f37a42b06d1ecff1bb4cb386ccec54767da215af7f"
+    },
+    {
+      "path": "evidence/readability_gate.json",
+      "bytes": 775,
+      "sha256": "4edfe13ee13d3e7cfe966e013607a6d26d305a0f9623735ba67b81ae981f902a"
+    },
+    {
+      "path": "evidence/review.md",
+      "bytes": 1329,
+      "sha256": "522707e584cd84d73cd957cdee6e25647c8a1420fff0c53840e4bf8fb0a6b5b8"
+    },
+    {
+      "path": "evidence/run_validation.json",
+      "bytes": 1229,
+      "sha256": "94495076e21a39bb269909b483d2da2ca70366c0da210058e56674d4c6c6d0f0"
+    },
+    {
+      "path": "figures/fig_2_storage_soc.png",
+      "bytes": 555164,
+      "sha256": "3a474ad2e8361238fc5c2199ef0112552aebbcdb8ee0e5ef7142f9d938b36d54"
+    },
+    {
+      "path": "figures/q1_gantt.png",
+      "bytes": 334439,
+      "sha256": "aeb3b6a0c0240b179fa36fe7cc51fe5dd333638f4625c7407d9e947cd82d4c9a"
+    },
+    {
+      "path": "figures/q1_gpu_utilization.png",
+      "bytes": 433733,
+      "sha256": "fe0909d32af37691b35cf6875834eeda9c2df56ae9adb2545aac3de774a2285e"
+    },
+    {
+      "path": "figures/q4_joint_storage_soc.png",
+      "bytes": 554916,
+      "sha256": "c18b423d51a78e36f153dd6de11449c55600c8c5ccc2fdd447a838656b71637c"
+    },
+    {
+      "path": "figures/sensitivity_electricity_price.png",
+      "bytes": 158142,
+      "sha256": "8e39015e94c47a7aa78383bd31d17882e6ebc0da5789f8658e0a6c2e9e16dafc"
+    },
+    {
+      "path": "figures/sensitivity_renewable_level.png",
+      "bytes": 145517,
+      "sha256": "9b7be5cf1955ae4466e4282d6202f3a85517660e7ce705fb6e6a0d3045c2b9a4"
+    },
+    {
+      "path": "paper.md",
+      "bytes": 40827,
+      "sha256": "1100d9f477de01c27af2033ae857cad6f999b16bd1592b1fcf1811940bcb78de"
+    },
+    {
+      "path": "paper.pdf",
+      "bytes": 2037208,
+      "sha256": "7e636d4d2ebf68128fcf644fb26c6fa92ec80c86d3f2f440a6d5af7c66630ad1"
+    },
+    {
+      "path": "paper_latex.md",
+      "bytes": 40827,
+      "sha256": "1100d9f477de01c27af2033ae857cad6f999b16bd1592b1fcf1811940bcb78de"
+    },
+    {
+      "path": "paper_latex_source.tex",
+      "bytes": 45944,
+      "sha256": "6122d87b67d2a2ca860c7135db303abca4b67cfa7cb1f55945d278048f6c3d20"
+    }
+  ]
+}

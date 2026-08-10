@@ -1,0 +1,5 @@
+carbon_level,carbon_target_tCO2,candidate_count,inherited_candidate_count,feasible_candidate_count,known_looser_candidate_already_feasible,monotonic_inheritance_passed,selected_candidate,status
+0.0,7430.327517919494,6,0,5,False,True,9fb3ff568b0b49d74bc9587bfa59f2498cb7e57002cba5f3f3549d2ef257f1aa,completed
+0.1,6687.294766127545,9,3,6,True,True,5c7d246ccd4b3f11f07011a832148fdb67059dad25bed86d8da97ba65727defa,completed
+0.2,5944.262014335596,12,6,0,False,True,,target_not_found_within_declared_search
+0.3,5201.229262543646,15,9,0,False,True,,target_not_found_within_declared_search

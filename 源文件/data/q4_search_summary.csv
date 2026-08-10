@@ -1,0 +1,2 @@
+status,selected_policy,decision_method,decision_weights,checked_candidates,accepted_improvements,unique_trajectories,storage_policy_candidate_count,carbon_target_tCO2,target_feasible,selected_ideal_distance,state_count,result_level
+q4_policy_selected,balanced,q4_weighted_ideal_distance_over_cost_balanced_renewable_policies,cost=0.20|carbon=0.20|renewable=0.30|peak=0.15|ramp=0.15,3,1,3,3,,True,0.26169953900221077,21,scenario-feasible

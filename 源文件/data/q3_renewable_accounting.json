@@ -1,0 +1,13 @@
+{
+  "formula": "sum(RenewableDirectUse_MW+RenewableCharge_MW+RenewableSell_MW)/sum(AvailableRenewable_MW)",
+  "selected_policy": "balanced",
+  "renewable_direct_use_MWh": 6525650.592266847,
+  "renewable_charge_MWh": 74699.36170212766,
+  "grid_charge_MWh": 0.0,
+  "renewable_sell_MWh": 1405847.7107819137,
+  "storage_sell_MWh": 65300.65561666667,
+  "renewable_curtailment_MWh": 3544570.695249112,
+  "renewable_utilization": 0.6931311766649338,
+  "max_energy_balance_abs_residual_MW": 5.684341886080802e-14,
+  "max_source_decomposition_abs_residual_MW": 1.4210854715202004e-14
+}

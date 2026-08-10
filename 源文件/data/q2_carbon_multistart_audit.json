@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "status": "pass",
+  "origins": [
+    "cost_min",
+    "balanced",
+    "carbon_direct"
+  ],
+  "selected_origin": "carbon_direct",
+  "inherited_direct_pass": 5,
+  "new_candidate_budget_per_origin": 20000,
+  "total_new_candidates": 60000,
+  "replaces_carbon_direct": false,
+  "selected_schedule_sha256": "cdf6d422a1bc48d595b148723e873522bf4fcf2717e04635729ee3432743143a",
+  "runs": [
+    {
+      "origin": "cost_min",
+      "inherited_schedule_sha256": "ecb360af044daff8e7335aea78a087a6e1251a4b3973105b751ca2e1964a2924",
+      "final_schedule_sha256": "8b2a0fad7d636804e211a6c6a2a0abd547d2e6dcbca241e0e563245f9b6a6cd1",
+      "carbon_tCO2": 10.492841072827241,
+      "cost_CNY": -440239513.4920498,
+      "accepted_improvements": 6
+    },
+    {
+      "origin": "balanced",
+      "inherited_schedule_sha256": "15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15",
+      "final_schedule_sha256": "15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15",
+      "carbon_tCO2": 0.42753997166727425,
+      "cost_CNY": -439303696.1843225,
+      "accepted_improvements": 0
+    },
+    {
+      "origin": "carbon_direct",
+      "inherited_schedule_sha256": "cdf6d422a1bc48d595b148723e873522bf4fcf2717e04635729ee3432743143a",
+      "final_schedule_sha256": "cdf6d422a1bc48d595b148723e873522bf4fcf2717e04635729ee3432743143a",
+      "carbon_tCO2": 0.0,
+      "cost_CNY": -419680013.6301972,
+      "accepted_improvements": 0
+    }
+  ]
+}

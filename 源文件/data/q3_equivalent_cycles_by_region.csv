@@ -1,0 +1,7 @@
+Region,soc_min_MWh,soc_max_MWh,usable_soc_interval_MWh,internal_throughput_MWh,equivalent_full_cycles
+RegionA,35.0,350.0,315.0,0.0,0.0
+RegionB,32.0,320.0,288.0,0.0,0.0
+RegionC,30.0,300.0,270.0,0.0,0.0
+RegionD,90.0,900.0,810.0,21555.0,13.305555555555555
+RegionE,82.0,820.0,738.0,58393.8,39.56219512195122
+RegionF,85.0,850.0,765.0,60486.0,39.53333333333333

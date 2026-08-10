@@ -1,0 +1,11 @@
+{
+  "selected_q3_policy": "balanced",
+  "q3_flow_file": "q3_storage_energy.csv",
+  "q3_flow_sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c",
+  "figure_data_file": "figure_data/fig_2_storage_soc.csv",
+  "figure_data_sha256": "1ba9fcbb151082a62f35318123af4a86c9759b32ea767d52ea5c6af8f3db2539",
+  "q4_flow_sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c",
+  "figure_data_vs_q3_flow_max_abs_difference_MWh": 5.684341886080802e-14,
+  "figure_data_equals_q4_flow": true,
+  "status": "pass"
+}

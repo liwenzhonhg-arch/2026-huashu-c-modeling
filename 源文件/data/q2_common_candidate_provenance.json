@@ -1,0 +1,20 @@
+{
+  "schema_version": 2,
+  "seed": 2026,
+  "base_candidate_count": 120000,
+  "candidate_count": 120000,
+  "semantic_key": [
+    "TaskID",
+    "Region",
+    "CandidateStart"
+  ],
+  "ordering": "objective-independent deterministic baseline-once then non-exhausted alternative layers",
+  "max_candidate_layers": 3,
+  "max_passes": 6,
+  "first_layer_task_count": 50000,
+  "candidate_pool_sha256": "2db526d7a32d3550fbc7eac2b0e265bb452b2e8d25454a0a51092f32a97cf467",
+  "candidate_id_prefix_shared_by_all_direct_schemes": true,
+  "base_candidate_order_shared_by_all_direct_schemes": true,
+  "generation_depends_on_objective": false,
+  "no_change_counts_as_effective_alternative": false
+}

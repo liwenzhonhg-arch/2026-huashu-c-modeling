@@ -1,0 +1,56 @@
+{
+  "schema_version": 3,
+  "status": "pass",
+  "model_version": 48,
+  "code_version": 21,
+  "solve_version": 18,
+  "paper_version": 26,
+  "review_version": 20,
+  "method_contract_hashes": {
+    "model": "076dc306ac77fe30aa38ec0872989a5a476d4385b4a220f30c050f2815ca47e7",
+    "code": "d01bcfe00bf8c9634de951ff3d93b39143fd5212c0edf57c838c52396972aedc",
+    "solve": "592e18bcae4ecfd9fddadf4e7c318b99ddf9f990068833507568b34561549e96",
+    "paper": "592e18bcae4ecfd9fddadf4e7c318b99ddf9f990068833507568b34561549e96"
+  },
+  "semantic_contract_hashes_without_bindings": {
+    "model": "a5118b604457c9df9619a62c588cc2914383e7d139cfcfb39cd57a355603a8fc",
+    "code": "a5118b604457c9df9619a62c588cc2914383e7d139cfcfb39cd57a355603a8fc",
+    "solve": "a5118b604457c9df9619a62c588cc2914383e7d139cfcfb39cd57a355603a8fc",
+    "paper": "a5118b604457c9df9619a62c588cc2914383e7d139cfcfb39cd57a355603a8fc"
+  },
+  "semantic_contract_equal": true,
+  "bindings": {
+    "model_version": 48,
+    "code_version": 21,
+    "solve_version": 18,
+    "solution_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+    "results_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
+  },
+  "q3_selected_policy": "balanced",
+  "q4_current_balanced_binding": {
+    "status": "pass",
+    "state_count": 21,
+    "storage_policy": "balanced",
+    "joint_metrics": [
+      -454174024.61707526,
+      0.0,
+      0.6931311766649338,
+      0.0,
+      22150.241246509893
+    ],
+    "scenario_baseline_metrics": [
+      -454174024.61707526,
+      0.0,
+      0.6931311766649338,
+      0.0,
+      22150.241246509893
+    ],
+    "same_data_source": true,
+    "q2_formal_budget": 600000,
+    "q2_balanced_schedule_sha256": "15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15",
+    "q2_balanced_schedule_file_sha256": "d9c2ed4cdf83a27dd8f053157d67f60a72437c249660136c9ff52d9fde7ed065",
+    "q2_balanced_energy_file_sha256": "d6484bf69be8f74501c0db099dd4c57ba69c0fa0269a1e38911eca0ee2ebb75d"
+  },
+  "q3_source_accounting_sha256": "f407dd9ef2f4b37b468167a83e379b65f5ad6435aa827f1c8b610f0d83f1a683",
+  "q4_carbon_candidate_bank_sha256": "9fc0c501f588b731e335487d1b5b64c6b0c333da8141d767e948997543edc4a7"
+}

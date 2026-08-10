@@ -1,0 +1,3 @@
+result,formal_fair_comparison,starts_from,inherited_passes,new_candidate_evaluations,cost_CNY,carbon_tCO2,renewable_utilization,service_objective,service_quality,schedule_sha256
+carbon_direct,True,q1_baseline,0,600000,-419680013.6301972,0.0,0.6790845106043804,5.174713345633464,0.16195083788094616,cdf6d422a1bc48d595b148723e873522bf4fcf2717e04635729ee3432743143a
+carbon_multistart_refinement,False,carbon_direct,5,20000,-419680013.6301972,0.0,0.6790845106043804,5.174713345633464,0.16195083788094616,cdf6d422a1bc48d595b148723e873522bf4fcf2717e04635729ee3432743143a

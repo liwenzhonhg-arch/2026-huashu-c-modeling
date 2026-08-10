@@ -1,0 +1,372 @@
+{
+  "schema_version": 2,
+  "problem_scope": [
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "formulation": {
+    "model_family": "Q1闭环预测与独立基础调度+Q2语义唯一公共基础候选集的多遍确定性MW/MWh增量搜索+Q3/Q4正式balanced哈希绑定",
+    "objectives": [
+      {
+        "id": "OBJ-Q1",
+        "meaning": "题面单窗口切分保留；另用8个expanding-window rolling-origin对季节基线与Huber网格统一选模；最终测试并列报告Macro/Micro/System Aggregate WAPE；Q1独立基础调度与Q2完全分离",
+        "unit": "GPU"
+      },
+      {
+        "id": "OBJ-Q2",
+        "meaning": "五个直接方向共享同一语义唯一、与目标无关的公共基础候选集；各方向从Q1基线独立重启并按同一顺序最多完成6个全遍历；分离carbon_direct与额外multistart；统一MW/MWh、服务目标和公共ideal/nadir平衡评分",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q3",
+        "meaning": "含no-action的储能成本、碳、新能源、峰值、爬坡Pareto比较",
+        "unit": ""
+      },
+      {
+        "id": "OBJ-Q4",
+        "meaning": "每情景动态重建任务邻域，并在cost_min/balanced/renewable_max储能政策间独立选择；必要时使用新能源短缺压力碳基准",
+        "unit": ""
+      }
+    ],
+    "constraints": [
+      {
+        "id": "CON-Q1-1",
+        "meaning": "合法整数开工候选、到达、截止和时延边界",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-2",
+        "meaning": "每任务唯一分配且实时任务到达即开工",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-3",
+        "meaning": "逐时GPU、IT和设施功率容量",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-4",
+        "meaning": "GPU-hour能源按实际小时重叠计算",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-5",
+        "meaning": "Q1完整基础调度独立派生2376至2399 GPU利用率、末端538任务表和甘特图；禁止引用Q2调度",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-6",
+        "meaning": "18序列Macro-WAPE、432观测Micro-WAPE、逐时系统聚合WAPE及零分母处理均可独立复算",
+        "hard": true
+      },
+      {
+        "id": "CON-Q1-7",
+        "meaning": "完整任务可行构造与全任务审计",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-1",
+        "meaning": "继承全部任务硬约束并全量审计",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-2",
+        "meaning": "无储能能源守恒",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-3",
+        "meaning": "购售电上限与互斥",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-4",
+        "meaning": "新能源优先与弃电口径",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-5",
+        "meaning": "成本和碳核算",
+        "hard": true
+      },
+      {
+        "id": "CON-Q2-6",
+        "meaning": "网络、新能源和服务指标分母门禁",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-1",
+        "meaning": "储能能源守恒",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-2",
+        "meaning": "SOC转移、上下界且终端SOC等于初始SOC",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-3",
+        "meaning": "充放电功率和充放/购售互斥",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-4",
+        "meaning": "no-action进入正式候选与支配比较",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-5",
+        "meaning": "逐时可达性及完整审计",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-6",
+        "meaning": "峰值、爬坡和等效循环次数",
+        "hard": true
+      },
+      {
+        "id": "CON-Q3-7",
+        "meaning": "新能源利用率分母门禁",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-1",
+        "meaning": "联合方案继承任务、能源与储能全部硬约束",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-2",
+        "meaning": "每情景从共同基线和真实初始SOC独立重启",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-3",
+        "meaning": "实时SLA、按期、等待和时延服务指标",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-4",
+        "meaning": "碳、价格、售电、新能源与三随机种子情景",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-5",
+        "meaning": "每轮根据上一轮储能重新生成任务邻域并全量审计接受方案",
+        "hard": true
+      },
+      {
+        "id": "CON-Q4-6",
+        "meaning": "确定性候选/迭代停止；显式外部超时必须incomplete并阻断",
+        "hard": true
+      }
+    ]
+  },
+  "implementation": {
+    "algorithm": "Q1 v45保持不变；Q2使用最多3层且按(TaskID,Region,CandidateStart)全局语义去重的公共基础候选集，每任务基线仅保留一次，五方向从Q1基线独立重启并执行最多6个完整pass；增量接受、pass级全量重建审计及公共收敛只绑定主目标、接受率和硬约束；Q3/Q4绑定正式balanced重新计算",
+    "class": "deterministic finite-search",
+    "solver": null,
+    "randomized": false,
+    "seed": 2026,
+    "covers": [
+      "q1",
+      "q2",
+      "q3",
+      "q4"
+    ],
+    "deviations": [
+      "Q2/Q4为预声明候选预算内最佳可行解，不是穷举最优解",
+      "Q3/Q4官方SOC网格为21状态；15和31状态仅用于网格敏感性",
+      "储能退化成本和循环上限因题面未给参数，仅作现实可操作性边界说明"
+    ],
+    "acceptable_termination_statuses": [
+      "zero_acceptance_full_pass",
+      "main_objective_stable",
+      "max_passes_reached",
+      "no_improvement"
+    ],
+    "minimum_successful_starts": 1,
+    "reuse_training_starts_for_final_fit": false
+  },
+  "claims": {
+    "optimality": "unverified",
+    "approximation": "finite-search-best-found",
+    "limitations": [
+      "无独立Oracle，最高可信等级为scenario-feasible",
+      "储能SOC离散化且缺少官方退化成本/循环寿命数据",
+      "Q2各命名方案表示同一公共基础候选顺序上的不同搜索方向；多遍中的同一BaseCandidateID是对不同当前状态的重评，不是候选池重复"
+    ]
+  },
+  "bindings": {
+    "model_version": 48,
+    "code_version": 21,
+    "solve_version": 18,
+    "solution_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+    "results_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
+  },
+  "robustness": {
+    "q2_base_candidate_semantic_key": [
+      "TaskID",
+      "Region",
+      "CandidateStart"
+    ],
+    "q2_base_candidate_pool_rule": "baseline_once_then_up_to_two_unique_alternatives_per_task_global_semantic_deduplication",
+    "q2_max_candidate_layers": 3,
+    "q2_max_passes": 6,
+    "q2_formal_pass_rule": "earliest_common_completed_pass_after_each_direct_scheme_individually_converged_else_highest_common_completed_pass",
+    "q2_direct_schemes": [
+      "cost_min",
+      "carbon_direct",
+      "renewable_max",
+      "service_first",
+      "balanced"
+    ],
+    "q2_each_scheme_starts_from": "q1_baseline",
+    "q2_candidate_order_shared": true,
+    "q2_zero_acceptance_full_pass_converged": true,
+    "q2_main_objective_relative_tolerance": 0.001,
+    "q2_accepted_move_rate_tolerance": 0.001,
+    "q2_required_consecutive_stable_passes": 2,
+    "q2_auxiliary_metrics_block_convergence": false,
+    "q2_pass_context_audit_required": true,
+    "q2_candidate_level_audit_minimum": 300,
+    "q2_candidate_level_audit_minimum_per_direct_scheme": 50,
+    "q2_delta_absolute_tolerance": 1e-06,
+    "q2_delta_relative_tolerance": 1e-08,
+    "q3_decision_method": "weighted_minmax_ideal_point_distance",
+    "q4_soc_state_count": 21,
+    "wallclock_default": null,
+    "isolated_output_required": true
+  },
+  "implementation_contract_v46": {
+    "scope": "Q2 substantive repair with downstream Q3/Q4 recomputation; Q1 formulation unchanged",
+    "resource_state": {
+      "used_gpu_instant": "sum GPU_Demand for any positive hourly overlap; capacity only",
+      "used_it_power_instant_mw": "sum GPU_Demand*task_power for any positive hourly overlap; IT/facility capacity only",
+      "ai_energy_mwh": "sum task_power_mw*overlap_hour; settlement only",
+      "facility_average_power_mw": "(NonAI_IT_Load_MW*1h + ai_energy_mwh)*PUE/1h; hourly energy/cost/carbon/renewable"
+    },
+    "service_objective": {
+      "definition": "GPU-hour weighted mean of NetworkLatency_ms + 10*WaitHour",
+      "optimization": "minimize service_objective; service_quality=1/(1+service_objective)",
+      "consistency": "same definition in incremental score, full recomputation, results, Q3 input and paper"
+    },
+    "common_candidate_pool": {
+      "size": 120000,
+      "seed": 2026,
+      "ordering": "deterministic round-robin candidate layers independent of objective",
+      "budgets": [
+        10000,
+        20000,
+        40000,
+        50000,
+        80000,
+        120000
+      ],
+      "coverage": "first 50000 CandidateIDs cover all 50000 TaskIDs once; later layers add alternatives",
+      "direct_schemes": [
+        "cost_min",
+        "carbon_direct",
+        "renewable_max",
+        "service_first",
+        "balanced"
+      ]
+    },
+    "formal_budget_rule": {
+      "convergence_intervals": 2,
+      "main_objective_relative_tolerance": 0.001,
+      "auxiliary_objective_relative_tolerance": 0.01,
+      "accepted_rate_tolerance": 0.001,
+      "rule": "earliest common checkpoint where every direct scheme passes two consecutive intervals; otherwise highest common completed budget and nonconverged",
+      "wall_clock_timeout": null
+    },
+    "balanced_normalization": {
+      "source": "all baseline-feasible deltas in the common candidate pool",
+      "method": "public ideal/nadir range with fixed equal 0.25 weights",
+      "directions": {
+        "cost": "min",
+        "carbon": "min",
+        "renewable_used": "max",
+        "service_objective": "min"
+      },
+      "fallback": "zero-span objective contributes zero and is disclosed; no hand tuning"
+    },
+    "carbon_separation": {
+      "carbon_direct": "starts from Q1 baseline and uses identical CandidateID prefix in formal comparison",
+      "carbon_multistart_refinement": "separate extra experiment; inherited 120000 direct budget and new 20000 candidates per origin; never replaces carbon_direct row"
+    },
+    "downstream_binding": {
+      "q3": "reads all five direct schedule hashes and uses formal balanced facility load as the declared storage baseline",
+      "q4": "binds formal balanced schedule and facility-flow hashes; recomputes storage/scenarios/baseline consistency"
+    },
+    "claims": [
+      "finite-budget best-found scenario-feasible only",
+      "no global optimality",
+      "nonconverged uses highest common budget"
+    ]
+  },
+  "implementation_contract_v47": {
+    "base_pool_files": [
+      "q2_common_base_candidate_pool.csv",
+      "q2_candidate_semantic_uniqueness.json",
+      "q2_task_candidate_availability.csv"
+    ],
+    "pass_files": [
+      "q2_attempt_sequence_hashes.json",
+      "q2_pass_stability.csv",
+      "q2_pass_search_trace.csv"
+    ],
+    "audit_files": [
+      "q2_context_checkpoint_audit.csv",
+      "q2_context_checkpoint_summary.json",
+      "q2_incremental_full_recompute_audit.csv",
+      "q2_incremental_full_recompute_summary.json"
+    ],
+    "direct_trace_streamed": true,
+    "legacy_first_pass_trace_retained": true,
+    "carbon_refinement_separate": true
+  },
+  "implementation_contract_v48": {
+    "scope": "q3_q4_energy_accounting_net_grid_ramp_efc_nested_carbon",
+    "energy_flow_fields": [
+      "FacilityLoad_MW",
+      "AvailableRenewable_MW",
+      "RenewableDirectUse_MW",
+      "RenewableCharge_MW",
+      "GridCharge_MW",
+      "Charge_MW",
+      "Discharge_MW",
+      "StorageToLoad_MW",
+      "RenewableSell_MW",
+      "StorageSell_MW",
+      "GridPurchaseForLoad_MW",
+      "GridPurchase_MW",
+      "GridSell_MW",
+      "RenewableCurtailment_MW",
+      "SOC_MWh",
+      "NetGrid_MW"
+    ],
+    "renewable_utilization": "sum(RenewableDirectUse_MW+RenewableCharge_MW+RenewableSell_MW)/sum(AvailableRenewable_MW)",
+    "net_grid": "GridPurchase_MW-GridSell_MW",
+    "peak": "sum_region max_hour(max(NetGrid_MW,0))",
+    "ramp": "sum_region sum_t_from_1 abs(NetGrid[t]-NetGrid[t-1])",
+    "ramp_min_dp": {
+      "state": "adjacent_soc_pair_with_previous_net_grid",
+      "soc_state_count": 21,
+      "complexity": "O(T*K^3)",
+      "terminal_soc": "initial",
+      "hour0_predecessor": "none"
+    },
+    "efc": "sum_region sum_t(eta_charge*Charge+Discharge/eta_discharge)/(2*(SOC_max-SOC_min))",
+    "q4_carbon_levels": [
+      0.0,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "q4_inheritance": "all looser-level candidates recalculated under current original inputs",
+    "failure_label": "target_not_found_within_declared_search",
+    "settlement_price_immutable": true
+  }
+}

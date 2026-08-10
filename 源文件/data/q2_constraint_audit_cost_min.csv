@@ -1,0 +1,7 @@
+Region,max_gpu_residual,max_it_residual_MW,max_facility_residual_MW,task_unique_residual,max_latency_residual_ms,max_deadline_residual_h,max_realtime_start_residual_h,max_terminal_2406_residual_h,constraint_satisfied
+RegionA,-6.0,-0.03199999999975489,-0.0431999999996151,0.0,0.0,0.0,0.0,0.0,True
+RegionB,-3.0,-0.006666999999708878,-0.009000449999575721,0.0,0.0,0.0,0.0,0.0,True
+RegionC,0.0,-0.021332999999913227,-0.0294395399998848,0.0,0.0,0.0,0.0,0.0,True
+RegionD,0.0,-137.67866700000013,-176.22869376000017,0.0,0.0,0.0,0.0,0.0,True
+RegionE,0.0,-2.725999999999658,-3.4074999999995725,0.0,0.0,0.0,0.0,0.0,True
+RegionF,0.0,-0.38333299999999326,-0.4868329099999755,0.0,0.0,0.0,0.0,0.0,True

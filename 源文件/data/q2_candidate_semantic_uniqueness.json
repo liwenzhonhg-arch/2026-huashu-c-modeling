@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "total_rows": 120000,
+  "unique_candidate_ids": 120000,
+  "unique_semantic_candidates": 120000,
+  "duplicate_semantic_candidates": 0,
+  "tasks_with_duplicates": 0,
+  "tasks_examined": 50000,
+  "tasks_with_alternatives": 49512,
+  "tasks_without_alternatives": 488,
+  "per_layer": [
+    {
+      "CandidateLayer": 1,
+      "rows": 50000,
+      "unique_semantic_candidates": 50000,
+      "effective_alternative_candidates": 0
+    },
+    {
+      "CandidateLayer": 2,
+      "rows": 49512,
+      "unique_semantic_candidates": 49512,
+      "effective_alternative_candidates": 49512
+    },
+    {
+      "CandidateLayer": 3,
+      "rows": 20488,
+      "unique_semantic_candidates": 20488,
+      "effective_alternative_candidates": 20488
+    }
+  ]
+}

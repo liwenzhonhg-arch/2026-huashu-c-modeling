@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "state_count": 21,
+  "storage_policy": "balanced",
+  "joint_metrics": [
+    -454174024.61707526,
+    0.0,
+    0.6931311766649338,
+    0.0,
+    22150.241246509893
+  ],
+  "scenario_baseline_metrics": [
+    -454174024.61707526,
+    0.0,
+    0.6931311766649338,
+    0.0,
+    22150.241246509893
+  ],
+  "same_data_source": true,
+  "q2_formal_budget": 600000,
+  "q2_balanced_schedule_sha256": "15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15",
+  "q2_balanced_schedule_file_sha256": "d9c2ed4cdf83a27dd8f053157d67f60a72437c249660136c9ff52d9fde7ed065",
+  "q2_balanced_energy_file_sha256": "d6484bf69be8f74501c0db099dd4c57ba69c0fa0269a1e38911eca0ee2ebb75d"
+}

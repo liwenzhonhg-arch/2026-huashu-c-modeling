@@ -1,0 +1,15 @@
+{
+  "levels": [
+    0.0,
+    0.1,
+    0.2,
+    0.3
+  ],
+  "order": "loose_to_strict",
+  "candidate_bank_file": "q4_carbon_candidate_bank.csv",
+  "nested_audit_file": "q4_carbon_nested_feasibility_audit.csv",
+  "settlement_price_field": "ElectricityPrice_CNY_per_MWh",
+  "search_signal_field": "SearchSignal_CNY_per_MWh",
+  "failure_label": "target_not_found_within_declared_search",
+  "mathematical_infeasibility_claimed": false
+}

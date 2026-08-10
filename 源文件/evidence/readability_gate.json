@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "status": "pass",
+  "page_count": 19,
+  "visual_scope": "all_pages",
+  "checked_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "evidence_files": [
+    "visual-v26-rendered/contact-01-05.png",
+    "visual-v26-rendered/contact-06-10.png",
+    "visual-v26-rendered/contact-11-15.png",
+    "visual-v26-rendered/contact-16-19.png"
+  ],
+  "font_and_cover": "pass",
+  "figure_legibility": "pass",
+  "table_clipping": "pass",
+  "overflow": "pass",
+  "blank_page_check": "pass",
+  "notes": "All 19 pages rendered and visually inspected; Q3/Q4 tables and figures are legible, no clipping or blank pages."
+}

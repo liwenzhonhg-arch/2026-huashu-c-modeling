@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "formal_budget": 600000,
+  "direct_schedule_sha256": {
+    "cost_min": "ecb360af044daff8e7335aea78a087a6e1251a4b3973105b751ca2e1964a2924",
+    "carbon_direct": "cdf6d422a1bc48d595b148723e873522bf4fcf2717e04635729ee3432743143a",
+    "renewable_max": "d418bcc4c8d647e6c17dfcac92d815516f7bd8ec6a6bafd4f1ac1d5fb9a6f2b6",
+    "service_first": "d668fb71802aad39febba34308e1946365a2ddb47d9b183563c87656ec457944",
+    "balanced": "15a813da95bb928ebcad749613c5244fae1f40eb0831119be5fd9bf87ecb0e15"
+  },
+  "selected_task_schedule": "balanced",
+  "selected_schedule_file_sha256": "d9c2ed4cdf83a27dd8f053157d67f60a72437c249660136c9ff52d9fde7ed065",
+  "selected_energy_file_sha256": "d6484bf69be8f74501c0db099dd4c57ba69c0fa0269a1e38911eca0ee2ebb75d"
+}

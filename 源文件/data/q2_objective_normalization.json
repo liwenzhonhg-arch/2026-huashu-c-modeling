@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "source": "all baseline-feasible common-candidate deltas",
+  "candidate_count": 120000,
+  "baseline_feasible_count": 115778,
+  "method": "public ideal/nadir range",
+  "objectives": {
+    "cost": {
+      "direction": "min",
+      "unit": "CNY",
+      "ideal": -41696.54937280039,
+      "nadir": 47276.34943999981,
+      "scale": 88972.89881280021,
+      "active": true,
+      "weight": 0.25,
+      "minimum": -41696.54937280039,
+      "maximum": 47276.34943999981
+    },
+    "carbon": {
+      "direction": "min",
+      "unit": "tCO2",
+      "ideal": -6.943791039999994,
+      "nadir": 10.899183749999716,
+      "scale": 17.842974789999708,
+      "active": true,
+      "weight": 0.25,
+      "minimum": -6.943791039999994,
+      "maximum": 10.899183749999716
+    },
+    "renewable_used": {
+      "direction": "max",
+      "unit": "MWh",
+      "ideal": 160.80232000000217,
+      "nadir": -168.60181333333253,
+      "scale": 329.4041333333347,
+      "active": true,
+      "weight": 0.25,
+      "minimum": -168.60181333333253,
+      "maximum": 160.80232000000217
+    },
+    "service": {
+      "direction": "min",
+      "unit": "weighted_service_unit",
+      "ideal": -7.487870451535848e-05,
+      "nadir": 3.7733002290919218,
+      "scale": 3.7733751077964373,
+      "active": true,
+      "weight": 0.25,
+      "minimum": -7.487870451535848e-05,
+      "maximum": 3.7733002290919218
+    }
+  },
+  "weights_sum": 1.0,
+  "hand_tuned_to_final_result": false
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": 2,
+  "status": "pass",
+  "starts_from": "q1_baseline",
+  "formal_pass": 5,
+  "base_candidate_count": 120000,
+  "candidate_pool_sha256": "2db526d7a32d3550fbc7eac2b0e265bb452b2e8d25454a0a51092f32a97cf467",
+  "candidate_sequence_equal_to_other_direct_schemes": true,
+  "schedule_sha256": "cdf6d422a1bc48d595b148723e873522bf4fcf2717e04635729ee3432743143a"
+}

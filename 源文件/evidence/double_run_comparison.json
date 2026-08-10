@@ -1,0 +1,693 @@
+{
+  "run1": {
+    "run_id": "v21-run-1-c4e973d4af39",
+    "command": [
+      "python",
+      "solution.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4558.730711221695,
+    "code_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+    "explicit_max_runtime_seconds": null,
+    "active_versions_at_start": {
+      "analyze": 1,
+      "eda": 1,
+      "research": 1,
+      "model": 47,
+      "code": 20,
+      "solve": 17,
+      "paper": 25,
+      "review": 19
+    },
+    "candidate_code_version": "v21",
+    "validation_exit_code": 0,
+    "status": "completed_and_validated"
+  },
+  "run2": {
+    "run_id": "v21-run-2-1a01af22cba3",
+    "command": [
+      "python",
+      "solution.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3786.555429458618,
+    "code_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+    "explicit_max_runtime_seconds": null,
+    "active_versions_at_start": {
+      "analyze": 1,
+      "eda": 1,
+      "research": 1,
+      "model": 47,
+      "code": 20,
+      "solve": 17,
+      "paper": 25,
+      "review": 19
+    },
+    "candidate_code_version": "v21",
+    "validation_exit_code": 0,
+    "status": "completed_and_validated"
+  },
+  "compared_files": 106,
+  "semantic_mismatches": [],
+  "all_structured_results_identical": true,
+  "results_sha256_run1": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e",
+  "results_sha256_run2": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e",
+  "comparisons": [
+    {
+      "file": "code\\solution.py",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "byte-identical"
+    },
+    {
+      "file": "data\\constraint_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\figure_data\\fig_2_storage_soc.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\figure_data\\q1_gpu_utilization.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\figure_data\\q4_joint_storage_soc.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\figure_data\\sensitivity_electricity_price.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\figure_data\\sensitivity_renewable_level.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\figure_manifest.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\method_runtime.json",
+      "byte_identical": false,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_candidate_summary.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_constraint_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_forecast_2376_2399.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_forecast_metrics.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_forecast_summary.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_gantt.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_gpu_statistics.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_gpu_utilization.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_model_selection.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_rolling_validation.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_schedule.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q1_schedule_full.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_attempt_sequence_hashes.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_balanced_score_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_budget_stability.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_candidate_coverage.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_candidate_semantic_uniqueness.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_carbon_direct_audit.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_carbon_multistart_audit.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_carbon_multistart_refinement_trace.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_carbon_refinement_comparison.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_common_base_candidate_pool.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_common_candidate_pool.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_common_candidate_provenance.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_constraint_audit_balanced.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_constraint_audit_carbon_direct.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_constraint_audit_carbon_multistart_refinement.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_constraint_audit_cost_min.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_constraint_audit_renewable_max.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_constraint_audit_service_first.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_context_checkpoint_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_context_checkpoint_summary.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_convergence_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_energy_balanced.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_energy_carbon_direct.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_energy_carbon_multistart_refinement.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_energy_cost_min.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_energy_renewable_max.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_energy_service_first.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_formal_budget_decision.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_hourly_energy.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_incremental_full_recompute_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_incremental_full_recompute_summary.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_metric_stability.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_named_scheme_comparison.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_objective_normalization.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_pass_search_trace.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_pass_stability.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_schedule_balanced.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_schedule_carbon_direct.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_schedule_carbon_multistart_refinement.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_schedule_cost_min.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_schedule_renewable_max.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_schedule_service_first.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_search_summary.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_search_trace.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_stability_summary.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_task_candidate_availability.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q2_weight_sensitivity.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_all_policy_trajectories.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_constraint_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_energy_source_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_equivalent_cycles_audit.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_equivalent_cycles_by_region.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_input_binding.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_metric_recomputation_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_no_storage_baseline.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_renewable_accounting.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_search_summary.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_search_trace.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_soc_figure_provenance.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_soc_grid_sensitivity.csv",
+      "byte_identical": false,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_storage_energy.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q3_terminal_soc_sensitivity.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_all_scenario_energy.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_alternation_trace.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_baseline_consistency.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_carbon_candidate_bank.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_carbon_constraint_provenance.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_carbon_nested_feasibility_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_constraint_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_energy_source_audit.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_joint_storage_energy.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_renewable_accounting.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_scenario_comparison.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_scenario_family_summary.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_search_summary.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\q4_search_trace.csv",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "csv-excluding-run-time"
+    },
+    {
+      "file": "data\\results.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\schedule_provenance.json",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "data\\sensitivity.json",
+      "byte_identical": false,
+      "semantic_identical": true,
+      "note": "json-excluding-run-time"
+    },
+    {
+      "file": "figures\\fig_2_storage_soc.png",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "byte-identical"
+    },
+    {
+      "file": "figures\\q1_gantt.png",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "byte-identical"
+    },
+    {
+      "file": "figures\\q1_gpu_utilization.png",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "byte-identical"
+    },
+    {
+      "file": "figures\\q4_joint_storage_soc.png",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "byte-identical"
+    },
+    {
+      "file": "figures\\sensitivity_electricity_price.png",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "byte-identical"
+    },
+    {
+      "file": "figures\\sensitivity_renewable_level.png",
+      "byte_identical": true,
+      "semantic_identical": true,
+      "note": "byte-identical"
+    }
+  ]
+}
