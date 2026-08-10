@@ -1,9 +1,0 @@
-{
-  "status": "approved",
-  "result": "proceed",
-  "rework_target": null,
-  "upstream_hash": "314f30976e098866829fd4963beb041d",
-  "upstream_changed": false,
-  "approved_by": "用户回复执行；Codex按确定性Verifier代判",
-  "approved_at": "2026-08-08T07:24:09.683450"
-}

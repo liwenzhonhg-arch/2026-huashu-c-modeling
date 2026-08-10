@@ -1,7 +1,0 @@
-Region,max_energy_abs_residual_MW,max_soc_abs_residual_MWh,max_storage_bound_residual,max_mutex_residual_MW,terminal_soc_residual_MWh
-RegionA,2.842170943040401e-14,0.0,0.0,0.0,0.0
-RegionB,5.684341886080802e-14,7.105427357601002e-15,0.0,0.0,0.0
-RegionC,5.684341886080802e-14,0.0,0.0,0.0,0.0
-RegionD,5.684341886080802e-14,0.0,0.0,0.0,0.0
-RegionE,1.1368683772161603e-13,0.0,0.0,0.0,0.0
-RegionF,1.1368683772161603e-13,0.0,0.0,0.0,0.0

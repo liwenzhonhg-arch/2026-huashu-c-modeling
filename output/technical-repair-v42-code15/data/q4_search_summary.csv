@@ -1,2 +1,0 @@
-status,checked_candidates,unique_trajectories,accepted_improvements,selected_policy,baseline_cost_CNY,final_cost_CNY,baseline_carbon_tCO2,final_carbon_tCO2,baseline_peak_MW,final_peak_MW,baseline_ramp_MW,final_ramp_MW,charge_MWh,discharge_MWh,termination_status
-pareto_selected,7,6,1,balanced,-421801727.4501783,-458716347.9740852,16.516041084494464,0.26839810562481775,40.46636711666906,0.3644279072033214,87.59973423333963,0.8631163599964111,909650.7326698697,789224.1435000001,candidate_space_exhausted

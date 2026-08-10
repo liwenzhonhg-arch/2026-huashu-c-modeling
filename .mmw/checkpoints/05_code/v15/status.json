@@ -1,9 +1,0 @@
-{
-  "status": "approved",
-  "result": "proceed",
-  "rework_target": null,
-  "upstream_hash": "596a0dc3788b23e8a4a2d7a4041636ca",
-  "upstream_changed": false,
-  "approved_by": "用户执行授权；专项测试与双运行通过",
-  "approved_at": "2026-08-08T08:48:24.427339"
-}

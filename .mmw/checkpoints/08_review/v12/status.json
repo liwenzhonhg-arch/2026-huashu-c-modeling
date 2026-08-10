@@ -1,9 +1,0 @@
-{
-  "status": "approved",
-  "result": "proceed",
-  "rework_target": null,
-  "upstream_hash": "fec8d08122372a3ecb5f0210adff07f8",
-  "upstream_changed": true,
-  "approved_by": "用户执行授权；双运行、7页PDF视觉审计与最终benchmark通过",
-  "approved_at": "2026-08-08T09:00:16.548489"
-}

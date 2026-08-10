@@ -1,9 +1,0 @@
-{
-  "status": "approved",
-  "result": "proceed",
-  "rework_target": null,
-  "upstream_hash": "fb0e885a378f8a62710554633c8d0948",
-  "upstream_changed": true,
-  "approved_by": "用户授权下的排版门禁判断：仅增加 TeX 应急字间伸缩以消除长小数横向溢出，内容未变",
-  "approved_at": "2026-08-08T05:37:05.856442"
-}

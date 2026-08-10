@@ -1,32 +1,28 @@
-# 2026 华数杯 C题：面向算电协同的多目标调度优化研究
+# 2026 年华数杯 C 题提交仓库
 
-本目录保存赛题输入、MMW 检查点、两次完整复算证据、现役交付和可复算包。
+> **当前公开版本：Q1/Q2 已修复版本**
+>
+> 版本链：`model v47 / code v20 / solve v17 / paper v25 / review v19`
+>
+> Q3/Q4 正在修复，本版本不是最终比赛提交版本。
 
-## 当前结论
+## 队友提交入口
 
-- 现役链：`model v43 / code v16 / solve v13 / paper v21 / review v15`。
-- 50,000 条任务通过完整硬约束审计；Q4 的联合基准和 17 个情景统一使用 21 个 SOC 状态。
-- Q2 为确定性分层有限启发式，Q3 使用统一加权极小极大理想点距离选择；均不宣称全局最优。
-- 正式运行默认无墙钟限制；仅显式设置 `MMW_MAX_RUNTIME_SECONDS` 时中断并产生 `incomplete` 隔离证据。
-- 可信等级为 `scenario-feasible`：没有独立 Oracle 或全局最优证书。
-- 论文 16 页；封面参赛队号仍为空，正式参赛前由队伍填写真实队号并重新编译。
+`提交文件` 目录内有两个待上传文件：
 
-## 快速入口
+1. `C参赛编号.pdf`：上传到赛氪的“参赛论文”位置。
+2. `C参赛编号附件.zip`：上传到赛氪的“支撑材料”位置。
 
-- 根验证：`python validate_results.py .`
-- 论文：`output/paper.pdf`
-- 最小提交包：`output/submission.zip`
-- 可复算包：`output/reproducibility.zip`
-- 求解程序：`output/code/solution.py`
-- 结构化结果：`output/data/results.json`
-- 双次复算：`ROBUSTNESS_DOUBLE_RUN_COMPARISON.md`
-- 基准边界：`output/benchmark.json`
+提交前必须把文件名中的“参赛编号”替换为报名系统中的 `CM******`。例如，参赛编号为 `CM2600001` 时，文件名应为：
 
-## 目录
+- `CCM2600001.pdf`
+- `CCM2600001附件.zip`
 
-- `附件数据/`：六个原始 Excel 附件，只读输入。
-- `.mmw/`：版本化流水线检查点。
-- `output/runs/`：通过或明确标为 incomplete 的隔离运行证据。
-- `output/data/`、`output/figures/`：active solve 快速镜像，图表数据在 `output/data/figure_data/`。
-- `output/archive/`：被替换的旧根交付，只归档不清理。
-- `tests/`、`tools/`：本 C 题专项验证与确定性运行/导出工具。
+承诺书由队长在报名系统中单独上传，不存放在本公开仓库。
+
+## 源文件
+
+- `源文件/solution.py`：本版本完整计算程序。
+- `源文件/paper_latex.md`：与本版本论文对应的公式保留 Markdown。
+
+正式提交以 `提交文件` 中的 PDF 与支撑材料 ZIP 为准。
