@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "base_solve_version": 18,
+  "solve_version": 19,
+  "scope": "Q1 rolling-origin hourly prediction evidence only; no scheduling or Q2-Q4 solve",
+  "solution_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+  "results_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e",
+  "input_sha256": {
+    "GPU_information.xlsx": "68f978ff242da0bab54259283f647c7552693acf6db5e2212ff4e10f6a5d5d2f",
+    "network_latency.xlsx": "f7e16fc33d8c188b0889e358497e0d96451e04c77ce765a667a50488f02ac157",
+    "power_mapping.xlsx": "a5bea2b708cc4e5586e59bfd832b8dde7b629d212fcd8c3a0f132c03163ae39e",
+    "region_time_data.xlsx": "0386a1f6ae825fc4e9797528545090863817b73154050f3ba7a1068e456d55ba",
+    "storage_information.xlsx": "ff5384eb6e955079766b22432e630dfdec9f347f11cd334d950716b21692b3e4",
+    "workload_trace.xlsx": "006c0802f4a5a94a94eb7c54f8333091ac860c7d35c9c2c9ad04c68d4f0165ba"
+  },
+  "rolling_origins": [
+    2184,
+    2208,
+    2232,
+    2256,
+    2280,
+    2304,
+    2328,
+    2352
+  ],
+  "horizon_hours": 24,
+  "candidate_count": 11,
+  "series_count": 18,
+  "prediction_rows": 38016,
+  "selected_prediction_rows": 3456,
+  "window_metric_rows": 8,
+  "metric_reproduction_max_abs_residual": {
+    "MAE": 1.4210854715202004e-14,
+    "RMSE": 2.842170943040401e-14,
+    "WAPE": 4.440892098500626e-16
+  },
+  "q1_rolling_validation_sha256": "9418887c508657daa99fe9caae53e64f0e7fb0172493368a7cbd0ed39753ae4b",
+  "q1_model_selection_sha256": "3e383c98c476bdc45466fcf1a813aab08de25a8fa70b5799951c622853cf9eca",
+  "outputs": {
+    "q1_rolling_predictions.csv": {
+      "bytes": 5841551,
+      "sha256": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb"
+    },
+    "q1_rolling_window_metrics.csv": {
+      "bytes": 1473,
+      "sha256": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9"
+    }
+  },
+  "no_leakage": {
+    "closed_loop": true,
+    "feature_uses_validation_truth": false,
+    "final_test_used_for_selection": false,
+    "per_window_winner_used_for_aggregate_curve": false
+  }
+}

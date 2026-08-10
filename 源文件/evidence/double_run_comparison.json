@@ -2,8 +2,8 @@
   "run1": {
     "run_id": "v21-run-1-c4e973d4af39",
     "command": [
-      "python",
-      "solution.py"
+      "F:\\python\\python.exe",
+      "C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\.mmw\\checkpoints\\05_code\\v21\\solution.py"
     ],
     "exit_code": 0,
     "elapsed_seconds": 4558.730711221695,
@@ -26,8 +26,8 @@
   "run2": {
     "run_id": "v21-run-2-1a01af22cba3",
     "command": [
-      "python",
-      "solution.py"
+      "F:\\python\\python.exe",
+      "C:\\Users\\moonman\\Desktop\\2026年第七届华数杯数学建模竞赛赛题\\2026年第七届华数杯数学建模竞赛赛题\\C题 面向算电协同的多目标调度优化研究\\.mmw\\checkpoints\\05_code\\v21\\solution.py"
     ],
     "exit_code": 0,
     "elapsed_seconds": 3786.555429458618,

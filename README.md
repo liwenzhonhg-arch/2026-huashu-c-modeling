@@ -2,9 +2,11 @@
 
 > **当前公开版本：Q1–Q4 已修复版本**
 >
-> 版本链：`model v48 / code v21 / solve v18 / paper v26 / review v20`
+> 版本链：`model v48 / code v21 / solve v19 / paper v28 / review v22`
 >
-> 可信等级：`scenario-feasible`。本仓库用于队内复核与比赛提交准备；参赛编号、承诺书及最终视觉排版仍需在正式提交前确认。
+> 可信等级：`scenario-feasible`。本仓库用于队内复核与比赛提交准备；参赛编号和承诺书仍需在正式提交前确认。
+
+`solve v19` 仅在 `solve v18` 冻结结果上扩展 Q1 rolling-origin 逐小时证据，未重新运行 Q1 调度或 Q2–Q4 优化；`solution.py` 与 `results.json` 哈希保持不变。
 
 ## 队友提交入口
 
@@ -31,6 +33,6 @@
 - `evidence/`：版本、运行与验证证据；
 - `README_run.txt`、`requirements.txt`、`VERSION.json`、`MANIFEST.sha256`：运行说明、依赖、版本和完整性清单。
 
-压缩包内的 105 个文件已全部展开；完整文件名与 SHA-256 可直接查看 [`源文件/MANIFEST.sha256`](源文件/MANIFEST.sha256)。
+压缩包内的 135 个文件已全部展开；完整文件名与 SHA-256 可直接查看 [`源文件/MANIFEST.sha256`](源文件/MANIFEST.sha256)。
 
 为控制比赛附件体积，公开版本未包含官方原始题目附件及体积很大的全量搜索轨迹。正式提交以 `提交文件` 中的 PDF 与 ZIP 为准。

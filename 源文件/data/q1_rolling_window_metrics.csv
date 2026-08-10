@@ -1,0 +1,9 @@
+RollingOrigin,ValidationStartHour,ValidationEndHour,Macro_WAPE,Micro_WAPE,System_Aggregate_WAPE,SeriesCount,HourlyPointCount,ObservationCount,ClosedLoopForecast,FeatureUsesValidationTruth,FinalTestUsedForSelection,SelectedCandidateRule
+2184,2184,2207,0.799858079406807,0.677154914620122,0.280975999932288,18,24,432,True,False,False,"8-window MeanRMSE,MeanMAE,MeanWAPE,fixed_candidate_rank"
+2208,2208,2231,0.92187512609044,0.766712732076903,0.336870933899494,18,24,432,True,False,False,"8-window MeanRMSE,MeanMAE,MeanWAPE,fixed_candidate_rank"
+2232,2232,2255,0.844702449114429,0.748228333306028,0.266440819414858,18,24,432,True,False,False,"8-window MeanRMSE,MeanMAE,MeanWAPE,fixed_candidate_rank"
+2256,2256,2279,0.838964011371146,0.749511847786089,0.230457776581582,18,24,432,True,False,False,"8-window MeanRMSE,MeanMAE,MeanWAPE,fixed_candidate_rank"
+2280,2280,2303,0.909318068992077,0.765476213656828,0.296849750378397,18,24,432,True,False,False,"8-window MeanRMSE,MeanMAE,MeanWAPE,fixed_candidate_rank"
+2304,2304,2327,0.951506925375721,0.765855243724468,0.313323834811403,18,24,432,True,False,False,"8-window MeanRMSE,MeanMAE,MeanWAPE,fixed_candidate_rank"
+2328,2328,2351,0.764182079604478,0.73800029549412,0.26628006685483,18,24,432,True,False,False,"8-window MeanRMSE,MeanMAE,MeanWAPE,fixed_candidate_rank"
+2352,2352,2375,0.861176717130889,0.699850272550154,0.25778145301964,18,24,432,True,False,False,"8-window MeanRMSE,MeanMAE,MeanWAPE,fixed_candidate_rank"

@@ -1,0 +1,102 @@
+{
+  "paper_version": 28,
+  "solve_version": 19,
+  "figures": [
+    {
+      "file": "figures/paper_v28/fig01_q1_forecast.png",
+      "sha256": "c82c605c56e759ffe547116956b84e1108c91f4ff81b9ad9a1cea1a87b473f22",
+      "sources": [
+        {
+          "path": "q1_forecast_2376_2399.csv",
+          "sha256": "3f35a45e14ace7490c92065f1dcf1aa51488d00910523e8597a360effe4c07a7"
+        },
+        {
+          "path": "q1_rolling_predictions.csv",
+          "sha256": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb"
+        },
+        {
+          "path": "q1_rolling_window_metrics.csv",
+          "sha256": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9"
+        }
+      ]
+    },
+    {
+      "file": "figures/paper_v28/fig02_q1_schedule.png",
+      "sha256": "f1b01c5c1d366239bbec92d50ef6d4a59e51f68fc5030d7f56b1da26ffce6240",
+      "sources": [
+        {
+          "path": "q1_gantt.csv",
+          "sha256": "58dc1fd78abf94a426082100f0c29607bd44538c3b7eec16a57a46c34357660e"
+        },
+        {
+          "path": "q1_gpu_utilization.csv",
+          "sha256": "28e22d656e1fa55365e63f79893cda84f537ab93917055c1d9152a77a64e4f68"
+        }
+      ]
+    },
+    {
+      "file": "figures/paper_v28/fig03_q2_multiobjective.png",
+      "sha256": "4276e0c478998105740373f4e2f2f11a37eacb4cf2b5b9c2d923d6a3fd7a2db7",
+      "sources": [
+        {
+          "path": "q2_named_scheme_comparison.csv",
+          "sha256": "16be360a2d8417abc7abfbad01329c1416ee19815d5b285186b2d4b762b483d8"
+        },
+        {
+          "path": "q2_budget_stability.csv",
+          "sha256": "54797c171108883395e45587366ac4702b2858569cd48b448321b51b7153386d"
+        }
+      ]
+    },
+    {
+      "file": "figures/paper_v28/fig04_q3_storage.png",
+      "sha256": "b81c09e8031fcb356e2cfb2c5bc079f96e6fb543a65fe8ecd4ff6cd21304c4eb",
+      "sources": [
+        {
+          "path": "q3_storage_energy.csv",
+          "sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c"
+        },
+        {
+          "path": "q3_no_storage_baseline.csv",
+          "sha256": "45b89c6260ab7644f7dea103131920cebf1ac8383c45454ddf580f505c3c2031"
+        },
+        {
+          "path": "q3_metric_recomputation_audit.csv",
+          "sha256": "b9b352099a35836d9dd0422860dc6ce44391aaba4341b29030aaa1a4362a4cca"
+        },
+        {
+          "path": "q3_search_summary.csv",
+          "sha256": "45a8157a60155ab26ba7c83f88a30856e5fd252b3fbe4fcb5e269807152b2aa7"
+        }
+      ]
+    },
+    {
+      "file": "figures/paper_v28/fig05_q4_scenarios.png",
+      "sha256": "7c0d378699c1ef05fc07a5521022d3b2a1086880e272caa2d2eec402d59e9ed8",
+      "sources": [
+        {
+          "path": "q4_scenario_comparison.csv",
+          "sha256": "74fff253e96de5f4e95e68345001d84bc3d5032d3ddde38ac8fae5b00a2bbfba"
+        },
+        {
+          "path": "q4_joint_storage_energy.csv",
+          "sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c"
+        }
+      ]
+    },
+    {
+      "file": "figures/paper_v28/fig06_sensitivity.png",
+      "sha256": "562d00e75b50cbf36493d5f51293c492a6dc1920af1ab764efb3046ee346c366",
+      "sources": [
+        {
+          "path": "figure_data/sensitivity_electricity_price.csv",
+          "sha256": "c566aa7999129e7c3cb9da8087dc2adb73efd22d65e1ed483f05f65d8679a56f"
+        },
+        {
+          "path": "figure_data/sensitivity_renewable_level.csv",
+          "sha256": "70578b4e10cfec9d63fbaa1d9394dfbcfd10e216ed4dde763d89f5d63d29ff7e"
+        }
+      ]
+    }
+  ]
+}

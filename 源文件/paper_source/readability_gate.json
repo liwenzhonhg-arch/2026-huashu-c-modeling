@@ -1,0 +1,40 @@
+{
+  "schema_version": 4,
+  "status": "pass",
+  "page_count": 17,
+  "visual_scope": "all_pages",
+  "checked_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "evidence_files": [
+    "visual-v28-final-rendered/contact-01-04.png",
+    "visual-v28-final-rendered/contact-05-08.png",
+    "visual-v28-final-rendered/contact-09-12.png",
+    "visual-v28-final-rendered/contact-13-16.png",
+    "visual-v28-final-rendered/contact-17-17.png"
+  ],
+  "font_and_cover": "pass",
+  "figure_legibility": "pass",
+  "table_clipping": "pass",
+  "overflow": "pass",
+  "blank_page_check": "pass",
+  "legend_occlusion": "pass",
+  "abnormal_whitespace": "pass",
+  "notes": "Figure 1 rolling curves and final page traceability text were inspected at original render resolution."
+}

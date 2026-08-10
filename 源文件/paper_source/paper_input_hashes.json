@@ -1,0 +1,168 @@
+{
+  "paper_version": 28,
+  "paper_base_version": 27,
+  "frozen_chain": {
+    "model": 48,
+    "code": 21,
+    "solve": 19,
+    "paper_base": 27,
+    "review_base": 21
+  },
+  "inputs": [
+    {
+      "path": "q1_forecast_2376_2399.csv",
+      "sha256": "3f35a45e14ace7490c92065f1dcf1aa51488d00910523e8597a360effe4c07a7",
+      "bytes": 42391,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q1_rolling_validation.csv",
+      "sha256": "9418887c508657daa99fe9caae53e64f0e7fb0172493368a7cbd0ed39753ae4b",
+      "bytes": 282807,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q1_gantt.csv",
+      "sha256": "58dc1fd78abf94a426082100f0c29607bd44538c3b7eec16a57a46c34357660e",
+      "bytes": 39450,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q1_gpu_utilization.csv",
+      "sha256": "28e22d656e1fa55365e63f79893cda84f537ab93917055c1d9152a77a64e4f68",
+      "bytes": 2914,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q2_named_scheme_comparison.csv",
+      "sha256": "16be360a2d8417abc7abfbad01329c1416ee19815d5b285186b2d4b762b483d8",
+      "bytes": 4663,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q2_budget_stability.csv",
+      "sha256": "54797c171108883395e45587366ac4702b2858569cd48b448321b51b7153386d",
+      "bytes": 14848,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q3_storage_energy.csv",
+      "sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c",
+      "bytes": 2787002,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q3_no_storage_baseline.csv",
+      "sha256": "45b89c6260ab7644f7dea103131920cebf1ac8383c45454ddf580f505c3c2031",
+      "bytes": 4869332,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q3_metric_recomputation_audit.csv",
+      "sha256": "b9b352099a35836d9dd0422860dc6ce44391aaba4341b29030aaa1a4362a4cca",
+      "bytes": 3365,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q3_search_summary.csv",
+      "sha256": "45a8157a60155ab26ba7c83f88a30856e5fd252b3fbe4fcb5e269807152b2aa7",
+      "bytes": 1182,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q4_scenario_comparison.csv",
+      "sha256": "74fff253e96de5f4e95e68345001d84bc3d5032d3ddde38ac8fae5b00a2bbfba",
+      "bytes": 14706,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q4_joint_storage_energy.csv",
+      "sha256": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c",
+      "bytes": 2787002,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "figure_data/sensitivity_electricity_price.csv",
+      "sha256": "c566aa7999129e7c3cb9da8087dc2adb73efd22d65e1ed483f05f65d8679a56f",
+      "bytes": 202,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "figure_data/sensitivity_renewable_level.csv",
+      "sha256": "70578b4e10cfec9d63fbaa1d9394dfbcfd10e216ed4dde763d89f5d63d29ff7e",
+      "bytes": 201,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "results.json",
+      "sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e",
+      "bytes": 35378,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "../05_code/v21/solution.py",
+      "sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+      "bytes": 242345,
+      "source_stage": "code",
+      "source_version": 21
+    },
+    {
+      "path": "q1_rolling_predictions.csv",
+      "sha256": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb",
+      "bytes": 5841551,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q1_rolling_window_metrics.csv",
+      "sha256": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9",
+      "bytes": 1473,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "q1_rolling_hourly_provenance.json",
+      "sha256": "3716a6b922347d287b3950500a4910b036bb29e6a5fedefca37b7db9a377376d",
+      "bytes": 2159,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "solve_v19_extension_validation.json",
+      "sha256": "4f3e2fca94a21e8a9741a3b4bbe867a40dc1d13d753e714ba0ee20aeee242b34",
+      "bytes": 1228,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "export_q1_rolling_hourly_v19.py",
+      "sha256": "442052a8f520801db69359d51d8ebf1c6bf67afb1007b9ce1885685c6e8faa5a",
+      "bytes": 7928,
+      "source_stage": "solve",
+      "source_version": 19
+    },
+    {
+      "path": "solve_v19_extension_manifest.json",
+      "sha256": "2a9830f759443c34539ee22ae48df29b6ef6405c8d0280ef5227d3b0d197b763",
+      "bytes": 1238,
+      "source_stage": "solve",
+      "source_version": 19
+    }
+  ],
+  "note": "solve v19 is a Q1 rolling-hourly evidence extension of v18; 113 inherited files are byte-identical, and no scheduling or Q2-Q4 solve was rerun."
+}

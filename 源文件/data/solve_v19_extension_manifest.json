@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "solve_version": 19,
+  "base_solve_version": 18,
+  "scope": "Q1 rolling-origin hourly prediction evidence extension",
+  "files": {
+    "export_q1_rolling_hourly_v19.py": {
+      "bytes": 7928,
+      "sha256": "442052a8f520801db69359d51d8ebf1c6bf67afb1007b9ce1885685c6e8faa5a"
+    },
+    "q1_rolling_predictions.csv": {
+      "bytes": 5841551,
+      "sha256": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb"
+    },
+    "q1_rolling_window_metrics.csv": {
+      "bytes": 1473,
+      "sha256": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9"
+    },
+    "q1_rolling_hourly_provenance.json": {
+      "bytes": 2159,
+      "sha256": "3716a6b922347d287b3950500a4910b036bb29e6a5fedefca37b7db9a377376d"
+    },
+    "solve_v19_extension_validation.json": {
+      "bytes": 1228,
+      "sha256": "4f3e2fca94a21e8a9741a3b4bbe867a40dc1d13d753e714ba0ee20aeee242b34"
+    }
+  },
+  "frozen": {
+    "solution.py": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+    "results.json": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
+  },
+  "no_full_q1_q4_solve": true,
+  "no_q1_scheduling_rerun": true
+}

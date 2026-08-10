@@ -1,0 +1,33 @@
+\section{符号说明}
+
+\begin{table}[H]\centering
+\fontsize{8}{9}\selectfont
+\renewcommand{\arraystretch}{0.88}
+\caption{核心符号说明}\label{tab:symbols}
+\begin{tabular}{p{0.27\textwidth}p{0.62\textwidth}}
+\toprule
+符号 & 含义\\
+\midrule
+$i,r,t,s$ & 任务、区域、小时及候选开工时刻索引\\
+$x_{irs}$ & 任务 $i$ 是否在区域 $r$、时刻 $s$ 开工\\
+$\omega_{it}(s)$ & 任务 $i$ 与小时 $t$ 的实际重叠时长\\
+$\chi_{it}(s)$ & 任务 $i$ 在小时 $t$ 是否占用瞬时资源\\
+$D_{rkt},\widehat D_{rkt}$ & 实际与预测的逐时 GPU 需求\\
+$G_r^{\max}$ & 区域可用 GPU 容量\\
+$P_r^{IT,\max},P_r^{F,\max}$ & 区域 IT 与设施功率上限\\
+$p_k^{GPU}$ & 任务类型 $k$ 的单位 GPU 功率\\
+$\pi_r$ & 区域 PUE\\
+$L_{rt}^{F}$ & 区域设施负荷\\
+$R_{rt}^{av}$ & 可用新能源功率\\
+$G_{rt}^{buy},G_{rt}^{sell}$ & 电网购电与售电功率\\
+$C_{rt},D_{rt}$ & 储能充电与放电功率\\
+$S_{rt},S_r^0$ & 储能 SOC 与初始 SOC\\
+$\eta_r^c,\eta_r^d$ & 储能充、放电效率\\
+$N_{rt}$ & 区域净购电功率\\
+$C_{op},E_{CO_2}$ & 系统运行成本与碳排放\\
+$U_{RE}$ & 新能源利用率\\
+$J_s,Q_{service}$ & 服务目标与服务质量指标\\
+$P^{peak},V$ & 峰值净购电功率与功率波动量\\
+\bottomrule
+\end{tabular}
+\end{table}

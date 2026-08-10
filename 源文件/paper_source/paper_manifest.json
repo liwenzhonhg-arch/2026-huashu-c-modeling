@@ -1,0 +1,31 @@
+{
+  "paper_version": 28,
+  "paper_base_version": 27,
+  "solve_version": 19,
+  "paper_sha256": "384c2c5b6334274baced6d03fd85a23773aa03a46bd8c47a79057c8935af31ca",
+  "bytes": 2089475,
+  "page_count": 17,
+  "markdown_sha256": "ec3f52468196b6d148d749b485af1fb2fcedcb4497223c1bde943415ebe1da69",
+  "latex_markdown_sha256": "ec3f52468196b6d148d749b485af1fb2fcedcb4497223c1bde943415ebe1da69",
+  "latex_source_sha256": "3131e28fd24fd830e0a98cb11524fd2245de89ab0ef192814407e7018949ffc2",
+  "main_pdf_sha256": "384c2c5b6334274baced6d03fd85a23773aa03a46bd8c47a79057c8935af31ca",
+  "solution_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+  "results_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e",
+  "layout_report_sha256": "378584ba28343af5f777b53f8cc7b76168c78bf5e074cf78239f73ca3427f6f3",
+  "layout_review_sha256": "378584ba28343af5f777b53f8cc7b76168c78bf5e074cf78239f73ca3427f6f3",
+  "readability_gate_sha256": "45c16cd61a6e1d7205545dcd38ea2b4a197bca896489dbd5325b48ef108c7f01",
+  "method_traceability_sha256": "62416017d4e463ebfd3a60578ccf41f7c1903b7c5e9bbd7196342f41295b2c65",
+  "figure_provenance_sha256": "fc7f1b9a4c696a27b1d20cf48b9bb1cc32dcddb101caf320dd765c0aa0bd0b6e",
+  "validation_report_sha256": "3b89deef9b32a747ba921993e542a2a4d67c97d37746f1dc38498992cf5a3b40",
+  "figure_sha256": {
+    "fig01_q1_forecast.png": "c82c605c56e759ffe547116956b84e1108c91f4ff81b9ad9a1cea1a87b473f22",
+    "fig02_q1_schedule.png": "f1b01c5c1d366239bbec92d50ef6d4a59e51f68fc5030d7f56b1da26ffce6240",
+    "fig03_q2_multiobjective.png": "4276e0c478998105740373f4e2f2f11a37eacb4cf2b5b9c2d923d6a3fd7a2db7",
+    "fig04_q3_storage.png": "b81c09e8031fcb356e2cfb2c5bc079f96e6fb543a65fe8ecd4ff6cd21304c4eb",
+    "fig05_q4_scenarios.png": "7c0d378699c1ef05fc07a5521022d3b2a1086880e272caa2d2eec402d59e9ed8",
+    "fig06_sensitivity.png": "562d00e75b50cbf36493d5f51293c492a6dc1920af1ab764efb3046ee346c366"
+  },
+  "paper_input_hashes_sha256": "34c42afecba2a6ac5074ce58d56445781b12a6cf9360648967d7c3763491526e",
+  "build_submission_script_sha256": "75d0ef04b7320e50323f239e5ae19d81c40042f0093a5178ff02b78011825b94",
+  "package_validation_script_sha256": "8bd5e51a7defbd22df165ca04195c158a6a5fea60536246d306e779e12cdbd3b"
+}

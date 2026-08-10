@@ -1,9 +1,9 @@
 {
-  "schema_version": 2,
+  "schema_version": 4,
   "status": "pass",
-  "page_count": 19,
-  "paper_sha256": "7e636d4d2ebf68128fcf644fb26c6fa92ec80c86d3f2f440a6d5af7c66630ad1",
-  "compile_log": "compile-v26-5.log",
+  "page_count": 17,
+  "paper_sha256": "384c2c5b6334274baced6d03fd85a23773aa03a46bd8c47a79057c8935af31ca",
+  "compile_log": "compile-v28-5.log",
   "overfull_hbox_count": 0,
   "underfull_hbox_count": 0,
   "undefined_reference_count": 0,
@@ -25,9 +25,7 @@
     14,
     15,
     16,
-    17,
-    18,
-    19
+    17
   ],
   "evidence_classification": "verified-current",
   "checks": {
@@ -38,7 +36,13 @@
     "no_underfull_hbox": true,
     "no_undefined_reference": true,
     "all_pages_rendered": true,
+    "no_blank_pages": true,
+    "no_text_or_table_overflow": true,
+    "no_figure_clipping": true,
+    "figure_legibility_at_least_approx_8pt": true,
+    "legend_occlusion_check": true,
     "markdown_images_exist": true,
-    "q3_q4_corrected_content": true
-  }
+    "rolling_three_metric_curve_visible": true
+  },
+  "notes": "All 17 pages were rendered after compile-v28-5 and visually inspected; Figure 1 now shows Macro, Micro, and System Aggregate WAPE for all eight rolling windows."
 }

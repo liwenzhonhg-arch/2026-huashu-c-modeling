@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "paper_version": 28,
+  "expected_active": {
+    "paper": 28,
+    "review": 22
+  },
+  "checks": {
+    "frozen:q1_forecast_2376_2399.csv": {
+      "passed": true,
+      "details": "3f35a45e14ace7490c92065f1dcf1aa51488d00910523e8597a360effe4c07a7"
+    },
+    "frozen:q1_rolling_validation.csv": {
+      "passed": true,
+      "details": "9418887c508657daa99fe9caae53e64f0e7fb0172493368a7cbd0ed39753ae4b"
+    },
+    "frozen:q1_gantt.csv": {
+      "passed": true,
+      "details": "58dc1fd78abf94a426082100f0c29607bd44538c3b7eec16a57a46c34357660e"
+    },
+    "frozen:q1_gpu_utilization.csv": {
+      "passed": true,
+      "details": "28e22d656e1fa55365e63f79893cda84f537ab93917055c1d9152a77a64e4f68"
+    },
+    "frozen:q2_named_scheme_comparison.csv": {
+      "passed": true,
+      "details": "16be360a2d8417abc7abfbad01329c1416ee19815d5b285186b2d4b762b483d8"
+    },
+    "frozen:q2_budget_stability.csv": {
+      "passed": true,
+      "details": "54797c171108883395e45587366ac4702b2858569cd48b448321b51b7153386d"
+    },
+    "frozen:q3_storage_energy.csv": {
+      "passed": true,
+      "details": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c"
+    },
+    "frozen:q3_no_storage_baseline.csv": {
+      "passed": true,
+      "details": "45b89c6260ab7644f7dea103131920cebf1ac8383c45454ddf580f505c3c2031"
+    },
+    "frozen:q3_metric_recomputation_audit.csv": {
+      "passed": true,
+      "details": "b9b352099a35836d9dd0422860dc6ce44391aaba4341b29030aaa1a4362a4cca"
+    },
+    "frozen:q3_search_summary.csv": {
+      "passed": true,
+      "details": "45a8157a60155ab26ba7c83f88a30856e5fd252b3fbe4fcb5e269807152b2aa7"
+    },
+    "frozen:q4_scenario_comparison.csv": {
+      "passed": true,
+      "details": "74fff253e96de5f4e95e68345001d84bc3d5032d3ddde38ac8fae5b00a2bbfba"
+    },
+    "frozen:q4_joint_storage_energy.csv": {
+      "passed": true,
+      "details": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c"
+    },
+    "frozen:figure_data/sensitivity_electricity_price.csv": {
+      "passed": true,
+      "details": "c566aa7999129e7c3cb9da8087dc2adb73efd22d65e1ed483f05f65d8679a56f"
+    },
+    "frozen:figure_data/sensitivity_renewable_level.csv": {
+      "passed": true,
+      "details": "70578b4e10cfec9d63fbaa1d9394dfbcfd10e216ed4dde763d89f5d63d29ff7e"
+    },
+    "frozen:results.json": {
+      "passed": true,
+      "details": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
+    },
+    "frozen:../05_code/v21/solution.py": {
+      "passed": true,
+      "details": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71"
+    },
+    "frozen:q1_rolling_predictions.csv": {
+      "passed": true,
+      "details": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb"
+    },
+    "frozen:q1_rolling_window_metrics.csv": {
+      "passed": true,
+      "details": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9"
+    },
+    "frozen:q1_rolling_hourly_provenance.json": {
+      "passed": true,
+      "details": "3716a6b922347d287b3950500a4910b036bb29e6a5fedefca37b7db9a377376d"
+    },
+    "frozen:solve_v19_extension_validation.json": {
+      "passed": true,
+      "details": "4f3e2fca94a21e8a9741a3b4bbe867a40dc1d13d753e714ba0ee20aeee242b34"
+    },
+    "frozen:export_q1_rolling_hourly_v19.py": {
+      "passed": true,
+      "details": "442052a8f520801db69359d51d8ebf1c6bf67afb1007b9ce1885685c6e8faa5a"
+    },
+    "frozen:solve_v19_extension_manifest.json": {
+      "passed": true,
+      "details": "2a9830f759443c34539ee22ae48df29b6ef6405c8d0280ef5227d3b0d197b763"
+    },
+    "code_hash": {
+      "passed": true,
+      "details": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71"
+    },
+    "results_hash": {
+      "passed": true,
+      "details": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
+    },
+    "active_upstream": {
+      "passed": true,
+      "details": "(48, 21, 19)"
+    },
+    "active_paper_review": {
+      "passed": true,
+      "details": "(28, 22)"
+    },
+    "rolling_prediction_rows": {
+      "passed": true,
+      "details": "38016"
+    },
+    "rolling_selected_rows": {
+      "passed": true,
+      "details": "3456"
+    },
+    "rolling_window_metrics": {
+      "passed": true,
+      "details": "8"
+    },
+    "rolling_no_leakage_flags": {
+      "passed": true,
+      "details": ""
+    },
+    "rolling_closed_loop": {
+      "passed": true,
+      "details": ""
+    },
+    "rolling_provenance": {
+      "passed": true,
+      "details": ""
+    },
+    "solve_v19_negative_diff": {
+      "passed": true,
+      "details": ""
+    },
+    "rolling_system_wape_range": {
+      "passed": true,
+      "details": "[0.280975999932288, 0.336870933899494, 0.266440819414858, 0.230457776581582, 0.296849750378397, 0.313323834811403, 0.26628006685483, 0.25778145301964]"
+    },
+    "assumption_count": {
+      "passed": true,
+      "details": "5"
+    },
+    "assumption_structure": {
+      "passed": true,
+      "details": ""
+    },
+    "rolling_narrative_updated": {
+      "passed": true,
+      "details": ""
+    },
+    "relocations": {
+      "passed": true,
+      "details": "{\"统一时间口径\": true, \"任务调度约束\": true, \"能源与储能约束\": true, \"问题三模型建立\": true, \"问题一预测与调度流程\": true, \"问题四情景设计\": true, \"数据预处理\": true, \"模型检验\": true}"
+    },
+    "symbol_section_count": {
+      "passed": true,
+      "details": ""
+    },
+    "symbol_table_count": {
+      "passed": true,
+      "details": ""
+    },
+    "symbol_row_count": {
+      "passed": true,
+      "details": "20"
+    },
+    "symbol_two_columns_single_header": {
+      "passed": true,
+      "details": ""
+    },
+    "latex_figure_set": {
+      "passed": true,
+      "details": "[\"fig01_q1_forecast.png\", \"fig02_q1_schedule.png\", \"fig03_q2_multiobjective.png\", \"fig04_q3_storage.png\", \"fig05_q4_scenarios.png\", \"fig06_sensitivity.png\"]"
+    },
+    "duplicate_figure_labels": {
+      "passed": true,
+      "details": "['fig:q1forecast', 'fig:q1schedule', 'fig:q2multi', 'fig:q3storage', 'fig:q4scenarios', 'fig:sensitivity']"
+    },
+    "plot_script_no_solver": {
+      "passed": true,
+      "details": ""
+    },
+    "subplot_label_count": {
+      "passed": true,
+      "details": "16"
+    },
+    "required_figure_set": {
+      "passed": true,
+      "details": "['fig01_q1_forecast.png', 'fig02_q1_schedule.png', 'fig03_q2_multiobjective.png', 'fig04_q3_storage.png', 'fig05_q4_scenarios.png', 'fig06_sensitivity.png']"
+    },
+    "figure_quality:fig01_q1_forecast.png": {
+      "passed": true,
+      "details": "2182x1822, std=41.09"
+    },
+    "figure_quality:fig02_q1_schedule.png": {
+      "passed": true,
+      "details": "2182x1882, std=48.69"
+    },
+    "figure_quality:fig03_q2_multiobjective.png": {
+      "passed": true,
+      "details": "2182x1882, std=66.16"
+    },
+    "figure_quality:fig04_q3_storage.png": {
+      "passed": true,
+      "details": "2182x1942, std=65.33"
+    },
+    "figure_quality:fig05_q4_scenarios.png": {
+      "passed": true,
+      "details": "2182x2016, std=54.43"
+    },
+    "figure_quality:fig06_sensitivity.png": {
+      "passed": true,
+      "details": "2181x1762, std=35.29"
+    },
+    "figure_provenance_set": {
+      "passed": true,
+      "details": "['fig01_q1_forecast.png', 'fig02_q1_schedule.png', 'fig03_q2_multiobjective.png', 'fig04_q3_storage.png', 'fig05_q4_scenarios.png', 'fig06_sensitivity.png']"
+    },
+    "figure_hash:fig01_q1_forecast.png": {
+      "passed": true,
+      "details": "c82c605c56e759ffe547116956b84e1108c91f4ff81b9ad9a1cea1a87b473f22"
+    },
+    "figure_source:q1_forecast_2376_2399.csv": {
+      "passed": true,
+      "details": "3f35a45e14ace7490c92065f1dcf1aa51488d00910523e8597a360effe4c07a7"
+    },
+    "figure_source:q1_rolling_predictions.csv": {
+      "passed": true,
+      "details": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb"
+    },
+    "figure_source:q1_rolling_window_metrics.csv": {
+      "passed": true,
+      "details": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9"
+    },
+    "figure_hash:fig02_q1_schedule.png": {
+      "passed": true,
+      "details": "f1b01c5c1d366239bbec92d50ef6d4a59e51f68fc5030d7f56b1da26ffce6240"
+    },
+    "figure_source:q1_gantt.csv": {
+      "passed": true,
+      "details": "58dc1fd78abf94a426082100f0c29607bd44538c3b7eec16a57a46c34357660e"
+    },
+    "figure_source:q1_gpu_utilization.csv": {
+      "passed": true,
+      "details": "28e22d656e1fa55365e63f79893cda84f537ab93917055c1d9152a77a64e4f68"
+    },
+    "figure_hash:fig03_q2_multiobjective.png": {
+      "passed": true,
+      "details": "4276e0c478998105740373f4e2f2f11a37eacb4cf2b5b9c2d923d6a3fd7a2db7"
+    },
+    "figure_source:q2_named_scheme_comparison.csv": {
+      "passed": true,
+      "details": "16be360a2d8417abc7abfbad01329c1416ee19815d5b285186b2d4b762b483d8"
+    },
+    "figure_source:q2_budget_stability.csv": {
+      "passed": true,
+      "details": "54797c171108883395e45587366ac4702b2858569cd48b448321b51b7153386d"
+    },
+    "figure_hash:fig04_q3_storage.png": {
+      "passed": true,
+      "details": "b81c09e8031fcb356e2cfb2c5bc079f96e6fb543a65fe8ecd4ff6cd21304c4eb"
+    },
+    "figure_source:q3_storage_energy.csv": {
+      "passed": true,
+      "details": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c"
+    },
+    "figure_source:q3_no_storage_baseline.csv": {
+      "passed": true,
+      "details": "45b89c6260ab7644f7dea103131920cebf1ac8383c45454ddf580f505c3c2031"
+    },
+    "figure_source:q3_metric_recomputation_audit.csv": {
+      "passed": true,
+      "details": "b9b352099a35836d9dd0422860dc6ce44391aaba4341b29030aaa1a4362a4cca"
+    },
+    "figure_source:q3_search_summary.csv": {
+      "passed": true,
+      "details": "45a8157a60155ab26ba7c83f88a30856e5fd252b3fbe4fcb5e269807152b2aa7"
+    },
+    "figure_hash:fig05_q4_scenarios.png": {
+      "passed": true,
+      "details": "7c0d378699c1ef05fc07a5521022d3b2a1086880e272caa2d2eec402d59e9ed8"
+    },
+    "figure_source:q4_scenario_comparison.csv": {
+      "passed": true,
+      "details": "74fff253e96de5f4e95e68345001d84bc3d5032d3ddde38ac8fae5b00a2bbfba"
+    },
+    "figure_source:q4_joint_storage_energy.csv": {
+      "passed": true,
+      "details": "b2716e54e69bbead020f1f029da60265c4f3877ad815b6329e5b21fd422bf43c"
+    },
+    "figure_hash:fig06_sensitivity.png": {
+      "passed": true,
+      "details": "562d00e75b50cbf36493d5f51293c492a6dc1920af1ab764efb3046ee346c366"
+    },
+    "figure_source:figure_data/sensitivity_electricity_price.csv": {
+      "passed": true,
+      "details": "c566aa7999129e7c3cb9da8087dc2adb73efd22d65e1ed483f05f65d8679a56f"
+    },
+    "figure_source:figure_data/sensitivity_renewable_level.csv": {
+      "passed": true,
+      "details": "70578b4e10cfec9d63fbaa1d9394dfbcfd10e216ed4dde763d89f5d63d29ff7e"
+    },
+    "markdown_image_refs": {
+      "passed": true,
+      "details": "['figures/paper_v28/fig01_q1_forecast.png', 'figures/paper_v28/fig02_q1_schedule.png', 'figures/paper_v28/fig03_q2_multiobjective.png', 'figures/paper_v28/fig04_q3_storage.png', 'figures/paper_v28/fig05_q4_scenarios.png', 'figures/paper_v28/fig06_sensitivity.png']"
+    },
+    "unused_required_figures": {
+      "passed": true,
+      "details": "set()"
+    },
+    "markdown_no_old_figure_names": {
+      "passed": true,
+      "details": ""
+    },
+    "markdown_no_latex_include": {
+      "passed": true,
+      "details": ""
+    },
+    "markdown_figure_ids": {
+      "passed": true,
+      "details": "['fig:q1forecast', 'fig:q1schedule', 'fig:q2multi', 'fig:q3storage', 'fig:q4scenarios', 'fig:sensitivity']"
+    },
+    "markdown_symbol_header_once": {
+      "passed": true,
+      "details": "1"
+    },
+    "expanded_source_no_input": {
+      "passed": true,
+      "details": ""
+    },
+    "pandoc_reverse_parse": {
+      "passed": true,
+      "details": "0/0"
+    },
+    "formula_count_match": {
+      "passed": true,
+      "details": "128/128"
+    },
+    "table_count_match": {
+      "passed": true,
+      "details": "5/5"
+    },
+    "pdf_page_count": {
+      "passed": true,
+      "details": "17"
+    },
+    "pdf_blank_pages": {
+      "passed": true,
+      "details": "[]"
+    },
+    "cross_format:0.693131": {
+      "passed": true,
+      "details": ""
+    },
+    "cross_format:22150.241": {
+      "passed": true,
+      "details": ""
+    },
+    "cross_format:c63996f2": {
+      "passed": true,
+      "details": ""
+    },
+    "cross_format:scenario-feasible": {
+      "passed": true,
+      "details": ""
+    },
+    "cross_format:references": {
+      "passed": true,
+      "details": ""
+    },
+    "latex_box_warnings": {
+      "passed": true,
+      "details": ""
+    },
+    "latex_reference_warnings": {
+      "passed": true,
+      "details": ""
+    },
+    "team_placeholder_unchanged": {
+      "passed": true,
+      "details": ""
+    }
+  },
+  "summary": {
+    "assumption_count": 5,
+    "symbol_rows": 20,
+    "figure_count": 6,
+    "subplot_count": 16,
+    "markdown_image_refs": 6,
+    "missing_image_refs": 0,
+    "unused_required_figures": 0,
+    "duplicate_figure_labels": 0,
+    "pdf_pages": 17,
+    "failures": []
+  }
+}

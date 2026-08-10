@@ -3,9 +3,9 @@
   "status": "pass",
   "model_version": 48,
   "code_version": 21,
-  "solve_version": 18,
-  "paper_version": 26,
-  "review_version": 20,
+  "solve_version": 19,
+  "paper_version": 28,
+  "review_version": 22,
   "method_contract_hashes": {
     "model": "076dc306ac77fe30aa38ec0872989a5a476d4385b4a220f30c050f2815ca47e7",
     "code": "d01bcfe00bf8c9634de951ff3d93b39143fd5212c0edf57c838c52396972aedc",
@@ -22,7 +22,7 @@
   "bindings": {
     "model_version": 48,
     "code_version": 21,
-    "solve_version": 18,
+    "solve_version": 19,
     "solution_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
     "results_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
   },
@@ -52,5 +52,12 @@
     "q2_balanced_energy_file_sha256": "d6484bf69be8f74501c0db099dd4c57ba69c0fa0269a1e38911eca0ee2ebb75d"
   },
   "q3_source_accounting_sha256": "f407dd9ef2f4b37b468167a83e379b65f5ad6435aa827f1c8b610f0d83f1a683",
-  "q4_carbon_candidate_bank_sha256": "9fc0c501f588b731e335487d1b5b64c6b0c333da8141d767e948997543edc4a7"
+  "q4_carbon_candidate_bank_sha256": "9fc0c501f588b731e335487d1b5b64c6b0c333da8141d767e948997543edc4a7",
+  "paper_sha256": "384c2c5b6334274baced6d03fd85a23773aa03a46bd8c47a79057c8935af31ca",
+  "paper_validation_status": "pass",
+  "paper_only_revision": false,
+  "q1_rolling_hourly_extension": true,
+  "q1_rolling_predictions_sha256": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb",
+  "q1_rolling_window_metrics_sha256": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9",
+  "solve_v19_extension_validation_sha256": "4f3e2fca94a21e8a9741a3b4bbe867a40dc1d13d753e714ba0ee20aeee242b34"
 }

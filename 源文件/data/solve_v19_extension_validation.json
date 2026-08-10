@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "base_solve_version": 18,
+  "solve_version": 19,
+  "inherited_files_compared": 113,
+  "missing": [],
+  "hash_mismatches": [],
+  "repeatability": {
+    "q1_rolling_predictions.csv": {
+      "run1": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb",
+      "run2": "e23ff81b637c33d4ac78d4fe613f668765eb9e1b36ab8958cec4974997984fcb",
+      "match": true
+    },
+    "q1_rolling_window_metrics.csv": {
+      "run1": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9",
+      "run2": "b2f11e5970416ff9c0bc0284c499961f07225c530c213b2708cd5108ba81f2d9",
+      "match": true
+    },
+    "q1_rolling_hourly_provenance.json": {
+      "run1": "3716a6b922347d287b3950500a4910b036bb29e6a5fedefca37b7db9a377376d",
+      "run2": "3716a6b922347d287b3950500a4910b036bb29e6a5fedefca37b7db9a377376d",
+      "match": true
+    }
+  },
+  "solution_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+  "results_v18_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e",
+  "results_v19_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e",
+  "full_q1_q4_solve_rerun": false
+}

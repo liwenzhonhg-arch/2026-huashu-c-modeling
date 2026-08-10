@@ -1,15 +1,24 @@
 {
-  "schema_version": 1,
-  "problem": "2026 Huashu Cup C",
-  "active_versions": {
+  "schema_version": 5,
+  "created_at": "2026-08-10T12:25:17.072794+08:00",
+  "case": "2026-HSC-C",
+  "delivery": "q1-rolling-hourly-evidence-extension",
+  "promotion_state": "active",
+  "versions": {
     "model": 48,
     "code": 21,
-    "solve": 18,
-    "paper": 26,
-    "review": 20
+    "solve": 19,
+    "paper": 28,
+    "review": 22
   },
-  "status": "Q1-Q4 repaired; formatting and participant metadata remain separate",
-  "credibility": "scenario-feasible",
-  "code_sha256": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
-  "results_sha256": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
+  "frozen_hashes": {
+    "solution.py": "1c7778861f312aeed36bafa2c08c8ad58b84db2b9fd6f42257260fe6f72a6b71",
+    "results.json": "c63996f228b4ea5aa3913d1b8cb0b15d74e0b62c66deb059815193c3f699389e"
+  },
+  "rolling_prediction_rows": 38016,
+  "selected_prediction_rows": 3456,
+  "rolling_window_count": 8,
+  "full_q1_q4_solve_rerun": false,
+  "q1_scheduling_rerun": false,
+  "credibility": "scenario-feasible"
 }
